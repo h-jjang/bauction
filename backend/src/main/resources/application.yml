@@ -8,6 +8,8 @@ spring:
     password: "0000"
 # TODO Redis Setting
   redis:
+    host: redis_hjjang
+    port: 6379
 
   jpa:
     database: "mysql"

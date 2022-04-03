@@ -1,6 +1,14 @@
 version: "3"
 
 services:
+  redis:
+    image: redis:latest
+    command: redis-server --port 6379
+    container_name: bauction-redis
+    hostname: redis_hjjang
+    ports:
+      - '6379:6379'
+
   backend:
     container_name: bauction-backend
     build: ./backend

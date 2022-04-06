@@ -1,6 +1,19 @@
 version: "3"
 
 services:
+  frontend:
+    container_name: bauction-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    networks:
+      - network-tier
+
   redis:
     image: redis:latest
     command: redis-server --port 6379

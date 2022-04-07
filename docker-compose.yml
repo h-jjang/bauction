@@ -17,7 +17,6 @@ services:
     image: redis:latest
     command: redis-server --port 6379
     container_name: bauction-redis
-    hostname: redis_hjjang
     ports:
       - '6379:6379'
 

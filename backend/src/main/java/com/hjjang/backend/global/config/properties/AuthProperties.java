@@ -1,52 +1,46 @@
 package com.hjjang.backend.global.config.properties;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "auth")
 public class AuthProperties {
 
-    private final Auth auth = new Auth();
-    private final OAuth2 oauth2 = new OAuth2();
-    private final Cors corsProperties = new Cors();
+    private final TokenProperties tokenProperties = new TokenProperties();
+    private final OAuth2Properties oAuth2Properties = new OAuth2Properties();
+    private final CorsProperties corsProperties = new CorsProperties();
+    private final JwtProperties jwtProperties = new JwtProperties();
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Auth {
+    public final static class TokenProperties {
         private String tokenSecretKey;
         private long tokenExpireDate;
         private long refreshTokenExpiry;
     }
 
-    public static final class OAuth2 {
-        private List<String> authorizedRedirectUris = new ArrayList<>();
-
-        public List<String> getAuthorizedRedirectUris() {
-            return authorizedRedirectUris;
-        }
-
-        public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
-            this.authorizedRedirectUris = authorizedRedirectUris;
-            return this;
-        }
+    @Getter
+    @Setter
+    public final static class JwtProperties {
+        private String secretKey;
     }
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Cors {
+    public final static class OAuth2Properties {
+        private List<String> redirectUris = new ArrayList<>();
+    }
+
+    @Getter
+    @Setter
+    public final static class CorsProperties {
         private String allowedOrigins;
         private String allowedMethods;
         private String allowedHeaders;

@@ -8,7 +8,7 @@ spring:
     password: "0000"
 
   redis:
-    host: redis_hjjang
+    host: bauction-redis
     port: 6379
 
   jpa:

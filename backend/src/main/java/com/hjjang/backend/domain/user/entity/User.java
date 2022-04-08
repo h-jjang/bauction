@@ -45,4 +45,7 @@ public class User {
     @Column(name = "univ_id")
     private Long univId;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }

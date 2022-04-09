@@ -5,14 +5,14 @@ import com.hjjang.backend.domain.category.dto.CategoryRequest;
 
 public interface CategoryService {
 
-    public Category findAllByCategory();
+	public Category findAllByCategory();
 
-    public Category findCategoryById(Long categoryId);
+	public Category findCategoryById(Long categoryId);
 
-    public void createNewCategory(CategoryRequest categoryRequest);
+	public void createNewCategory(CategoryRequest categoryRequest);
 
-    public void updateCategory(Category category, CategoryRequest categoryRequest);
+	public void updateCategory(Category category, CategoryRequest categoryRequest);
 
-    public void removeCategory(Category category);
+	public void removeCategory(Category category);
 
 }

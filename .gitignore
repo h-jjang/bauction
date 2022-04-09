@@ -1,2 +1,5 @@
-#backend
+*.env
+
 .idea
+
+naver-intellij-formatter.xml

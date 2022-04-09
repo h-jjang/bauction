@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: bauction-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - network-tier
+
+  redis:
+    image: redis:latest
+    command: redis-server --port 6379
+    container_name: bauction-redis
+    ports:
+      - '6379:6379'
+
+  backend:
+    container_name: bauction-backend
+    build: ./backend
+    restart: on-failure
+    depends_on:
+      - mysqldb
+    ports:
+      - '8080:8080'
+    environment:
+      spring.datasource.url: "jdbc:mysql://bauction-mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+    volumes:
+      - ./backend:/backend
+    networks:
+      - network-tier
+    tty: true
+
+  mysqldb:
+    image: mysql:5.7
+    container_name: bauction-mysqldb
+    env_file:
+      - "./.env"
+    command:
+      [
+          "--character-set-server=utf8mb4",
+          "--collation-server=utf8mb4_unicode_ci",
+      ]
+    volumes:
+      - mysql-data:/var/lib/bauction
+    ports:
+      - "3306:3306"
+
+    networks:
+      - network-tier
+    platform: linux/amd64
+
+networks:
+  network-tier:
+    external: true
+
+volumes:
+  mysql-data:

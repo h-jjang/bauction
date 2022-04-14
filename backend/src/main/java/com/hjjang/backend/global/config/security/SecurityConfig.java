@@ -76,7 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
             .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-            .anyRequest().authenticated();
+            // todo swagger 고치고 권한 인증 묻기
+            .anyRequest().permitAll();
 
         http
 

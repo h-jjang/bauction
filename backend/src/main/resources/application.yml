@@ -37,6 +37,27 @@ spring:
     ignore-ignored-migrations: true
     clean-on-validation-error: true
 
+  # oauth 설정
+  security:
+    oauth2.client:
+      registration:
+        kakao:
+          clientId: '2de38f203dbe5dc3a59740cb5f8438a3'
+          clientSecret: 'U5Pq6S2H2A52ANmKwn5fxoF5mYL3cTFU'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "http://localhost:8080/login/oauth2/code/kakao"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+      provider:
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
 auth:
   tokenProperties:
     tokenSecretKey: asodfhwoeihro1i34u1097r09u13rqfasc12

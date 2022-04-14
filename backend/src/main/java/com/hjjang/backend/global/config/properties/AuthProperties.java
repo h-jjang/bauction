@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Component
-@ConfigurationProperties(prefix = "application-security.yml")
+@ConfigurationProperties(prefix = "auth")
 public class AuthProperties {
 
     private final TokenProperties tokenProperties = new TokenProperties();

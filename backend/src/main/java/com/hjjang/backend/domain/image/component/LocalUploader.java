@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
+@Service
 public class LocalUploader implements ImageUploader {
 
     @Override

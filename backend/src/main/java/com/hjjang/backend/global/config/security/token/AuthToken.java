@@ -1,12 +1,17 @@
 package com.hjjang.backend.global.config.security.token;
 
-import io.jsonwebtoken.*;
+import java.security.Key;
+import java.util.Date;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.security.Key;
-import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,19 +35,19 @@ public class AuthToken {
 
     private String createAuthToken(String id, Date expiry) {
         return Jwts.builder()
-                .setSubject(id)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .setExpiration(expiry)
-                .compact();
+            .setSubject(id)
+            .signWith(key, SignatureAlgorithm.HS256)
+            .setExpiration(expiry)
+            .compact();
     }
 
     private String createAuthToken(String id, String role, Date expiry) {
         return Jwts.builder()
-                .setSubject(id)
-                .claim(AUTHORITIES_KEY, role)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .setExpiration(expiry)
-                .compact();
+            .setSubject(id)
+            .claim(AUTHORITIES_KEY, role)
+            .signWith(key, SignatureAlgorithm.HS256)
+            .setExpiration(expiry)
+            .compact();
     }
 
     public boolean validate() {
@@ -52,10 +57,10 @@ public class AuthToken {
     public Claims getTokenClaims() {
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
         } catch (SecurityException e) {
             log.info("Invalid JWT signature.");
         } catch (MalformedJwtException e) {
@@ -73,10 +78,10 @@ public class AuthToken {
     public Claims getExpiredTokenClaims() {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
             return e.getClaims();

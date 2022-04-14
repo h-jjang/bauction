@@ -57,11 +57,11 @@ dependencies {
 }
 
 
-bootRun{
+bootRun {
     mainClassName = 'com.hjjang.backend.BackendApplication'
 }
 
-bootJar{
+bootJar {
     mainClassName = 'com.hjjang.backend.BackendApplication'
 }
 

@@ -2,7 +2,9 @@ package com.hjjang.backend.global.config.security;
 
 import com.hjjang.backend.global.config.properties.AuthProperties;
 import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

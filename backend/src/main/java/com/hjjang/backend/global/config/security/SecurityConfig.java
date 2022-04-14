@@ -1,17 +1,7 @@
 package com.hjjang.backend.global.config.security;
 
-import com.hjjang.backend.domain.user.entity.RoleType;
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.exception.RestAuthenticationEntryPoint;
-import com.hjjang.backend.global.config.security.filter.TokenAuthenticationFilter;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationFailureHandler;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationSuccessHandler;
-import com.hjjang.backend.global.config.security.handler.TokenAccessDeniedHandler;
-import com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.hjjang.backend.global.config.security.service.CustomOAuth2UserService;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,8 +16,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
+import com.hjjang.backend.domain.user.entity.RoleType;
+import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
+import com.hjjang.backend.global.config.properties.AuthProperties;
+import com.hjjang.backend.global.config.security.exception.RestAuthenticationEntryPoint;
+import com.hjjang.backend.global.config.security.filter.TokenAuthenticationFilter;
+import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationFailureHandler;
+import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationSuccessHandler;
+import com.hjjang.backend.global.config.security.handler.TokenAccessDeniedHandler;
+import com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.hjjang.backend.global.config.security.service.CustomOAuth2UserService;
+import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -46,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // swagger
         web.ignoring().antMatchers(
-                "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-                "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+            "/v2/api-docs", "/configuration/ui", "/swagger-resources",
+            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**");
 
     }
 
@@ -56,43 +56,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // spring security 기본 로그인 옵션을 비활성화 환다.
         http
-                .csrf().disable()  // csrf은 세션 로그인용 보안 설정
-                .httpBasic().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt는 세션을 사용하지 않는다.
-                .and()
-                .logout().disable();
+            .csrf().disable()  // csrf은 세션 로그인용 보안 설정
+            .httpBasic().disable()
+            .formLogin().disable()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt는 세션을 사용하지 않는다.
+            .and()
+            .logout().disable();
 
         http
-                .cors()
-                .configurationSource(corsConfigurationSource());
+            .cors()
+            .configurationSource(corsConfigurationSource());
 
         http
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint()) // 비로그인 시 예외 인증
-                .accessDeniedHandler(tokenAccessDeniedHandler) // 로그인 거부 예외
-                .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
-                .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-                .anyRequest().authenticated();
+            .exceptionHandling()
+            .authenticationEntryPoint(new RestAuthenticationEntryPoint()) // 비로그인 시 예외 인증
+            .accessDeniedHandler(tokenAccessDeniedHandler) // 로그인 거부 예외
+            .and()
+            .authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
+            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+            .anyRequest().authenticated();
 
         http
 
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+            .oauth2Login()
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorization")
+            .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
             .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
+            .redirectionEndpoint()
+            .baseUri("/*/oauth2/code/*")
             .and()
-                .userInfoEndpoint()
-                .userService(oAuth2UserService)
+            .userInfoEndpoint()
+            .userService(oAuth2UserService)
             .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler())
-                .failureHandler(oAuth2AuthenticationFailureHandler());
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler());
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -145,15 +145,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /*
-     * Oauth 인증 성공 핸들러
+     * Oauth 인증 성공
+    @Bean 핸들러
      * */
-    @Bean
     public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
         return new OAuth2AuthenticationSuccessHandler(
-                tokenProvider,
-                authProperties,
-                userRefreshTokenRepository,
-                oAuth2AuthorizationRequestBasedOnCookieRepository()
+            tokenProvider,
+            authProperties,
+            userRefreshTokenRepository,
+            oAuth2AuthorizationRequestBasedOnCookieRepository()
         );
     }
 

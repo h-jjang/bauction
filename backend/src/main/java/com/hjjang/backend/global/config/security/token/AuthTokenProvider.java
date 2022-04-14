@@ -1,20 +1,22 @@
 package com.hjjang.backend.global.config.security.token;
 
-import com.hjjang.backend.global.config.security.exception.TokenValidFailedException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
+import com.hjjang.backend.global.config.security.exception.TokenValidFailedException;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuthTokenProvider {
@@ -40,13 +42,13 @@ public class AuthTokenProvider {
 
     public Authentication getAuthentication(AuthToken authToken) {
 
-        if(authToken.validate()) {
+        if (authToken.validate()) {
 
             Claims claims = authToken.getTokenClaims();
             Collection<? extends GrantedAuthority> authorities =
-                    Arrays.stream(new String[]{claims.get(AUTHORITIES_KEY).toString()})
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
+                Arrays.stream(new String[] {claims.get(AUTHORITIES_KEY).toString()})
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
 
             log.debug("claims subject := [{}]", claims.getSubject());
             User principal = new User(claims.getSubject(), "", authorities);

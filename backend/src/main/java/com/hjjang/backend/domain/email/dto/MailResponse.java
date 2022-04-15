@@ -8,4 +8,6 @@ import lombok.Getter;
 public class MailResponse {
 
 	private Boolean isEmailAuth;
+
+	private String university;
 }

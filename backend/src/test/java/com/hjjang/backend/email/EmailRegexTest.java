@@ -1,5 +1,8 @@
 package com.hjjang.backend.email;
 
+import static org.assertj.core.api.Assertions.*;
+
+import com.hjjang.backend.domain.email.exception.MailException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -9,6 +12,18 @@ import org.junit.jupiter.api.Test;
 class EmailRegexTest {
 
 	private static final String REGEX = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.+a+c+\\.+k+r+$";
+	private static final String EMAIL_PARSE_REGEX = "[@.]";
+
+	@Test
+	void parseUniversity() {
+		//given
+		String email = "32174294@dankook.ac.kr";
+		//when
+		String university = List.of(email.split(EMAIL_PARSE_REGEX)).get(1);
+		//then
+		System.out.println("university = " + university);
+		assertThat(university).isEqualTo("dankook");
+	}
 
 	@Test
 	void checkInvalidEmail() {
@@ -25,7 +40,7 @@ class EmailRegexTest {
 		falseEmails.forEach(email -> {
 			boolean match = Pattern.matches(REGEX, email);
 			System.out.println(email + " : " + match);
-			Assertions.assertThat(match).isEqualTo(false);
+			assertThat(match).isEqualTo(false);
 		});
 	}
 
@@ -41,7 +56,7 @@ class EmailRegexTest {
 		trueEmails.forEach(email -> {
 			boolean match = Pattern.matches(REGEX, email);
 			System.out.println(email + " : " + match);
-			Assertions.assertThat(match).isEqualTo(true);
+			assertThat(match).isEqualTo(true);
 		});
 	}
 }

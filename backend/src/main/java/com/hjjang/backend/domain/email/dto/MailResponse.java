@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MailResponse {
 
-	private Boolean check;
+	private Boolean isEmailAuth;
 }

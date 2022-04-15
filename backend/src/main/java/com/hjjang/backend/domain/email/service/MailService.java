@@ -35,6 +35,11 @@ public class MailService {
 		return new MailResponse(false, university);
 	}
 
+	public MailResponse checkCode(MailRequest mailRequest) {
+		MailException.checkRequest(mailRequest, code, email);
+		return new MailResponse(true, university);
+	}
+
 	private String parseUniversity(String email) {
 		List<String> split = List.of(email.split(EMAIL_PARSE_REGEX));
 		return split.get(1);
@@ -46,13 +51,6 @@ public class MailService {
 		code = createRandomCode();
 		this.email = email;
 		message.setText(EMAIL_MESSAGE + code);
-	}
-
-	public MailResponse checkCode(MailRequest mailRequest) {
-		if (mailRequest.getCode().equals(code) & mailRequest.getEmail().equals(email)) {
-			return new MailResponse(true, university);
-		}
-		return null;
 	}
 
 	private String createRandomCode() {

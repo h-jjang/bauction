@@ -19,11 +19,14 @@ public class MailController {
 
 	@PostMapping("/auth")
 	public ResponseEntity<MailResponse> sendMail(@RequestBody MailRequest mailRequest) {
-		return ResponseEntity.ok().body(mailService.sendMail(mailRequest.getEmail()));
+		String email = mailRequest.getEmail();
+		MailResponse mailResponse = mailService.sendMail(email);
+		return ResponseEntity.ok().body(mailResponse);
 	}
 
 	@PostMapping("/check")
 	public ResponseEntity<MailResponse> checkCode(@RequestBody MailRequest mailRequest) {
-		return ResponseEntity.ok().body(mailService.checkCode(mailRequest));
+		MailResponse mailResponse = mailService.checkCode(mailRequest);
+		return ResponseEntity.ok().body(mailResponse);
 	}
 }

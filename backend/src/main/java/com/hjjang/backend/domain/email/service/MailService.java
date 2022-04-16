@@ -36,8 +36,9 @@ public class MailService {
 	private String parseUniversity(String email) {
 		EmailRegex emailParse = EmailRegex.EMAIL_PARSE;
 		String regex = emailParse.getRegex();
-		List<String> split = List.of(email.split(regex));
-		return split.get(1);
+		List<String> splitEmail = List.of(email.split(regex));
+		int universityIndex = splitEmail.lastIndexOf("ac") - 1;
+		return splitEmail.get(universityIndex);
 	}
 
 	private void setMessage(SimpleMailMessage message, String emailAddress) {

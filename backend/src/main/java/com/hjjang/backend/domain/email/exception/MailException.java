@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.email.exception;
 
+import com.hjjang.backend.domain.email.domain.Email;
 import com.hjjang.backend.domain.email.dto.MailRequest;
 import java.util.regex.Pattern;
 
@@ -21,9 +22,9 @@ public class MailException extends RuntimeException {
 		}
 	}
 
-	public static void checkRequest(MailRequest mailRequest, String code, String email) {
-		checkValidCode(mailRequest, code);
-		checkValidRequestEmail(mailRequest, email);
+	public static void checkRequest(MailRequest mailRequest, Email email) {
+		checkValidCode(mailRequest, email.getCode());
+		checkValidRequestEmail(mailRequest, email.getAddress());
 	}
 
 	private static void checkValidRequestEmail(MailRequest mailRequest, String email) {

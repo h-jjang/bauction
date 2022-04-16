@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.email.dto;
 
+import com.hjjang.backend.domain.email.domain.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,7 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MailResponse {
 
-	private Boolean isEmailAuth;
-
-	private String university;
+	private Email email;
 }

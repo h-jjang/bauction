@@ -1,16 +1,12 @@
 package com.hjjang.backend.domain.email.exception;
 
 import com.hjjang.backend.domain.email.domain.Email;
+import com.hjjang.backend.domain.email.domain.EmailRegex;
+import com.hjjang.backend.domain.email.domain.ExceptionMessage;
 import com.hjjang.backend.domain.email.dto.MailRequest;
 import java.util.regex.Pattern;
 
 public class MailException extends RuntimeException {
-
-	private static final String UNIVERSITY_EMAIL_REGEX = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.+a+c+\\.+k+r+$";
-	private static final String INVALID_EMAIL_MESSAGE = "알맞은 대학교 이메일 계정으로 입력해주세요.";
-	private static final String INVALID_CODE_MESSAGE = "잘못된 코드 번호가 입력되었습니다.";
-	private static final String INVALID_REQUEST_EMAIL_MESSAGE = "잘못된 요청의 이메일입니다.";
-	private static final String TIME_LIMIT_MESSAGE = "시간이 초과되었습니다.";
 
 	private MailException() {
 	}
@@ -18,7 +14,8 @@ public class MailException extends RuntimeException {
 	public static void checkEmailPossible(String email) {
 		checkEmailDuplicate(email);
 		if (!isUniversityEmail(email)) {
-			throw new RuntimeException(INVALID_EMAIL_MESSAGE);
+			ExceptionMessage invalidEmail = ExceptionMessage.INVALID_EMAIL;
+			throw new RuntimeException(invalidEmail.getMessage());
 		}
 	}
 
@@ -29,14 +26,16 @@ public class MailException extends RuntimeException {
 
 	private static void checkValidRequestEmail(MailRequest mailRequest, String email) {
 		if (!mailRequest.getEmail().equals(email)) {
-			throw new RuntimeException(INVALID_REQUEST_EMAIL_MESSAGE);
+			ExceptionMessage invalidRequestEmail = ExceptionMessage.INVALID_REQUEST_EMAIL;
+			throw new RuntimeException(invalidRequestEmail.getMessage());
 		}
 	}
 
 	private static void checkValidCode(MailRequest mailRequest, String code) {
 		checkTimeLimit(code);
 		if (!mailRequest.getCode().equals(code)) {
-			throw new RuntimeException(INVALID_CODE_MESSAGE);
+			ExceptionMessage invalidCode = ExceptionMessage.INVALID_CODE;
+			throw new RuntimeException(invalidCode.getMessage());
 		}
 	}
 
@@ -45,7 +44,9 @@ public class MailException extends RuntimeException {
 	}
 
 	private static boolean isUniversityEmail(String email) {
-		return Pattern.matches(UNIVERSITY_EMAIL_REGEX, email);
+		EmailRegex university = EmailRegex.UNIVERSITY;
+		String universityRegex = university.getRegex();
+		return Pattern.matches(universityRegex, email);
 	}
 
 	private static void checkEmailDuplicate(String email) {

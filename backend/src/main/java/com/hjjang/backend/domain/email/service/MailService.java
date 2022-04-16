@@ -1,6 +1,8 @@
 package com.hjjang.backend.domain.email.service;
 
 import com.hjjang.backend.domain.email.domain.Email;
+import com.hjjang.backend.domain.email.domain.EmailMessage;
+import com.hjjang.backend.domain.email.domain.EmailRegex;
 import com.hjjang.backend.domain.email.dto.MailRequest;
 import com.hjjang.backend.domain.email.dto.MailResponse;
 import com.hjjang.backend.domain.email.exception.MailException;
@@ -17,12 +19,6 @@ public class MailService {
 	private final JavaMailSender javaMailSender;
 	private final Email email = new Email();
 
-	private static final String TITLE = "[Bauction] 인증번호를 발송했습니다.";
-	private static final String EMAIL_MESSAGE = "본인확인 인증 메일\n"
-		+ "이메일 인증을 진행해주세요.\n"
-		+ "아래 메일 인증 번호를 입력하여 회원가입을 완료하세요.\n";
-	private static final String EMAIL_PARSE_REGEX = "[@.]";
-
 	public MailResponse sendMail(String emailAddress) {
 		MailException.checkEmailPossible(emailAddress);
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -38,15 +34,19 @@ public class MailService {
 	}
 
 	private String parseUniversity(String email) {
-		List<String> split = List.of(email.split(EMAIL_PARSE_REGEX));
+		EmailRegex emailParse = EmailRegex.EMAIL_PARSE;
+		String regex = emailParse.getRegex();
+		List<String> split = List.of(email.split(regex));
 		return split.get(1);
 	}
 
 	private void setMessage(SimpleMailMessage message, String emailAddress) {
 		message.setTo(emailAddress);
-		message.setSubject(TITLE);
+		EmailMessage title = EmailMessage.TITLE;
+		message.setSubject(title.getContent());
 		saveEmailInfo(emailAddress);
-		message.setText(EMAIL_MESSAGE + email.getCode());
+		EmailMessage emailMessage = EmailMessage.MESSAGE;
+		message.setText(emailMessage.getContent() + email.getCode());
 	}
 
 	private void saveEmailInfo(String emailAddress) {

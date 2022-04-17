@@ -14,9 +14,6 @@ import java.util.UUID;
 <<<<<<< Updated upstream
 @RequiredArgsConstructor
 @Service
-=======
-@Component
->>>>>>> Stashed changes
 public class LocalUploader implements ImageUploader {
 
     @Override

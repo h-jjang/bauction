@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_OK;
 
@@ -19,6 +20,11 @@ import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_O
 public class ImageController {
 
     private final ImageService imageService;
+
+    @GetMapping()
+    public List<Image> findAllImage() {
+        return imageService.findAll();
+    }
 
     @PostMapping()
     public ResponseEntity<HttpStatus> uploadImage(@RequestParam("images") MultipartFile multipartFile) throws IOException {

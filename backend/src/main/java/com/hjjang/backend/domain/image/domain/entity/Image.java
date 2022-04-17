@@ -1,15 +1,12 @@
 package com.hjjang.backend.domain.image.domain.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@Setter
-@RequiredArgsConstructor
-@Entity // This tells Hibernate to make a table out of this class
+@AllArgsConstructor
+@Entity
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +14,14 @@ public class Image {
 
     private String path;
 
-    private String name;
+    private Boolean removed = false;
 
-    private java.sql.Timestamp timestamp;
+    @Builder
+    public Image(String path) {
+        this.path = path;
+    }
 
+    public void removeImage() {
+        this.removed = true;
+    }
 }

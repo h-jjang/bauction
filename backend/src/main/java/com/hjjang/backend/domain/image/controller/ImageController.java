@@ -1,28 +1,41 @@
 package com.hjjang.backend.domain.image.controller;
 
+import com.hjjang.backend.domain.image.domain.entity.Image;
+import com.hjjang.backend.domain.image.dto.ImageResponse;
 import com.hjjang.backend.domain.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_OK;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/images")
-public class ImageUploadController {
+public class ImageController {
 
     private final ImageService imageService;
-
-    //TODO: 이미지가 일정 용량이상일 경우 업로드가 안되는데, 그 과정에서 이미지가 로컬에 저장은 되고 방치됌 -> 동일 파일 이름으로 이미지 업로드시 오류 유발
-
+    
     @PostMapping()
     public ResponseEntity<HttpStatus> uploadImage(@RequestParam("images") MultipartFile multipartFile) throws IOException {
-        return imageService. ();
+        imageService.uploadNewImage(multipartFile);
+        return RESPONSE_OK;
+    }
+
+    @GetMapping("/{imageId}")
+    public ResponseEntity<ImageResponse> findImage(@PathVariable Long imageId) {
+        return ResponseEntity.ok(ImageResponse.of(imageService.findImageById(imageId)));
+    }
+
+    @DeleteMapping("/{imageId")
+    public ResponseEntity<HttpStatus> deleteIMage(@PathVariable Long imageId) {
+        Image image = imageService.findImageById(imageId);
+        imageService.removeImage(image);
+
+        return RESPONSE_OK;
     }
 }

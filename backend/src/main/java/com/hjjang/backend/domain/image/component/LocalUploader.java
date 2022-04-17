@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.image.component;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,9 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-<<<<<<< Updated upstream
 @RequiredArgsConstructor
-@Service
+@Component
 public class LocalUploader implements ImageUploader {
 
     @Override

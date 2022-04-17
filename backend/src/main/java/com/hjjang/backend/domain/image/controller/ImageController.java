@@ -19,7 +19,7 @@ import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_O
 public class ImageController {
 
     private final ImageService imageService;
-    
+
     @PostMapping()
     public ResponseEntity<HttpStatus> uploadImage(@RequestParam("images") MultipartFile multipartFile) throws IOException {
         imageService.uploadNewImage(multipartFile);
@@ -31,7 +31,7 @@ public class ImageController {
         return ResponseEntity.ok(ImageResponse.of(imageService.findImageById(imageId)));
     }
 
-    @DeleteMapping("/{imageId")
+    @DeleteMapping("/{imageId}")
     public ResponseEntity<HttpStatus> deleteIMage(@PathVariable Long imageId) {
         Image image = imageService.findImageById(imageId);
         imageService.removeImage(image);

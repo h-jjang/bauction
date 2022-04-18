@@ -30,7 +30,7 @@ public class UserAuthService {
     private final static long THREE_DAYS_MSEC = 259200000;
 
     public void reissueRefreshTokenIfValidTimeleft3days(HttpServletRequest request, HttpServletResponse response,
-                                                        UserRefreshToken userRefreshToken, AuthToken authRefreshToken, Date now) {
+        UserRefreshToken userRefreshToken, AuthToken authRefreshToken, Date now) {
         long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
 
         // refresh 토큰 기간이 3일 이하로 남은 경우, refresh 토큰 갱신
@@ -39,14 +39,14 @@ public class UserAuthService {
             long refreshTokenExpiry = authProperties.getTokenProperties().getRefreshTokenExpiry();
 
             authRefreshToken = tokenProvider.createAuthToken(
-                    authProperties.getTokenProperties().getTokenSecretKey(),
-                    new Date(now.getTime() + refreshTokenExpiry)
+                authProperties.getTokenProperties().getTokenSecretKey(),
+                new Date(now.getTime() + refreshTokenExpiry)
             );
 
             // DB에 refresh 토큰 업데이트
-            userRefreshToken.setRefreshToken(authRefreshToken.getToken());
+            userRefreshToken.reissueRefreshToken(authRefreshToken.getToken());
 
-            int cookieMaxAge = (int) refreshTokenExpiry / 60;
+            int cookieMaxAge = (int)refreshTokenExpiry / 60;
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }

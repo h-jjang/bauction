@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping
     public ApiResponse getUser() {
-        String userId = UserUtil.getUserIdByToken();
+        String userId = UserUtil.getLoginUserIdByToken();
         User user = userService.getUser(userId);
         return ApiResponse.success("user", user);
     }

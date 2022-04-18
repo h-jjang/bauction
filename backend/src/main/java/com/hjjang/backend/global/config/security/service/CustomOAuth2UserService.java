@@ -1,5 +1,9 @@
 package com.hjjang.backend.global.config.security.service;
 
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -40,8 +44,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
         ParsingUserContext userInfo = new KakaoParsingParsingUserContext(user.getAttributes());
-        User savedUser = userRepository.findUserById(userInfo.getId());
-
+        Optional<User> optionalSavedUser = userRepository.findUserById(userInfo.getId());
+        User savedUser = optionalSavedUser.orElseThrow(EntityNotFoundException::new);
         if (savedUser == null) {
             savedUser = createUser(userInfo);
         }

@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
 import com.hjjang.backend.global.config.properties.AuthProperties;
 import com.hjjang.backend.global.config.security.exception.RestAuthenticationEntryPoint;
@@ -75,9 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(tokenAccessDeniedHandler) // 로그인 거부 예외
             .and()
             .authorizeRequests()
+            .antMatchers("/login", "/accounts", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/oauth2/authorization/**", "**/oauth2/code/*").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
-            //.antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-            // todo swagger 고치고 권한 인증 묻기
+            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
             .anyRequest().permitAll();
 
         http

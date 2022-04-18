@@ -4,6 +4,7 @@ import com.hjjang.backend.domain.image.component.ImageUploader;
 import com.hjjang.backend.domain.image.component.LocalUploader;
 import com.hjjang.backend.domain.image.domain.entity.Image;
 import com.hjjang.backend.domain.image.domain.repository.ImageRepository;
+import com.hjjang.backend.domain.image.dto.ImageDto;
 import com.hjjang.backend.domain.image.exception.ImageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class ImageServiceImpl implements ImageService{
 
     @Override
     public void uploadNewImage(MultipartFile multipartFile) throws IOException {
-        Image image = new Image(imageUploader.upload(multipartFile));
-        imageRepository.save(image);
+        ImageDto imageDto = new ImageDto(imageUploader.upload(multipartFile));
+        imageRepository.save(imageDto.toEntity());
     }
 
     @Override

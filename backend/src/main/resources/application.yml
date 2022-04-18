@@ -77,3 +77,4 @@ auth-properties:
   oAuth2Properties:
     redirectUris:
       - 'http://localhost:3000/oauth/redirect'
+      - 'https://getpostman.com/oauth2/redirect'

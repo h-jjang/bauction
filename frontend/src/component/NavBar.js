@@ -4,12 +4,20 @@ import {Link} from "react-router-dom";
 export const NavBar = () => {
     return (
         <>
-            //TODO: Link 작동에 문제가 있음
+            <Link to="/item-list">
+                <button>HOME</button>
+            </Link>
             <Link to="/item-detail">
                 <button>Item Detail</button>
             </Link>
-            <Link to={"/mypage"}>
+            <Link to="/mypage">
                 <button>My page</button>
+            </Link>
+            <Link to="/login">
+                <button>Login page</button>
+            </Link>
+            <Link to="/signup">
+                <button>Sign Up page</button>
             </Link>
         </>
     );

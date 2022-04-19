@@ -45,8 +45,11 @@ public class MailException extends RuntimeException {
 
 	private static boolean isUniversityEmail(String email) {
 		EmailRegex university = EmailRegex.UNIVERSITY;
-		String universityRegex = university.getRegex();
-		return Pattern.matches(universityRegex, email);
+		EmailRegex gsUniversity = EmailRegex.GS_UNIVERSITY;
+		if (Pattern.matches(university.getRegex(), email)) {
+			return true;
+		}
+		return Pattern.matches(gsUniversity.getRegex(), email);
 	}
 
 	private static void checkEmailDuplicate(String email) {

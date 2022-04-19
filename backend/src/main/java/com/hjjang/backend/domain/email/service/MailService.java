@@ -29,7 +29,7 @@ public class MailService {
 
 	public MailResponse checkCode(MailRequest mailRequest) {
 		MailException.checkRequest(mailRequest, email);
-		email.saveAuthStatus(true);
+		email.setIsAuth(true);
 		return new MailResponse(email);
 	}
 
@@ -52,10 +52,10 @@ public class MailService {
 
 	private void saveEmailInfo(String emailAddress) {
 		String code = email.createRandomCode();
-		email.saveCode(code);
-		email.saveAddress(emailAddress);
+		email.setCode(code);
+		email.setAddress(emailAddress);
 		String university = parseUniversity(emailAddress);
-		email.saveUniversity(university);
-		email.saveAuthStatus(false);
+		email.setUniversity(university);
+		email.setIsAuth(false);
 	}
 }

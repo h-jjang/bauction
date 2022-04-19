@@ -4,10 +4,12 @@ import java.util.Random;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Email {
 
 	private String code;
@@ -24,21 +26,5 @@ public class Email {
 			buffer.append(random.nextInt(10));
 		}
 		return buffer.toString();
-	}
-
-	public void saveCode(String code) {
-		this.code = code;
-	}
-
-	public void saveAddress(String address) {
-		this.address = address;
-	}
-
-	public void saveUniversity(String university) {
-		this.university = university;
-	}
-
-	public void saveAuthStatus(boolean isAuth) {
-		this.isAuth = isAuth;
 	}
 }

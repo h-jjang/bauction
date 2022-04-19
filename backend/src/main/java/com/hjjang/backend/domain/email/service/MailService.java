@@ -1,6 +1,6 @@
 package com.hjjang.backend.domain.email.service;
 
-import com.hjjang.backend.domain.email.domain.Email;
+import com.hjjang.backend.domain.email.dto.Email;
 import com.hjjang.backend.domain.email.domain.EmailMessage;
 import com.hjjang.backend.domain.email.domain.EmailRegex;
 import com.hjjang.backend.domain.email.dto.MailRequest;

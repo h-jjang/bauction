@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.email.domain;
+package com.hjjang.backend.domain.email.dto;
 
 import java.util.Random;
 import lombok.AllArgsConstructor;

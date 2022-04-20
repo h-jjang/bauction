@@ -42,4 +42,10 @@ public class ImageServiceImpl implements ImageService{
         image.removeImage();
         imageRepository.save(image);
     }
+
+    @Override
+    public boolean isImageInPath(Image image) {
+        //TODO: 이미지가 경로에 존재하는지 확인하는 코드 작성
+        return false;
+    }
 }

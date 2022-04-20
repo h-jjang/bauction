@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface ImageService {
 
-    public List<Image> findAll();
+    List<Image> findAll();
 
-    public Image findImageById(Long imageId);
+    Image findImageById(Long imageId);
 
-    public void uploadNewImage(MultipartFile multipartFile) throws IOException;
+    void uploadNewImage(MultipartFile multipartFile) throws IOException;
 
-    public void removeImage(Image image);
+    void removeImage(Image image);
+
+    boolean isImageInPath(Image image);
 }

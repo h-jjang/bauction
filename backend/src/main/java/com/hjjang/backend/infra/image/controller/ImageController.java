@@ -1,8 +1,8 @@
-package com.hjjang.backend.domain.image.controller;
+package com.hjjang.backend.infra.image.controller;
 
-import com.hjjang.backend.domain.image.domain.entity.Image;
-import com.hjjang.backend.domain.image.dto.ImageResponse;
-import com.hjjang.backend.domain.image.service.ImageService;
+import com.hjjang.backend.infra.image.domain.entity.Image;
+import com.hjjang.backend.infra.image.dto.ImageResponse;
+import com.hjjang.backend.infra.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.hjjang.backend.domain.image.service;
+package com.hjjang.backend.infra.image.service;
 
-import com.hjjang.backend.domain.image.domain.entity.Image;
+import com.hjjang.backend.infra.image.domain.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

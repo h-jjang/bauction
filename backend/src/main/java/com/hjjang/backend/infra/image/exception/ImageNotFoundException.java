@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.image.exception;
+package com.hjjang.backend.infra.image.exception;
 
 public class ImageNotFoundException extends RuntimeException {
 

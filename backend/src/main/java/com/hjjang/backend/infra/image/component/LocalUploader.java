@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.image.component;
+package com.hjjang.backend.infra.image.component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -28,6 +28,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi searchApi() {
+        return GroupedOpenApi.builder()
+            .group("search")
+            .pathsToMatch("/api/search/**")
+            .build();
+    }
+
+    @Bean
     public OpenAPI bauctionOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("bauction API")

@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/items")
+@RequestMapping("/api/posts")
 @RestController
 public class PostController {
 
-    private final PostServiceImpl itemService;
+    private final PostServiceImpl postService;
 
     @PostMapping
-    public ResponseEntity<PostResponse> createItem(@Validated @RequestBody PostRequest postRequest) {
-        return ResponseEntity.ok(PostResponse
-                .of(itemService
-                        .save(postRequest
-                                .toEntity()
+    public ResponseEntity<PostResponse> createItem(@Validated @RequestParam PostRequest postRequest) {
+        return ResponseEntity.ok(
+                PostResponse.of(
+                        postService.save(
+                                postRequest.toEntity()
                         )
                 )
         );
@@ -32,7 +32,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostResponse>> findAllItem() {
-        return ResponseEntity.ok(itemService
+        return ResponseEntity.ok(postService
                 .findAll()
                 .stream()
                 .map(PostResponse::of)
@@ -42,12 +42,12 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> findOneItem(@PathVariable Long id) {
-        return ResponseEntity.ok(PostResponse.of(itemService.findOneById(id)));
+        return ResponseEntity.ok(PostResponse.of(postService.findOneById(id)));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteOneItem(@PathVariable Long id) {
-        itemService.deleteOneById(id);
+        postService.deleteOneById(id);
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 

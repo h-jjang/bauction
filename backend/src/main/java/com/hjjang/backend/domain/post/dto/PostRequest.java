@@ -9,16 +9,19 @@ import javax.validation.constraints.NotEmpty;
 public class PostRequest {
 
     @NotEmpty
-    private String name;
+    private String title;
+
+    @NotEmpty
+    private String content;
 
     @NotEmpty
     private int price;
 
     public Post toEntity() {
         return Post.builder()
-                .name(this.name)
-                .price(this.price)
-                //TODO 판매자 추가해야함
+                .title(this.title)
+                .content(this.content)
+                .item_price(this.price)
                 .build();
     }
 }

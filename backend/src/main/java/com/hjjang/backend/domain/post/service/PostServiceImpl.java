@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public void deleteOneById(Long id) {
-        findOneById(id).removeItem();
+        findOneById(id).removePost();
     }
 }
 

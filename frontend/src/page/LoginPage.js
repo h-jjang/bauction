@@ -22,7 +22,7 @@ export const LoginPage = () => {
             id: id,
             pw: pw,
         }).then(res => {
-            console.log(res)
+            console.log(res);
         })
     }
 

@@ -1,8 +1,8 @@
-package com.hjjang.backend.infra.uploader.component;
+package com.hjjang.backend.domain.image.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -13,10 +13,9 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-public class LocalUploader implements ImageUploader {
+@Service
+public class ImageUploader {
 
-    @Override
     public String upload(MultipartFile multipartFile) throws IOException {
         File uploadFile =
                 this.localUpload(multipartFile) // 파일 변환할 수 없으면 에러
@@ -25,13 +24,11 @@ public class LocalUploader implements ImageUploader {
         return uploadFile.getName();
     }
 
-    @Override
     public String changeFileName(MultipartFile uploadFile) {
         return UUID.randomUUID() + ".png"; // 저장될 파일 이름 변환
     }
 
     // 로컬에 파일 업로드 하기
-    @Override
     public Optional<File> localUpload(MultipartFile file) throws IOException {
         File convertFile = new File(Path.imageSavePath.getPath() + changeFileName(file));
         if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)

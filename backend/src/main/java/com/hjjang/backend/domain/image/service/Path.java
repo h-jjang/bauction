@@ -1,4 +1,4 @@
-package com.hjjang.backend.infra.uploader.component;
+package com.hjjang.backend.domain.image.service;
 
 import lombok.Getter;
 

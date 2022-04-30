@@ -2,8 +2,7 @@ package com.hjjang.backend.domain.image.controller;
 
 import com.hjjang.backend.domain.image.domain.entity.Image;
 import com.hjjang.backend.domain.image.dto.ImagePathResponse;
-import com.hjjang.backend.domain.image.service.LocalImageService;
-import com.hjjang.backend.domain.image.service.S3ImageService;
+import com.hjjang.backend.domain.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_O
 @RequestMapping("/api/images")
 public class ImageController {
 
-    private final LocalImageService imageService;
+    private final ImageService imageService;
 
     @GetMapping()
     public ResponseEntity<List<ImagePathResponse>> findAllImage() {

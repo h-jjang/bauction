@@ -1,7 +1,7 @@
-package com.hjjang.backend.infra.image.dto;
+package com.hjjang.backend.domain.image.dto;
 
 
-import com.hjjang.backend.infra.image.domain.entity.Image;
+import com.hjjang.backend.domain.image.domain.entity.Image;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;

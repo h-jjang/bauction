@@ -1,4 +1,4 @@
-package com.hjjang.backend.infra.image.component;
+package com.hjjang.backend.infra.uploader.component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +27,13 @@ public class LocalUploader implements ImageUploader {
 
     @Override
     public String changeFileName(MultipartFile uploadFile) {
-        return UUID.randomUUID() + uploadFile.getOriginalFilename(); // 저장될 파일 이름 변환
+        return UUID.randomUUID() + ".png"; // 저장될 파일 이름 변환
     }
 
     // 로컬에 파일 업로드 하기
     @Override
     public Optional<File> localUpload(MultipartFile file) throws IOException {
-        File convertFile = new File(System.getProperty("user.dir") + "/backend/src/main/resources/images/" + changeFileName(file));
+        File convertFile = new File(Path.imageSavePath.getPath() + changeFileName(file));
         if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)
             try (FileOutputStream fos =
                          new FileOutputStream(convertFile)) { // FileOutputStream 데이터를 파일에 바이트 스트림으로 저장하기 위함
@@ -41,7 +41,6 @@ public class LocalUploader implements ImageUploader {
             }
             return Optional.of(convertFile);
         }
-
         return Optional.empty();
     }
 

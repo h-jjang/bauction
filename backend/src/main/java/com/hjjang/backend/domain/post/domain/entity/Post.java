@@ -1,7 +1,5 @@
 package com.hjjang.backend.domain.post.domain.entity;
 
-import com.hjjang.backend.domain.user.entity.User;
-import com.hjjang.backend.infra.image.domain.entity.Image;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;

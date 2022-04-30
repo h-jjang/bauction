@@ -1,6 +1,6 @@
-package com.hjjang.backend.infra.image.service;
+package com.hjjang.backend.domain.image.service;
 
-import com.hjjang.backend.infra.image.domain.entity.Image;
+import com.hjjang.backend.domain.image.domain.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,9 +12,8 @@ public interface ImageService {
 
     Image findImageById(Long imageId);
 
-    void uploadNewImage(MultipartFile multipartFile) throws IOException;
+    Image uploadNewImage(MultipartFile multipartFile) throws IOException;
 
     void removeImage(Image image);
 
-    boolean isImageInPath(Image image);
 }

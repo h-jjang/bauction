@@ -1,10 +1,10 @@
-package com.hjjang.backend.infra.image.service;
+package com.hjjang.backend.domain.image.service;
 
-import com.hjjang.backend.infra.image.component.ImageUploader;
-import com.hjjang.backend.infra.image.domain.entity.Image;
-import com.hjjang.backend.infra.image.domain.repository.ImageRepository;
-import com.hjjang.backend.infra.image.dto.ImageDto;
-import com.hjjang.backend.infra.image.exception.ImageNotFoundException;
+import com.hjjang.backend.domain.image.domain.repository.ImageRepository;
+import com.hjjang.backend.domain.image.dto.ImageDto;
+import com.hjjang.backend.domain.image.domain.entity.Image;
+import com.hjjang.backend.domain.image.exception.ImageNotFoundException;
+import com.hjjang.backend.infra.uploader.component.LocalUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ImageServiceImpl implements ImageService{
+public class LocalImageService implements ImageService{
     private final ImageRepository imageRepository;
-    private final ImageUploader imageUploader;
+    private final LocalUploader imageUploader;
 
     @Override
     public List<Image> findAll() {
@@ -31,9 +31,9 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public void uploadNewImage(MultipartFile multipartFile) throws IOException {
+    public Image uploadNewImage(MultipartFile multipartFile) throws IOException {
         ImageDto imageDto = new ImageDto(imageUploader.upload(multipartFile));
-        imageRepository.save(imageDto.toEntity());
+        return imageRepository.save(imageDto.toEntity());
     }
 
     @Override
@@ -42,9 +42,4 @@ public class ImageServiceImpl implements ImageService{
         imageRepository.save(image);
     }
 
-    @Override
-    public boolean isImageInPath(Image image) {
-        //TODO: 이미지가 경로에 존재하는지 확인하는 코드 작성
-        return false;
-    }
 }

@@ -1,4 +1,4 @@
-package com.hjjang.backend.infra.image.component;
+package com.hjjang.backend.infra.uploader.component;
 
 import org.springframework.web.multipart.MultipartFile;
 

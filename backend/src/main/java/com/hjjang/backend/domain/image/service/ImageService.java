@@ -5,7 +5,6 @@ import com.hjjang.backend.domain.image.domain.entity.Image;
 import com.hjjang.backend.domain.image.exception.ImageNotFoundException;
 import com.hjjang.backend.infra.aws.service.S3ImageUploader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

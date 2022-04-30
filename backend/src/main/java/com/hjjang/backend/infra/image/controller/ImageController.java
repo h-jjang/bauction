@@ -16,7 +16,7 @@ import static com.hjjang.backend.global.util.HttpStatusResponseEntity.RESPONSE_O
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 public class ImageController {
 
     private final ImageService imageService;

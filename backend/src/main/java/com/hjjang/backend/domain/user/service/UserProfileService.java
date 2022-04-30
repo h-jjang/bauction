@@ -20,7 +20,7 @@ public class UserProfileService {
         String userId = UserUtil.getLoginUserIdByToken();
 
         //todo add exception
-        User user = userRepository.findUserById(userId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findUserByProviderId(userId).orElseThrow(EntityNotFoundException::new);
 
         //todo found univName logic
         return UserProfileDTO.builder()

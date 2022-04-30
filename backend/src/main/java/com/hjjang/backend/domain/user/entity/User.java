@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -22,8 +23,12 @@ import static lombok.AccessLevel.PROTECTED;
 public class User {
 
     @Id
-    @Column(name = "id", nullable = false, length = 128)
-    private String id;
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "provider_id", nullable = false, length = 128)
+    private String providerId;
 
     @Column(name = "nickname", nullable = false, length = 30)
     private String nickName;
@@ -53,8 +58,8 @@ public class User {
     private RoleType role;
 
     @Builder
-    public User(String id, String nickName, String email, Long mannerTemperature, String imageUrl, Agreement isPushAgree, Long univId, RoleType role) {
-        this.id = id;
+    public User(String providerId, String nickName, String email, Long mannerTemperature, String imageUrl, Agreement isPushAgree, Long univId, RoleType role) {
+        this.providerId = providerId;
         this.nickName = nickName;
         this.email = email;
         this.mannerTemperature = mannerTemperature;

@@ -1,15 +1,5 @@
 package com.hjjang.backend.domain.user.controller;
 
-import java.util.Date;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.UserRefreshToken;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
@@ -20,9 +10,16 @@ import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
 import com.hjjang.backend.global.dto.ApiResponse;
 import com.hjjang.backend.global.util.CookieUtil;
 import com.hjjang.backend.global.util.HeaderUtil;
-
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -34,8 +31,8 @@ public class UserAuthController {
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final UserAuthService userAuthService;
 
-    private final static long THREE_DAYS_MSEC = 259200000;
-    private final static String REFRESH_TOKEN = "refresh_token";
+    private static final long THREE_DAYS_MSEC = 259200000;
+    private static final String REFRESH_TOKEN = "refresh_token";
 
     @GetMapping("/refresh")
     public ApiResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -51,8 +48,7 @@ public class UserAuthController {
         if (claims == null) {
             return ApiResponse.notExpiredTokenYet();
         }
-
-        String userId = claims.getSubject();
+        String providerId = claims.getSubject();
         RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         // refresh token
@@ -65,8 +61,8 @@ public class UserAuthController {
             return ApiResponse.invalidRefreshToken();
         }
 
-        // userId, refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserIdAndRefreshToken(userId,
+        // providerId, refresh token 으로 DB 확인
+        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByProviderIdAndRefreshToken(providerId,
             refreshToken);
         if (userRefreshToken == null) {
             return ApiResponse.invalidRefreshToken();
@@ -74,7 +70,7 @@ public class UserAuthController {
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-            userId, roleType.getCode(),
+            providerId, roleType.getCode(),
             new Date(now.getTime() + authProperties.getTokenProperties().getTokenExpireDate())
         );
         userAuthService.reissueRefreshTokenIfValidTimeleft3days(request, response, userRefreshToken, authRefreshToken,

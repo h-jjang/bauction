@@ -4,10 +4,10 @@ import {Link} from "react-router-dom";
 export const NavBar = () => {
     return (
         <>
-            <Link to="/item-list">
+            <Link to="/post-list">
                 <button>HOME</button>
             </Link>
-            <Link to="/item-detail">
+            <Link to="/post-detail">
                 <button>Item Detail</button>
             </Link>
             <Link to="/mypage">

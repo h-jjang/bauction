@@ -51,7 +51,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/{imageId}")
-    public ResponseEntity<HttpStatus> deleteIMage(@PathVariable Long imageId) {
+    public ResponseEntity<HttpStatus> deleteImage(@PathVariable Long imageId) {
         Image image = imageService.findImageById(imageId);
         imageService.removeImage(image);
 

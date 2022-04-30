@@ -1,6 +1,5 @@
 package com.hjjang.backend.domain.user.controller;
 
-import com.hjjang.backend.domain.user.dto.LoginRequest;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.UserRefreshToken;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
@@ -13,7 +12,9 @@ import com.hjjang.backend.global.util.CookieUtil;
 import com.hjjang.backend.global.util.HeaderUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,16 +31,8 @@ public class UserAuthController {
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final UserAuthService userAuthService;
 
-    private final static long THREE_DAYS_MSEC = 259200000;
-    private final static String REFRESH_TOKEN = "refresh_token";
-
-    @PostMapping("/login")
-    public ApiResponse login(HttpServletRequest request, HttpServletResponse response,
-                             @RequestBody LoginRequest loginRequest
-    ) {
-        String token = userAuthService.login(request, response, loginRequest);
-        return ApiResponse.success("token", token);
-    }
+    private static final long THREE_DAYS_MSEC = 259200000;
+    private static final String REFRESH_TOKEN = "refresh_token";
 
     @GetMapping("/refresh")
     public ApiResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -55,31 +48,33 @@ public class UserAuthController {
         if (claims == null) {
             return ApiResponse.notExpiredTokenYet();
         }
-
-        String userId = claims.getSubject();
+        String providerId = claims.getSubject();
         RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         // refresh token
         String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN)
-                .map(Cookie::getValue)
-                .orElse((null));
+            .map(Cookie::getValue)
+            .orElse((null));
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (authRefreshToken.validate()) {
             return ApiResponse.invalidRefreshToken();
         }
 
-        // userId, refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserIdAndRefreshToken(userId, refreshToken);
+        // providerId, refresh token 으로 DB 확인
+        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByProviderIdAndRefreshToken(providerId,
+            refreshToken);
         if (userRefreshToken == null) {
             return ApiResponse.invalidRefreshToken();
         }
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-                userId, roleType.getCode(), new Date(now.getTime() + authProperties.getTokenProperties().getTokenExpireDate())
+            providerId, roleType.getCode(),
+            new Date(now.getTime() + authProperties.getTokenProperties().getTokenExpireDate())
         );
-        userAuthService.reissueRefreshTokenIfValidTimeleft3days(request, response, userRefreshToken, authRefreshToken, now);
+        userAuthService.reissueRefreshTokenIfValidTimeleft3days(request, response, userRefreshToken, authRefreshToken,
+            now);
 
         return ApiResponse.success("token", newAccessToken.getToken());
     }

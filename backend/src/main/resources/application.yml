@@ -64,6 +64,12 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 auth:
   tokenProperties:
     tokenSecretKey: asodfhwoeihro1i34u1097r09u13rqfasc12

@@ -1,4 +1,4 @@
-package com.hjjang.backend.aws.config;
+package com.hjjang.backend.infra.aws.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

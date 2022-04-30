@@ -1,4 +1,4 @@
-package com.hjjang.backend.aws.component;
+package com.hjjang.backend.infra.aws.component;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

@@ -3,45 +3,40 @@ package com.hjjang.backend.global.config.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Component
-@ConfigurationProperties(prefix = "auth")
+@Data
+@Configuration
+@ConfigurationProperties("auth-properties")
 public class AuthProperties {
-
-    private final TokenProperties tokenProperties = new TokenProperties();
-    private final OAuth2Properties oAuth2Properties = new OAuth2Properties();
-    private final CorsProperties corsProperties = new CorsProperties();
-    private final JwtProperties jwtProperties = new JwtProperties();
-
-    @Getter
-    @Setter
-    public final static class TokenProperties {
+    private TokenProperties tokenProperties = new TokenProperties();
+    private JwtProperties jwtProperties = new JwtProperties();
+    private CorsProperties corsProperties = new CorsProperties();
+    private OAuth2Properties oAuth2Properties = new OAuth2Properties();
+    @Data
+    public static class TokenProperties {
+        @Value("auth-properties.token-properties.token-secret-key")
         private String tokenSecretKey;
         private long tokenExpireDate;
         private long refreshTokenExpiry;
     }
-
-    @Getter
-    @Setter
-    public final static class JwtProperties {
+    @Data
+    public static class JwtProperties {
+        @Value("auth-properties.jwt-properties.secret-key")
         private String secretKey;
     }
-
-    @Getter
-    @Setter
-    public final static class OAuth2Properties {
+    @Data
+    public static class OAuth2Properties {
+        @Value("auth-properties.o-auth2-properties.redirect-uris[]")
         private List<String> redirectUris = new ArrayList<>();
     }
-
-    @Getter
-    @Setter
-    public final static class CorsProperties {
+    @Data
+    public static class CorsProperties {
+        @Value("auth-properties.cors-properties.allowed-origins")
         private String allowedOrigins;
         private String allowedMethods;
         private String allowedHeaders;

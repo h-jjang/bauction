@@ -1,15 +1,13 @@
 package com.hjjang.backend.global.response.response;
 
+import com.hjjang.backend.global.response.code.ErrorCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.validation.BindingResult;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.validation.BindingResult;
-
-import com.hjjang.backend.global.response.code.ErrorCode;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -32,6 +30,10 @@ public class ErrorResponse {
         this.status = code.getHttpStatus();
         this.code = code.getCode();
         this.errors = new ArrayList<>();
+    }
+
+    public static ErrorResponse of(final ErrorCode code) {
+        return new ErrorResponse(code);
     }
 
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
@@ -60,11 +62,11 @@ public class ErrorResponse {
         private static List<FieldError> of(final BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
             return fieldErrors.stream()
-                .map(error -> new FieldError(
-                    error.getField(),
-                    error.getRejectedValue() == null ? "" : error.getRejectedValue().toString(),
-                    error.getDefaultMessage()))
-                .collect(Collectors.toList());
+                    .map(error -> new FieldError(
+                            error.getField(),
+                            error.getRejectedValue() == null ? "" : error.getRejectedValue().toString(),
+                            error.getDefaultMessage()))
+                    .collect(Collectors.toList());
         }
 
     }

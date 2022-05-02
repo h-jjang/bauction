@@ -20,6 +20,30 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi mailApi() {
+        return GroupedOpenApi.builder()
+            .group("mail")
+            .pathsToMatch("/api/mail/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi postApi() {
+        return GroupedOpenApi.builder()
+                .group("posts")
+                .pathsToMatch("/api/posts/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi imageApi() {
+        return GroupedOpenApi.builder()
+                .group("images")
+                .pathsToMatch("/api/images/**")
+                .build();
+    }
+
+    @Bean
     public OpenAPI bauctionOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("bauction API")

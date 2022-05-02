@@ -10,7 +10,7 @@ public enum SuccessCode {
     //User
     USERPROFILE_SUCCESS(200, "U001", "프로필 조회 완료."),;
 
-    private final int httpStatus;
+    private final int status;
     private final String code;
     private final String message;
 }

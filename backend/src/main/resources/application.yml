@@ -1,6 +1,10 @@
 spring:
   application:
     name: "backend"
+  profiles:
+    include:
+      - aws
+      - credentials
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     url: "jdbc:mysql://localhost:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
@@ -61,17 +65,21 @@ spring:
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
-auth-properties:
-  token-properties:
-    token-secret-key: 'asodfhwoeihro1i34u1097r09u13rqfasc12'
-    token-expire-date: 1800000
-    refresh-token-expiry: 604800000
-  jwt-properties:
-    secret-key: 'HJJangHandsomeGnuKenny120hy12049h014'
-  cors-properties:
-    allowed-origins: 'localhost:3000,http://localhost,http://localhost:3000'
-    allowed-methods: 'GET,POST,PUT,DELETE,OPTIONS'
+auth:
+  tokenProperties:
+    tokenSecretKey: asodfhwoeihro1i34u1097r09u13rqfasc12
+    tokenExpireDate: 1800000
+    refreshTokenExpiry: 604800000
+  jwtProperties:
+    secretKey: 'HJJangHandsomeGnuKenny120hy12049h014'
+  corsProperties:
+    allowed-origins: '*'
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
     allowed-headers: '*'
     max-age: 3600
   oAuth2Properties:

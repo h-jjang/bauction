@@ -1,23 +1,20 @@
 package com.hjjang.backend.domain.user.service;
 
-import static com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.*;
-
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.hjjang.backend.domain.user.entity.UserRefreshToken;
+import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.token.AuthToken;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
+import com.hjjang.backend.global.util.CookieUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
-import com.hjjang.backend.domain.user.entity.UserRefreshToken;
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.token.AuthToken;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
-import com.hjjang.backend.global.util.CookieUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
-import lombok.RequiredArgsConstructor;
+import static com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
 
 @RequiredArgsConstructor
 @Service

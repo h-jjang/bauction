@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.exception;
+package com.hjjang.backend.global.security.exception;
 
 public class TokenValidFailedException extends RuntimeException {
 

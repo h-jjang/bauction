@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.handler;
+package com.hjjang.backend.global.security.handler;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;

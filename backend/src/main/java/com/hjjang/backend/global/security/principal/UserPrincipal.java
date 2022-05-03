@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.principal;
+package com.hjjang.backend.global.security.principal;
 
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;

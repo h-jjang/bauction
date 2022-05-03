@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.token;
+package com.hjjang.backend.global.security.token;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.hjjang.backend.global.config.security.exception.TokenValidFailedException;
+import com.hjjang.backend.global.security.exception.TokenValidFailedException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;

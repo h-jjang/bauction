@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.repository;
+package com.hjjang.backend.global.security.repository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

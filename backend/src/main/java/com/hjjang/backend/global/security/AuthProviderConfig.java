@@ -1,7 +1,7 @@
-package com.hjjang.backend.global.config.security;
+package com.hjjang.backend.global.security;
 
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 

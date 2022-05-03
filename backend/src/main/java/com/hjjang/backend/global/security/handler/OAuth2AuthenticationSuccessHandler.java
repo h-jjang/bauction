@@ -1,15 +1,15 @@
-package com.hjjang.backend.global.config.security.handler;
+package com.hjjang.backend.global.security.handler;
 
 import com.hjjang.backend.domain.user.entity.ProviderType;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.UserRefreshToken;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.parser.ParsingUserContext;
-import com.hjjang.backend.global.config.security.parser.ParsingUserContextFactory;
-import com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.hjjang.backend.global.config.security.token.AuthToken;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.parser.ParsingUserContext;
+import com.hjjang.backend.global.security.parser.ParsingUserContextFactory;
+import com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.hjjang.backend.global.security.token.AuthToken;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
 import com.hjjang.backend.global.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -30,8 +30,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
+import static com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
 
 @Component
 @RequiredArgsConstructor

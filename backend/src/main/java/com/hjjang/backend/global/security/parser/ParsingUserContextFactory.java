@@ -1,8 +1,8 @@
-package com.hjjang.backend.global.config.security.parser;
-
-import java.util.Map;
+package com.hjjang.backend.global.security.parser;
 
 import com.hjjang.backend.domain.user.entity.ProviderType;
+
+import java.util.Map;
 
 public class ParsingUserContextFactory {
     public static ParsingUserContext getParsingParsingUserContext(ProviderType providerType,

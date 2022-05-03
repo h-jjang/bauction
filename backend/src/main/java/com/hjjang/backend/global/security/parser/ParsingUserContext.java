@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.parser;
+package com.hjjang.backend.global.security.parser;
 
 import java.util.Map;
 

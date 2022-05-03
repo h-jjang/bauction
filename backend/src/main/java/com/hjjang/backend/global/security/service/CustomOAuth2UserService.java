@@ -1,12 +1,12 @@
-package com.hjjang.backend.global.config.security.service;
+package com.hjjang.backend.global.security.service;
 
 import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRepository;
-import com.hjjang.backend.global.config.security.parser.KakaoParsingParsingUserContext;
-import com.hjjang.backend.global.config.security.parser.ParsingUserContext;
-import com.hjjang.backend.global.config.security.principal.UserPrincipal;
+import com.hjjang.backend.global.security.parser.KakaoParsingParsingUserContext;
+import com.hjjang.backend.global.security.parser.ParsingUserContext;
+import com.hjjang.backend.global.security.principal.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

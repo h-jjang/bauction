@@ -1,4 +1,4 @@
-package com.hjjang.backend.global.config.security.filter;
+package com.hjjang.backend.global.security.filter;
 
 import java.io.IOException;
 
@@ -11,8 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.hjjang.backend.global.config.security.token.AuthToken;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+import com.hjjang.backend.global.security.token.AuthToken;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
 import com.hjjang.backend.global.util.HeaderUtil;
 
 import lombok.RequiredArgsConstructor;

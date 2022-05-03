@@ -1,6 +1,6 @@
-package com.hjjang.backend.global.config.security.parser;
+package com.hjjang.backend.global.security.parser;
 
-import static com.hjjang.backend.global.config.security.parser.KakaoParsingParsingUserContext.KakaoInfoProperties.*;
+import static com.hjjang.backend.global.security.parser.KakaoParsingParsingUserContext.KakaoInfoProperties.*;
 
 import java.util.Map;
 

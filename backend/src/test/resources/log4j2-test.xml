@@ -11,14 +11,6 @@
         <Console name="Console_Appender" target="SYSTEM_OUT">
             <PatternLayout pattern="${layoutPattern}" disableAnsi = "false"/>
         </Console>
-        <RollingFile name="File_Appender" fileName="./Log/${logNm}.log" filePattern="./Log/${logNm}_%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="${layoutPattern}"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-                <TimeBasedTriggeringPolicy interval="1"/>
-            </Policies>
-            <DefaultRolloverStrategy max="10" fileIndex="min"/>
-        </RollingFile>
     </Appenders>
 
     <!--    실제 Logger-->
@@ -30,11 +22,6 @@
 
         <Logger name="org.springframework" level="INFO"
                 additivity="false">
-            <AppenderRef ref="Console_Appender" />
-<!--            <AppenderRef ref="File_Appender"/>-->
-        </Logger>
-
-        <Logger name="com.hjjang.backend" level="INFO" additivity="false">
             <AppenderRef ref="Console_Appender" />
 <!--            <AppenderRef ref="File_Appender"/>-->
         </Logger>

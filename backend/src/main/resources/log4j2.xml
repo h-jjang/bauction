@@ -34,12 +34,9 @@
             <AppenderRef ref="File_Appender"/>
         </Logger>
 
-        <Logger name="com.fucct" level="INFO" additivity="false">
+        <Logger name="com.hjjang.backend" level="INFO" additivity="false">
             <AppenderRef ref="Console_Appender" />
             <AppenderRef ref="File_Appender"/>
-        </Logger>
-        <Logger name="com.fucct.springlog4j2.loggertest" level="DEBUG" additivity="false">
-            <AppenderRef ref="Console_Appender" />
         </Logger>
     </Loggers>
 </Configuration>

@@ -1,7 +1,16 @@
 package com.hjjang.backend.global.config.security;
 
-import java.util.Arrays;
-
+import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.exception.RestAuthenticationEntryPoint;
+import com.hjjang.backend.global.security.filter.TokenAuthenticationFilter;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationFailureHandler;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationSuccessHandler;
+import com.hjjang.backend.global.security.handler.TokenAccessDeniedHandler;
+import com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.hjjang.backend.global.security.service.CustomOAuth2UserService;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,18 +26,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.exception.RestAuthenticationEntryPoint;
-import com.hjjang.backend.global.config.security.filter.TokenAuthenticationFilter;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationFailureHandler;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationSuccessHandler;
-import com.hjjang.backend.global.config.security.handler.TokenAccessDeniedHandler;
-import com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.hjjang.backend.global.config.security.service.CustomOAuth2UserService;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
-
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity

@@ -70,16 +70,16 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
-auth:
-  tokenProperties:
-    tokenSecretKey: asodfhwoeihro1i34u1097r09u13rqfasc12
-    tokenExpireDate: 1800000
-    refreshTokenExpiry: 604800000
-  jwtProperties:
-    secretKey: 'HJJangHandsomeGnuKenny120hy12049h014'
-  corsProperties:
-    allowed-origins: '*'
-    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+auth-properties:
+  token-properties:
+    token-secret-key: 'asodfhwoeihro1i34u1097r09u13rqfasc12'
+    token-expire-date: 1800000
+    refresh-token-expiry: 604800000
+  jwt-properties:
+    secret-key: 'HJJangHandsomeGnuKenny120hy12049h014'
+  cors-properties:
+    allowed-origins: 'localhost:3000,http://localhost,http://localhost:3000'
+    allowed-methods: 'GET,POST,PUT,DELETE,OPTIONS'
     allowed-headers: '*'
     max-age: 3600
   oAuth2Properties:

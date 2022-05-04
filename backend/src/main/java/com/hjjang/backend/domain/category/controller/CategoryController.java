@@ -2,6 +2,9 @@ package com.hjjang.backend.domain.category.controller;
 
 import static com.hjjang.backend.global.util.HttpStatusResponseEntity.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,17 @@ import lombok.RequiredArgsConstructor;
 public class CategoryController {
 
 	private final CategoryService categoryService;
+
+	@GetMapping
+	public ResponseEntity<List<CategoryResponse>> findAllCategory() {
+
+		return ResponseEntity.ok(categoryService
+			.findAll()
+			.stream()
+			.map(CategoryResponse::of)
+			.collect(Collectors.toList())
+		);
+	}
 
 	@PostMapping
 	public ResponseEntity<HttpStatus> createCategory(@RequestBody @Valid CategoryRequest categoryRequest) {

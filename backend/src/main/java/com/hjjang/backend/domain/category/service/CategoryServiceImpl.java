@@ -1,5 +1,7 @@
 package com.hjjang.backend.domain.category.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category findAllByCategory() {
-		return null;
+	public List<Category> findAll() {
+		return categoryRepository.findAll();
 	}
 
 	@Override

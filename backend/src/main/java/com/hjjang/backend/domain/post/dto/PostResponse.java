@@ -12,7 +12,7 @@ public class PostResponse {
 
     private Long id;
 
-//    private Long user_id;
+    private Long user_id;
 
 //    private Long image_id;
 
@@ -35,15 +35,15 @@ public class PostResponse {
     public static PostResponse of(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
-//                .user_id(post.getUser().getId())
+                .user_id(post.getUser().getId())
 //                .image_id(post.getImage().getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .item_price(post.getItem_price())
+                .item_price(post.getItemPrice())
                 .views(post.getViews())
-                .interest_number(post.getInterest_number())
-                .chat_number(post.getChat_number())
-                .is_sale_completion(post.getIs_sale_completion())
+                .interest_number(post.getInterestNumber())
+                .chat_number(post.getChatNumber())
+                .is_sale_completion(post.getIsSaleCompletion())
                 .removed(post.isRemoved())
                 .build();
     }

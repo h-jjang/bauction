@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.post.dto;
 
 import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class PostRequest {
-
     @NotEmpty
     private String title;
 
@@ -18,15 +18,15 @@ public class PostRequest {
     private String content;
 
     @NotEmpty
-    private String price;
+    private int price;
 
-    public Post toEntity() {
+    public Post toEntity(User user) {
         return Post.builder()
-//                .user(null)
+                .user(user)
 //                .image(null)
                 .title(this.title)
                 .content(this.content)
-                .item_price(Integer.valueOf(this.price))
+                .itemPrice(this.price)
                 .build();
     }
 }

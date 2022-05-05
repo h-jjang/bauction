@@ -20,7 +20,7 @@ public class PostController {
     private final PostServiceImpl postService;
 
     @PostMapping
-    public ResponseEntity<PostResponse> createItem(@Validated @RequestParam PostRequest postRequest) {
+    public ResponseEntity<PostResponse> createItem(@Validated @RequestBody PostRequest postRequest) {
         return ResponseEntity.ok(
                 PostResponse.of(
                         postService.save(

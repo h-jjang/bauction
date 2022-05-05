@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name:
+    url:
+    username:
+    password:
+
+  jpa:
+    database:
+    show-sql:
+    hibernate:
+      ddl-auto:
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+
+  flyway:
+    enabled: false
+    url:
+    user:
+    password:
+    baseline-on-migrate: true
+    ignore-ignored-migrations: true
+    clean-on-validation-error: true

@@ -1,25 +1,18 @@
 spring:
   application:
     name: "backend"
-  datasource:
-    driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://localhost:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
-    username: "root"
-    password: "0000"
+  profiles:
+    include:
+      - db
+      - auth
+      - email
+      - aws
+      - credentials
 
   redis:
     host: bauction-redis
     port: 6379
 
-  jpa:
-    database: "mysql"
-    show-sql: "true"
-    hibernate:
-      ddl-auto: "none"
-    properties:
-      hibernate:
-        format_sql: true
-    generate-ddl: true
 #----- for swagger UI
 #  mvc:
 #    pathmatch:
@@ -30,48 +23,9 @@ spring:
 #      schema-locations: classpath:scheme.sql
 #      data-locations: classpath:data.sql
 #      mode: always
-  flyway:
-    enabled: false
-    url: jdbc:mysql://localhost:3306/test_db
-    user: root
-    password: 0000
-    baseline-on-migrate: true
-    ignore-ignored-migrations: true
-    clean-on-validation-error: true
 
-  # oauth 설정
-  security:
-    oauth2.client:
-      registration:
-        kakao:
-          clientId: '2de38f203dbe5dc3a59740cb5f8438a3'
-          clientSecret: 'U5Pq6S2H2A52ANmKwn5fxoF5mYL3cTFU'
-          clientAuthenticationMethod: post
-          authorizationGrantType: authorization_code
-          redirectUri: "http://localhost:8080/login/oauth2/code/kakao"
-          scope:
-            - profile_nickname
-            - profile_image
-            - account_email
-          clientName: Kakao
-      provider:
-        kakao:
-          authorizationUri: https://kauth.kakao.com/oauth/authorize
-          tokenUri: https://kauth.kakao.com/oauth/token
-          userInfoUri: https://kapi.kakao.com/v2/user/me
-          userNameAttribute: id
-auth:
-  tokenProperties:
-    tokenSecretKey: asodfhwoeihro1i34u1097r09u13rqfasc12
-    tokenExpireDate: 1800000
-    refreshTokenExpiry: 604800000
-  jwtProperties:
-    secretKey: 'HJJangHandsomeGnuKenny120hy12049h014'
-  corsProperties:
-    allowed-origins: '*'
-    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-    allowed-headers: '*'
-    max-age: 3600
-  oauth2Properties:
-    redirectUris:
-      - 'http://localhost:3000/oauth/redirect'
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+

@@ -6,6 +6,7 @@ import {
     Route,
     Redirect,
 } from "react-router-dom";
+import OAuth2RedirectHandler from "../auth/OAuth2Redirecthandler";
 
 import {ItemDetailPage} from "./ItemDetailPage";
 import {MyPage} from "./MyPage";
@@ -24,6 +25,7 @@ export const RouterPage = () => {
                     <Route path="/post-detail" component={ItemDetailPage}/>
                     <Route path="/mypage" component={MyPage}/>
                     <Route path="/login" component={LoginPage}/>
+                    <Route path="/oauth2/redirect" component={OAuth2RedirectHandler} />
                     <Route path="/signup" component={SignUpPage}/>
                     <Route path="/mypage" component={MyPage}/>
                     <Redirect path="*" to="/post-list"/>

@@ -1,4 +1,4 @@
-package com.hjjang.backend.infra.image.domain.entity;
+package com.hjjang.backend.domain.image.domain.entity;
 
 import lombok.*;
 

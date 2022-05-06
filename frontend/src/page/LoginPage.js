@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import {Link, Route} from "react-router-dom";
 import axios from "axios";
+import {KAKAO_AUTH_URL} from "../auth/OAuth";
+import KAKAO_LOGO from "../images/kakao_login_large_wide.png"
+import styles from '../App.css';
 
 export const LoginPage = () => {
     // 샘플 코드입니다.
@@ -34,8 +37,11 @@ export const LoginPage = () => {
             <input type={"password"} placeholder={"PW"} onChange={changePw}/><br/>
             <input type={"button"} onClick={loginSubmit} value={"submit"}/>
             <Route>
-                <Link to={"/signup"}><button>Sign Up</button></Link>
+                    <Link to={"/signup"}><button>Sign Up</button></Link>
             </Route>
+            <a href={KAKAO_AUTH_URL}>
+                <img src={KAKAO_LOGO}></img>
+            </a>
         </div>
     )
 }

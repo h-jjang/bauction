@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.kakao_btn{
+  background-image: url("./images/kakao_login_large_wide.png");
+  background-repeat: no-repeat;
+  background-size : cover;
+  margin: 10px auto;
+  /* padding: -10px; */
+  color: transparent;
+  width: 300px;
+  height: 45px;
+}

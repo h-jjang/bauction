@@ -11,6 +11,7 @@
         <Console name="Console_Appender" target="SYSTEM_OUT">
             <PatternLayout pattern="${layoutPattern}" disableAnsi = "false"/>
         </Console>
+
     </Appenders>
 
     <!--    실제 Logger-->
@@ -25,5 +26,6 @@
             <AppenderRef ref="Console_Appender" />
 <!--            <AppenderRef ref="File_Appender"/>-->
         </Logger>
+
     </Loggers>
 </Configuration>

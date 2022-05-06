@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
+    @SuppressWarnings("checkstyle:WhitespaceAfter")
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/css/**", "/static/js/**", "*.ico"); // 나중에 수정
@@ -46,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // swagger
         web.ignoring().antMatchers(
             "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/h2-console/**");
 
     }
 
@@ -73,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(tokenAccessDeniedHandler) // 로그인 거부 예외
             .and()
             .authorizeRequests()
-            .antMatchers("/login", "/accounts", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/login", "/accounts", "/swagger-resources/**", "/swagger-ui/**", "/h2-console/**").permitAll()
             .antMatchers("/oauth2/authorization/**", "**/oauth2/code/*").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
 //            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())

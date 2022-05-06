@@ -75,7 +75,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
 
-    로깅 관련 의존성
+//    로깅 관련 의존성
     implementation "org.springframework.boot:spring-boot-starter-log4j2"
     testImplementation 'org.springframework.boot:spring-boot-starter-log4j2'
     modules {

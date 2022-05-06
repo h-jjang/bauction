@@ -4,9 +4,9 @@ import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRepository;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +42,7 @@ public class UserRepositoryTest {
 
     @DisplayName("userId로 사용자 조회")
     @Test
-    public void findUserById_test() {
+    void findUserById_test() {
         System.out.println(newUser.getProviderId());
         User foundUser = userRepository.findUserById(newUser.getId()).orElseThrow(EntityExistsException::new);
 
@@ -53,7 +53,7 @@ public class UserRepositoryTest {
 
     @DisplayName("providerId로 사용자 조회")
     @Test
-    public void findUserByProviderId_test() {
+    void findUserByProviderId_test() {
 
         User foundUser = userRepository.findUserByProviderId(newUser.getProviderId())
                 .orElseThrow(EntityExistsException::new);

@@ -1,7 +1,8 @@
 package com.hjjang.backend.domain.search.controller;
 
-import com.hjjang.backend.domain.search.dto.PostResponse;
+import com.hjjang.backend.domain.post.domain.entity.Post;
 import com.hjjang.backend.domain.search.service.SearchServiceImpl;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,14 @@ public class SearchController {
 	private final SearchServiceImpl searchService;
 
 	@GetMapping("/all")
-	public ResponseEntity<PostResponse> getAllPosts() {
-		PostResponse posts = searchService.findAll();
+	public ResponseEntity<List<Post>> getAllPosts() {
+		List<Post> posts = searchService.findAll();
 		return ResponseEntity.ok(posts);
 	}
 
 	@GetMapping
-	public ResponseEntity<PostResponse> searchPostsByKeyword(@RequestParam String keyword) {
-		PostResponse posts = searchService.findByKeyword(keyword);
+	public ResponseEntity<List<Post>> searchPostsByKeyword(@RequestParam String keyword) {
+		List<Post> posts = searchService.findByKeyword(keyword);
 		return ResponseEntity.ok(posts);
 	}
 }

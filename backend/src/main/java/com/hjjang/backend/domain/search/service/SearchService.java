@@ -1,10 +1,11 @@
 package com.hjjang.backend.domain.search.service;
 
-import com.hjjang.backend.domain.search.dto.PostResponse;
+import com.hjjang.backend.domain.post.domain.entity.Post;
+import java.util.List;
 
 public interface SearchService {
 
-	PostResponse findAll();
+	List<Post> findAll();
 
-	PostResponse findByKeyword(String keyword);
+	List<Post> findByKeyword(String keyword);
 }

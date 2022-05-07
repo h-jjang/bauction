@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface SearchService {
 
-	Page<Post> findAll(Pageable pageable);
+	Page<Post> findAll(String filter, Pageable pageable);
 
-	Page<Post> findByKeyword(String keyword, Pageable pageable);
+	Page<Post> findByKeyword(String keyword, String filter, Pageable pageable);
 }

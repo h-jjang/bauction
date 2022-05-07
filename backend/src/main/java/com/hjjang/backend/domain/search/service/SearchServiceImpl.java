@@ -17,11 +17,14 @@ public class SearchServiceImpl implements SearchService {
 
 	private final SearchRepository searchRepository;
 
-	public Page<Post> findAll(Pageable pageable) {
-		return searchRepository.findAll(pageable);
+	public Page<Post> findAll(String filter, Pageable pageable) {
+		if (filter == null) {
+			return searchRepository.findAll(pageable);
+		}
+		return searchRepository.findByIsSaleCompletion(filter, pageable);
 	}
 
-	public Page<Post> findByKeyword(String keyword, Pageable pageable) {
+	public Page<Post> findByKeyword(String keyword, String filter, Pageable pageable) {
 		List<Post> posts = new ArrayList<>();
 		List<String> keywords = parseKeyword(keyword);
 		keywords.forEach(word -> {

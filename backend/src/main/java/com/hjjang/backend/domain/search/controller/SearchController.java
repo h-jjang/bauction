@@ -13,20 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
+@RequestMapping("/api/searches")
 public class SearchController {
 
 	private final SearchServiceImpl searchService;
 
 	@GetMapping("/all")
-	public ResponseEntity<Page<Post>> getAllPosts(Pageable pageable) {
-		Page<Post> posts = searchService.findAll(pageable);
+	public ResponseEntity<Page<Post>> searchPosts(
+		@RequestParam(required = false) String filter,
+		Pageable pageable) {
+		Page<Post> posts = searchService.findAll(filter, pageable);
 		return ResponseEntity.ok(posts);
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<Post>> searchPostsByKeyword(@RequestParam String keyword, Pageable pageable) {
-		Page<Post> posts = searchService.findByKeyword(keyword, pageable);
+	public ResponseEntity<Page<Post>> searchPostsByKeyword(
+		@RequestParam String keyword,
+		@RequestParam(required = false) String filter,
+		Pageable pageable) {
+		Page<Post> posts = searchService.findByKeyword(keyword, filter, pageable);
 		return ResponseEntity.ok(posts);
 	}
 }

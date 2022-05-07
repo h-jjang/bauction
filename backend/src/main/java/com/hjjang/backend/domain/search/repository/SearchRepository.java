@@ -2,10 +2,13 @@ package com.hjjang.backend.domain.search.repository;
 
 import com.hjjang.backend.domain.post.domain.entity.Post;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SearchRepository extends JpaRepository<Post, Long> {
+
+	Page<Post> findByIsSaleCompletion(String IsSaleCompletion, Pageable pageable);
 
 	List<Post> findByTitleContaining(String keyword, Pageable pageable);
 }

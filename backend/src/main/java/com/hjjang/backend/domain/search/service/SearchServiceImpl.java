@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,18 +17,25 @@ public class SearchServiceImpl implements SearchService {
 
 	private final SearchRepository searchRepository;
 
-	public List<Post> findAll() {
-		return searchRepository.findAll();
+	public Page<Post> findAll(Pageable pageable) {
+		return searchRepository.findAll(pageable);
 	}
 
-	public List<Post> findByKeyword(String keyword) {
+	public Page<Post> findByKeyword(String keyword, Pageable pageable) {
 		List<Post> posts = new ArrayList<>();
 		List<String> keywords = parseKeyword(keyword);
 		keywords.forEach(word -> {
-			List<Post> searchedPosts = searchRepository.findByTitleContaining(word);
+			List<Post> searchedPosts = searchRepository.findByTitleContaining(word, pageable);
 			posts.addAll(searchedPosts);
 		});
-		return posts.stream().distinct().collect(Collectors.toList());
+		List<Post> distinctPosts = posts.stream().distinct().collect(Collectors.toList());
+		return getPostPage(pageable, distinctPosts);
+	}
+
+	private PageImpl<Post> getPostPage(Pageable pageable, List<Post> posts) {
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), posts.size());
+		return new PageImpl<>(posts.subList(start, end), pageable, posts.size());
 	}
 
 	private List<String> parseKeyword(String keyword) {

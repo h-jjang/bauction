@@ -3,6 +3,7 @@ package com.hjjang.backend.domain.search.service;
 import com.hjjang.backend.domain.post.domain.entity.Post;
 import com.hjjang.backend.domain.search.repository.SearchRepository;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,21 @@ public class SearchServiceImpl implements SearchService {
 			List<Post> searchedPosts = searchRepository.findByTitleContaining(word, pageable);
 			posts.addAll(searchedPosts);
 		});
-		List<Post> distinctPosts = posts.stream().distinct().collect(Collectors.toList());
-		return getPostPage(pageable, distinctPosts);
+		return getPostPage(pageable, sortAndDistinctPosts(posts));
 	}
 
 	private PageImpl<Post> getPostPage(Pageable pageable, List<Post> posts) {
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), posts.size());
 		return new PageImpl<>(posts.subList(start, end), pageable, posts.size());
+	}
+
+	private List<Post> sortAndDistinctPosts(List<Post> posts) {
+		List<Post> distinctPosts = posts.stream().distinct().collect(Collectors.toList());
+		return distinctPosts
+			.stream()
+			.sorted(Comparator.comparing(Post::getTime).reversed())
+			.collect(Collectors.toList());
 	}
 
 	private List<String> parseKeyword(String keyword) {

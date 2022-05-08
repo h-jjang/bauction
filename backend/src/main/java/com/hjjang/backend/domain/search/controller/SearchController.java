@@ -5,6 +5,8 @@ import com.hjjang.backend.domain.search.service.SearchServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ public class SearchController {
 	@GetMapping("/all")
 	public ResponseEntity<Page<Post>> searchPosts(
 		@RequestParam(required = false) String filter,
-		Pageable pageable) {
+		@PageableDefault(sort = "time", direction = Direction.DESC) Pageable pageable) {
 		Page<Post> posts = searchService.findAll(filter, pageable);
 		return ResponseEntity.ok(posts);
 	}
@@ -30,7 +32,7 @@ public class SearchController {
 	public ResponseEntity<Page<Post>> searchPostsByKeyword(
 		@RequestParam String keyword,
 		@RequestParam(required = false) String filter,
-		Pageable pageable) {
+		@PageableDefault(sort = "time", direction = Direction.DESC) Pageable pageable) {
 		Page<Post> posts = searchService.findByKeyword(keyword, filter, pageable);
 		return ResponseEntity.ok(posts);
 	}

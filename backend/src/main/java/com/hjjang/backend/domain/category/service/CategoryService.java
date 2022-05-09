@@ -11,7 +11,7 @@ public interface CategoryService {
 
 	public Category findCategoryById(Long categoryId);
 
-	public void createNewCategory(CategoryRequest categoryRequest);
+	public Long createNewCategory(CategoryRequest categoryRequest);
 
 	public void updateCategory(Category category, CategoryRequest categoryRequest);
 

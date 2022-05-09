@@ -20,9 +20,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public void createNewCategory(CategoryRequest categoryRequest) {
+	public Long createNewCategory(CategoryRequest categoryRequest) {
 		Category category = categoryRequest.toEntity();
 		categoryRepository.save(category);
+		return categoryRepository.save(category).getId();
 	}
 
 	@Override

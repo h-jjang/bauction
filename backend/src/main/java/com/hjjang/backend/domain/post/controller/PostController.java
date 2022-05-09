@@ -1,18 +1,20 @@
 package com.hjjang.backend.domain.post.controller;
 
-import com.hjjang.backend.domain.post.dto.PostRequest;
-import com.hjjang.backend.domain.post.dto.PostResponse;
+import com.hjjang.backend.domain.post.dto.PostMapper;
+import com.hjjang.backend.domain.post.dto.PostRequestDto;
+import com.hjjang.backend.domain.post.dto.PostResponseDto;
 import com.hjjang.backend.domain.post.service.PostServiceImpl;
 import com.hjjang.backend.global.dto.ApiResponse;
 import com.hjjang.backend.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
@@ -20,30 +22,32 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostServiceImpl postService;
+    private final PostMapper postMapper;
     private final UserUtil userUtil;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createItem(@Validated @RequestBody PostRequest postRequest) {
-        return ResponseEntity.ok(
-                ApiResponse.success("createItem",
-                        PostResponse.of(
-                                postService.save(
-                                        postRequest.toEntity(
-                                                userUtil.getLoginUserByToken()
+    public ResponseEntity<ApiResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
+        return status(CREATED)
+                .body(ApiResponse.success(
+                                "createItem",
+                                postMapper.fromEntity(
+                                        postService.save(
+                                                postMapper.toEntity(
+                                                        postRequestDto, userUtil.getLoginUserByToken()
+                                                )
                                         )
                                 )
                         )
-                )
-        );
+                );
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse> findAllItem() {
-        return ResponseEntity.ok(
+        return ok(
                 ApiResponse.success("findAllItem", postService
                         .findAll()
                         .stream()
-                        .map(PostResponse::of)
+                        .map(postMapper::fromEntity)
                         .collect(Collectors.toList())
                 )
         );
@@ -51,14 +55,26 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findOneItem(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.success("findOneItem", PostResponse.of(postService.findOneById(id))));
+        return ok(ApiResponse.success("findOneItem", postMapper.fromEntity(postService.findOneById(id))));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> putOneItem(@PathVariable Long id, @Validated @RequestBody PostRequestDto postRequestDto) {
+        return status(CREATED)
+                .body(ApiResponse.success(
+                                "updatePutOneItem",
+                                postMapper.fromEntity(
+                                        postService.updateOneById(
+                                                id, postRequestDto, userUtil.getLoginUserByToken()
+                                        )
+                                )
+                        )
+                );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteOneItem(@PathVariable Long id) {
         postService.deleteOneById(id);
-        return ResponseEntity.ok(ApiResponse.success("deleteOneItem", HttpStatus.ACCEPTED));
+        return ok(ApiResponse.success("deleteOneItem", ACCEPTED));
     }
-
-
 }

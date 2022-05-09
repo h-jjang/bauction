@@ -1,4 +1,4 @@
-package com.hjjang.backend.api.docs;
+package com.hjjang.backend.domain.user.controller.docs;
 
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;

@@ -1,8 +1,7 @@
-package com.hjjang.backend.api;
+package com.hjjang.backend.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hjjang.backend.api.docs.UserRestDocument;
-import com.hjjang.backend.domain.user.controller.UserController;
+import com.hjjang.backend.domain.user.controller.docs.UserRestDocument;
 import com.hjjang.backend.domain.user.dto.UserProfileDTO;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
 import com.hjjang.backend.domain.user.repository.UserRepository;

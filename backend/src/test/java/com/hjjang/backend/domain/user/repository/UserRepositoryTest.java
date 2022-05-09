@@ -1,9 +1,8 @@
-package com.hjjang.backend.user.repository;
+package com.hjjang.backend.domain.user.repository;
 
 import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;
-import com.hjjang.backend.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

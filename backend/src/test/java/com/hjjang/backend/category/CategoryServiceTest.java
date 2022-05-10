@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -19,12 +19,12 @@ import com.hjjang.backend.domain.category.domain.entity.Category;
 import com.hjjang.backend.domain.category.domain.repository.CategoryRepository;
 import com.hjjang.backend.domain.category.dto.CategoryRequest;
 import com.hjjang.backend.domain.category.exception.CategoryNotFoundException;
-import com.hjjang.backend.domain.category.service.CategoryServiceImpl;
+import com.hjjang.backend.domain.category.service.CategoryService;
 
 @ExtendWith(SpringExtension.class)
 class CategoryServiceTest {
-	@InjectMocks
-	private CategoryServiceImpl categoryService;
+	@Mock
+	private CategoryService categoryService;
 	@Mock
 	private CategoryRepository categoryRepository;
 
@@ -37,7 +37,6 @@ class CategoryServiceTest {
 			.build();
 
 		givenCategory.setId(1L);
-
 		when(categoryRepository.getById(any())).thenReturn(givenCategory);
 		when(categoryRepository.save(any())).thenReturn(givenCategory);
 	}
@@ -59,12 +58,13 @@ class CategoryServiceTest {
 	@Test
 	void 카테고리_전체_조회(){
 		//given
-		categoryRepository.save(givenCategory);
+		List<Category> givenCategoryList = new ArrayList<>();
+		givenCategoryList.add(givenCategory);
+		when(categoryService.findAll()).thenReturn(givenCategoryList);
 		//when
 		List<Category> categoryList = categoryService.findAll();
 		//then
-		List<Category> categoryListRepository = categoryRepository.findAll();
-		assertThat(categoryList).isEqualTo(categoryListRepository);
+		assertThat(categoryList).isEqualTo(givenCategoryList);
 	}
 	@DisplayName("특정 카테고리 조회")
 	@Test

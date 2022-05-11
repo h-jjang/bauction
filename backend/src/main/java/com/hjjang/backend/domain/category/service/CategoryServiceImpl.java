@@ -38,9 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void updateCategory(Category category, CategoryRequest categoryRequest) {
+	public Category updateCategory(Category category, CategoryRequest categoryRequest) {
 		category.updateCategory(categoryRequest);
-		categoryRepository.save(category);
+
+		return categoryRepository.save(category);
 	}
 
 	@Override

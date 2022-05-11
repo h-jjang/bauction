@@ -99,4 +99,13 @@ class CategoryServiceTest {
 		assertThat(category.getName()).isEqualTo("변경된 카테고리");
 	}
 
+	@Test
+	@DisplayName("카테고리 삭제")
+	void 카테고리_삭제() {
+		// given
+		// when
+		categoryService.removeCategory(givenCategory);
+		// then
+		assertThat(givenCategory.getRemoved()).isEqualTo(true);
+	}
 }

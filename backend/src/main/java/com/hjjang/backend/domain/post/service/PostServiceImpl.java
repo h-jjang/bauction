@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
     public Post updateOneById(Long id, PostRequestDto postRequestDto, User user) {
         Post foundPost = findOneById(id);
         if (user == foundPost.getUser()) return save(foundPost.update(postRequestDto));
-        else throw new UserNotMatchException("사용자 정보가 일치하지 않습니다.", ErrorCode.NO_AUTHORITY);
+        throw new UserNotMatchException("사용자 정보가 일치하지 않습니다.", ErrorCode.NO_AUTHORITY);
     }
 
     public void deleteOneById(Long id) {

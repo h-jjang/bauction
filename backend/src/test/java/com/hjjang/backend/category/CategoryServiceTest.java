@@ -88,7 +88,7 @@ class CategoryServiceTest {
 
 	@Test
 	@DisplayName("카테고리 수정")
-	void update() {
+	void 카테고리_수정() {
 		// given
 		CategoryRequest categoryRequest = CategoryRequest.builder()
 			.name("변경된 카테고리")
@@ -98,4 +98,5 @@ class CategoryServiceTest {
 		// then
 		assertThat(category.getName()).isEqualTo("변경된 카테고리");
 	}
+
 }

@@ -1,9 +1,10 @@
 package com.hjjang.backend.domain.search.controller;
 
-import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.post.dto.PostMapper;
 import com.hjjang.backend.domain.search.service.SearchServiceImpl;
+import com.hjjang.backend.global.dto.ApiResponse;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -19,21 +20,35 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
 
 	private final SearchServiceImpl searchService;
+	private final PostMapper postMapper;
 
 	@GetMapping("/all")
-	public ResponseEntity<Page<Post>> searchPosts(
+	public ResponseEntity<ApiResponse> searchPosts(
 		@RequestParam(required = false) String filter,
 		@PageableDefault(sort = "time", direction = Direction.DESC) Pageable pageable) {
-		Page<Post> posts = searchService.findAll(filter, pageable);
-		return ResponseEntity.ok(posts);
+		return ResponseEntity.ok(
+			ApiResponse.success(
+			"searchPosts",
+				searchService.findAll(filter, pageable)
+				.stream()
+				.map(postMapper::fromEntity)
+				.collect(Collectors.toList()))
+		);
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<Post>> searchPostsByKeyword(
+	public ResponseEntity<ApiResponse> searchPostsByKeyword(
 		@RequestParam String keyword,
 		@RequestParam(required = false) String filter,
 		@PageableDefault(sort = "time", direction = Direction.DESC) Pageable pageable) {
-		Page<Post> posts = searchService.findByKeyword(keyword, filter, pageable);
-		return ResponseEntity.ok(posts);
+		return ResponseEntity.ok(
+			ApiResponse.success(
+				"searchPostsByKeyword",
+				searchService.findByKeyword(keyword, filter, pageable)
+					.stream()
+					.map(postMapper::fromEntity)
+					.collect(Collectors.toList())
+			)
+		);
 	}
 }

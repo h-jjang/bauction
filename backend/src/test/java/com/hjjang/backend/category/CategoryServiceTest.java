@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -19,12 +20,12 @@ import com.hjjang.backend.domain.category.domain.entity.Category;
 import com.hjjang.backend.domain.category.domain.repository.CategoryRepository;
 import com.hjjang.backend.domain.category.dto.CategoryRequest;
 import com.hjjang.backend.domain.category.exception.CategoryNotFoundException;
-import com.hjjang.backend.domain.category.service.CategoryService;
+import com.hjjang.backend.domain.category.service.CategoryServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 class CategoryServiceTest {
-	@Mock
-	private CategoryService categoryService;
+	@InjectMocks
+	private CategoryServiceImpl categoryService;
 	@Mock
 	private CategoryRepository categoryRepository;
 
@@ -39,6 +40,7 @@ class CategoryServiceTest {
 		givenCategory.setId(1L);
 		when(categoryRepository.getById(any())).thenReturn(givenCategory);
 		when(categoryRepository.save(any())).thenReturn(givenCategory);
+
 	}
 
 	@DisplayName("카테고리 등록 기능")
@@ -60,7 +62,8 @@ class CategoryServiceTest {
 		//given
 		List<Category> givenCategoryList = new ArrayList<>();
 		givenCategoryList.add(givenCategory);
-		when(categoryService.findAll()).thenReturn(givenCategoryList);
+
+		when(categoryRepository.findAll()).thenReturn(givenCategoryList);
 		//when
 		List<Category> categoryList = categoryService.findAll();
 		//then

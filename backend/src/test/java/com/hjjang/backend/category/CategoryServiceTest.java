@@ -52,10 +52,10 @@ class CategoryServiceTest {
 	@Test
 	void 카테고리_등록하기() {
 		//given
-		//when
 		CategoryRequest categoryRequest = CategoryRequest.builder()
 			.name("카테고리")
 			.build();
+		//when
 		Long categoryId = categoryService.createNewCategory(categoryRequest);
 		//then
 		assertAll(() -> assertEquals(givenCategory.getId(), categoryId)
@@ -86,4 +86,16 @@ class CategoryServiceTest {
 		assertThat(category).isEqualTo(categoryRepository.getById(categoryId));
 	}
 
+	@Test
+	@DisplayName("카테고리 수정")
+	void update() {
+		// given
+		CategoryRequest categoryRequest = CategoryRequest.builder()
+			.name("변경된 카테고리")
+			.build();
+		// when
+		Category category = categoryService.updateCategory(givenCategory, categoryRequest);
+		// then
+		assertThat(category.getName()).isEqualTo("변경된 카테고리");
+	}
 }

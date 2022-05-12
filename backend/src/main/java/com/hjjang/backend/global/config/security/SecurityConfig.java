@@ -28,6 +28,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static com.hjjang.backend.domain.user.entity.RoleType.USER;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -39,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
-    @SuppressWarnings("checkstyle:WhitespaceAfter")
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/css/**", "/static/js/**", "*.ico"); // 나중에 수정
@@ -78,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/oauth2/authorization/**", "**/oauth2/code/*").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
 //            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+            .antMatchers("/api/v1/users/**").hasAnyAuthority(USER.getCode())
             .anyRequest().permitAll();
 
         http

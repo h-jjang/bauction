@@ -13,7 +13,7 @@ public class UserRestDocument {
     public static RestDocumentationResultHandler getProfile() {
         return document("v1/users/profile",
                 requestHeaders(
-                        headerWithName("authorization").description("Bearer 토큰")),
+                        headerWithName("Authorization").description("Bearer 토큰")),
                 responseFields(
                         fieldWithPath("status").type(JsonFieldType.NUMBER).description("status code"),
                         fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),

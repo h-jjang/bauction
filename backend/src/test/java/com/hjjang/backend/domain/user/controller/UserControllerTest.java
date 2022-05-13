@@ -3,6 +3,9 @@ package com.hjjang.backend.domain.user.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hjjang.backend.domain.user.controller.docs.UserRestDocument;
 import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.entity.Agreement;
+import com.hjjang.backend.domain.user.entity.RoleType;
+import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
 import com.hjjang.backend.domain.user.repository.UserRepository;
 import com.hjjang.backend.domain.user.service.UserProfileService;
@@ -24,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -54,6 +58,19 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentationContextProvider) {
+
+        User givenUser = User.builder()
+                .email("kevinkim@email.com")
+                .imageUrl("이미지입니다아아아")
+                .isPushAgree(Agreement.AGREE)
+                .mannerTemperature(36L)
+                .nickName("김겨여여연")
+                .providerId("kakao123456")
+                .role(RoleType.USER)
+                .univId(1L)
+                .build();
+        when(userRepository.findUserByProviderId(any())).thenReturn(Optional.of(givenUser));
+
         objectMapper = new ObjectMapper();
 
         mockMvc = MockMvcBuilders
@@ -67,8 +84,8 @@ class UserControllerTest {
 
     @Test
     @WithMockCustomUser
-    @DisplayName("유저 프로필 정보 조회")
-    void get_user_profile_success() throws Exception {
+    @DisplayName("유저 프로필 정보 조회 성공")
+    void getUserProfileSuccess() throws Exception {
         UserProfileDTO userProfileDTO = UserProfileDTO.builder()
                 .userEmail("tester@tukorea.ac.kr")
                 .userImageUrl("이미지 url입니다")
@@ -79,9 +96,43 @@ class UserControllerTest {
         when(userProfileService.getUserProfile(any())).thenReturn(userProfileDTO);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/profile")
-                        .header("authorization", "Bearer USER_TOKEN")
+                        .header("Authorization", "Bearer USER_TOKEN")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(UserRestDocument.getProfile());
+    }
+
+    // 아래 예외 테스트들은 정상적인 테스트가 아니므로 실패되는 게 맞음
+    @Test
+    @DisplayName("유저 프로필 정보 조회 토큰이 없어서 인증 실패 401 에러")
+    void getUserProfileNoToken() throws Exception {
+
+        when(userProfileService.getUserProfile(any())).thenThrow(new IllegalArgumentException("유효하지 않은 토큰입니다."));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/profile")
+                        .header("Authorization", "Bearer USER_TOKEN")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andDo(print())
+                .andDo(UserRestDocument.getProfile());
+    }
+    @Test
+    @DisplayName("유저 프로필 정보 조회 유효하지 않은 권한 403 에러")
+    void getUserProfileNoAuthorization() throws Exception {
+        UserProfileDTO userProfileDTO = UserProfileDTO.builder()
+                .userEmail("tester@tukorea.ac.kr")
+                .userImageUrl("이미지 url입니다")
+                .userNickname("내 닉네임은 테스타")
+                .userMannerTemperature(36L)
+                .userUnivName("한국공학대")
+                .build();
+        when(userProfileService.getUserProfile(any())).thenReturn(userProfileDTO);
+
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/profile")
+                        .header("Authorization", "Bearer USER_TOKEN")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
                 .andDo(print())
                 .andDo(UserRestDocument.getProfile());
     }

@@ -3,23 +3,16 @@ package com.hjjang.backend.domain.user.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hjjang.backend.domain.user.controller.docs.UserRestDocument;
 import com.hjjang.backend.domain.user.dto.UserProfileDTO;
-import com.hjjang.backend.domain.user.entity.Agreement;
-import com.hjjang.backend.domain.user.entity.RoleType;
-import com.hjjang.backend.domain.user.entity.User;
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.domain.user.repository.UserRepository;
 import com.hjjang.backend.domain.user.service.UserProfileService;
+import com.hjjang.backend.global.security.CustomSecurityExtension;
 import com.hjjang.backend.global.security.WithMockCustomUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,7 +20,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -36,18 +28,9 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ComponentScan(basePackages = "com.hjjang.backend.global.config.security")
-@ComponentScan(basePackages = "com.hjjang.backend.global.security")
-@ExtendWith(RestDocumentationExtension.class)
+
 @WebMvcTest(controllers = UserController.class)
-class UserControllerTest {
-
-    @MockBean
-    protected UserRepository userRepository;
-
-    @MockBean
-    protected UserRefreshTokenRepository userRefreshTokenRepository;
-
+class UserControllerTest extends CustomSecurityExtension {
 
     @MockBean
     private UserProfileService userProfileService;
@@ -57,20 +40,10 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentationContextProvider) {
-
-        User givenUser = User.builder()
-                .email("kevinkim@email.com")
-                .imageUrl("이미지입니다아아아")
-                .isPushAgree(Agreement.AGREE)
-                .mannerTemperature(36L)
-                .nickName("김겨여여연")
-                .providerId("kakao123456")
-                .role(RoleType.USER)
-                .univId(1L)
-                .build();
-        when(userRepository.findUserByProviderId(any())).thenReturn(Optional.of(givenUser));
-
+    void setUp(WebApplicationContext webApplicationContext,
+               RestDocumentationContextProvider restDocumentationContextProvider) {
+        //security 관련 user repository mock
+        super.userInfoSetUp();
         objectMapper = new ObjectMapper();
 
         mockMvc = MockMvcBuilders
@@ -117,6 +90,7 @@ class UserControllerTest {
                 .andDo(print())
                 .andDo(UserRestDocument.getProfile());
     }
+
     @Test
     @DisplayName("유저 프로필 정보 조회 유효하지 않은 권한 403 에러")
     void getUserProfileNoAuthorization() throws Exception {

@@ -43,6 +43,7 @@ class UserProfileServiceTest {
                 .providerId("123412512")
                 .role(RoleType.USER)
                 .univId(null)
+                .isEmailVerification(true)
                 .build();
 
         UserProfileDTO exceptUserProfileDTO = UserProfileDTO.builder()

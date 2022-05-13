@@ -26,6 +26,7 @@ public class CustomSecurityExtension {
     @MockBean
     protected UserRefreshTokenRepository userRefreshTokenRepository;
 
+    // 인증된 user setup
     public void userInfoSetUp() {
         User givenUser = User.builder()
                 .email("kevinkim@email.com")
@@ -36,9 +37,11 @@ public class CustomSecurityExtension {
                 .providerId("kakao123456")
                 .role(RoleType.USER)
                 .univId(1L)
+                .isEmailVerification(true)
                 .build();
         when(userRepository.findUserByProviderId(any())).thenReturn(Optional.of(givenUser));
     }
 
+    // todo 인증되지 않은 user setup
 
 }

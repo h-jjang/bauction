@@ -50,9 +50,12 @@ public class User extends BaseTimeEntity {
     @Enumerated(STRING)
     private RoleType role;
 
+    @Column(name = "is_email_verification", length = 20)
+    private boolean isEmailVerification;
+
     @Builder
     public User(String providerId, String nickName, String email, Long mannerTemperature,
-                String imageUrl, Agreement isPushAgree, Long univId, RoleType role) {
+                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, boolean isEmailVerification) {
         this.providerId = providerId;
         this.nickName = nickName;
         this.email = email;
@@ -61,5 +64,6 @@ public class User extends BaseTimeEntity {
         this.isPushAgree = isPushAgree;
         this.univId = univId;
         this.role = role;
+        this.isEmailVerification = isEmailVerification;
     }
 }

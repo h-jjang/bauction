@@ -34,6 +34,7 @@ class UserRepositoryTest {
                 .providerId("123412512")
                 .role(RoleType.USER)
                 .univId(null)
+                .isEmailVerification(false)
                 .build();
 
         newUser = userRepository.save(givenUser);

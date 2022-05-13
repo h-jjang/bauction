@@ -1,4 +1,4 @@
-package com.hjjang.backend.security;
+package com.hjjang.backend.global.security;
 
 import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;

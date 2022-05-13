@@ -9,7 +9,7 @@ import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
 import com.hjjang.backend.domain.user.repository.UserRepository;
 import com.hjjang.backend.domain.user.service.UserProfileService;
-import com.hjjang.backend.security.WithMockCustomUser;
+import com.hjjang.backend.global.security.WithMockCustomUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

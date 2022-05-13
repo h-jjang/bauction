@@ -1,9 +1,7 @@
 package com.hjjang.backend.domain.post.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hjjang.backend.domain.post.domain.entity.Post;
-import com.hjjang.backend.domain.post.domain.entity.PostDefaultValue;
 import com.hjjang.backend.domain.post.dto.PostMapper;
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
 import com.hjjang.backend.domain.post.dto.PostResponseDto;
@@ -11,26 +9,16 @@ import com.hjjang.backend.domain.post.service.PostServiceImpl;
 import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.handler.TokenAccessDeniedHandler;
-import com.hjjang.backend.global.config.security.service.CustomOAuth2UserService;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
 import com.hjjang.backend.global.util.UserUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -43,7 +31,8 @@ import java.util.Map;
 
 import static com.hjjang.backend.domain.post.domain.entity.PostDefaultValue.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = PostController.class)
@@ -121,8 +110,8 @@ class PostControllerTest {
                 .itemPrice(givenItemPrice)
                 .build();
 
-        User expectSavedUser = new User(givenId, providerId, nickName, email,
-                mannerTemperature, imagePath, LocalDateTime.now(), pushAgree, univId, role);
+//        User expectSavedUser = new User(givenId, providerId, nickName, email,
+//                mannerTemperature, imagePath, LocalDateTime.now(), pushAgree, univId, role);
 
         Post expectSavedPost = new Post(givenId, givenUser, givenTitle, givenContent, givenItemPrice,
                 DEFAULT_VIEWS, DEFAULT_INTEREST_NUMBER, DEFAULT_CHAT_NUMBER,
@@ -168,7 +157,6 @@ class PostControllerTest {
                 .thenReturn(expectUpdatedPost);
         doNothing().when(postService).deleteOneById(anyLong());
 
-        when(userUtil.getLoginUserByToken()).thenReturn(expectSavedUser);
     }
 
     @Test

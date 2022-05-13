@@ -15,7 +15,6 @@ public class UserRestDocument {
                 requestHeaders(
                         headerWithName("Authorization").description("Bearer 토큰")),
                 responseFields(
-                        fieldWithPath("status").type(JsonFieldType.NUMBER).description("status code"),
                         fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
                         fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
                         fieldWithPath("data.userNickname").type(JsonFieldType.STRING).description("user 닉네임"),

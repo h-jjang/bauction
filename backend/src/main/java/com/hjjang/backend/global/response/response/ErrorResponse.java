@@ -20,14 +20,12 @@ public class ErrorResponse {
 
     private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
         this.message = code.getMessage();
-        this.status = code.getHttpStatus();
         this.errors = errors;
         this.code = code.getCode();
     }
 
     private ErrorResponse(final ErrorCode code) {
         this.message = code.getMessage();
-        this.status = code.getHttpStatus();
         this.code = code.getCode();
         this.errors = new ArrayList<>();
     }

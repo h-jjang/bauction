@@ -1,23 +1,19 @@
 package com.hjjang.backend.domain.user.service;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.stereotype.Service;
-
 import com.hjjang.backend.domain.user.dto.UserProfileDTO;
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRepository;
-import com.hjjang.backend.global.util.UserUtil;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
 public class UserProfileService {
     private final UserRepository userRepository;
 
-    public UserProfileDTO getUserProfile() {
-        String userId = UserUtil.getLoginUserIdByToken();
+    public UserProfileDTO getUserProfile(String userId) {
 
         //todo add exception
         User user = userRepository.findUserByProviderId(userId).orElseThrow(EntityNotFoundException::new);

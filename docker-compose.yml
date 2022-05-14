@@ -23,7 +23,7 @@ services:
   backend:
     container_name: bauction-backend
     build: ./backend
-    restart: on-failure
+#    restart: on-failure
     depends_on:
       - mysqldb
     ports:

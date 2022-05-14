@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.user.controller.docs;
 
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -12,6 +13,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 public class UserRestDocument {
     public static RestDocumentationResultHandler getProfile() {
         return document("v1/users/profile",
+                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                 requestHeaders(
                         headerWithName("Authorization").description("Bearer 토큰")),
                 responseFields(

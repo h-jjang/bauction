@@ -40,13 +40,7 @@ endif::[]
 | 401
 | `권한 없음`
 |===
-
-|===
-
-|===
 == User API
-include::{snippets}/v1/users/profile/request-headers.adoc[]
-include::{snippets}/v1/users/profile/http-request.adoc[]
-include::{snippets}/v1/users/profile/response-body.adoc[]
-
-
+operation::v1/users/profile[snippets='http-request,request-fields,http-response,response-fields']
+|===
+|===

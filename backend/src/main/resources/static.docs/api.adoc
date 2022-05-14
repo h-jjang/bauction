@@ -1,0 +1,52 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:docinfo: shared-head
+
+= REST API Document
+
+[[introduction]]
+== Introduction
+
+✨BAuction (Book + Auction)✨
+
+중고책 실시간 경매 서비스
+
+[[common]]
+== Common
+
+=== Domain
+
+|===
+| 환경 | Domain
+| 로컬 서버
+| `http://localhost:3000`
+|===
+
+=== Exception
+
+|===
+| 상태 코드 | 설명
+
+| 400
+| `잘못된 데이터`
+
+| 401
+| `권한 없음`
+|===
+
+|===
+
+|===
+== User API
+include::{snippets}/v1/users/profile/request-headers.adoc[]
+include::{snippets}/v1/users/profile/http-request.adoc[]
+include::{snippets}/v1/users/profile/response-body.adoc[]
+
+

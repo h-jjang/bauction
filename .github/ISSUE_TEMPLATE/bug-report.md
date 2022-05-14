@@ -2,7 +2,7 @@
 name: Bug Report
 about: Bug Report 설명
 title: "[BUG]"
-labels: "ug"
+labels: "bug"
 assignees: ''
 
 ---

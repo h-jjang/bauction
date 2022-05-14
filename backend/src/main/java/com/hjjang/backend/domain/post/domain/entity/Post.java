@@ -1,53 +1,79 @@
 package com.hjjang.backend.domain.post.domain.entity;
 
+import com.hjjang.backend.domain.post.dto.PostRequestDto;
+import com.hjjang.backend.domain.user.entity.User;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
+import static com.hjjang.backend.domain.post.domain.entity.PostDefaultValue.*;
 
 @Getter
-@Builder
+//@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
-@Table(schema = "post")
+//@DynamicInsert
+@Table(name = "post")
 @Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "image_id")
-//    private Image image;
-
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "content", nullable = false)
     private String content;
 
-    private Integer item_price;
+    @Column(name = "item_price", nullable = false)
+    private int itemPrice;
 
-    @ColumnDefault("0")
-    private Integer views = 0;
+//    @ColumnDefault("0")
+    @Column(name = "views", nullable = false)
+    private int views = DEFAULT_VIEWS;
 
-    @ColumnDefault("0")
-    private Integer interest_number = 0;
+//    @ColumnDefault("0")
+    @Column(name = "interest_number", nullable = false)
+    private int interestNumber = DEFAULT_INTEREST_NUMBER;
 
-    @ColumnDefault("0")
-    private Integer chat_number = 0;
+//    @ColumnDefault("0")
+    @Column(name = "chat_number", nullable = false)
+    private int chatNumber = DEFAULT_CHAT_NUMBER;
 
-    @ColumnDefault("'false'")
-    private String is_sale_completion = "false";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "is_sale_completion", nullable = false)
+    private PostState isSaleCompletion = DEFAULT_IS_SALE_COMPLETION;
 
-    @ColumnDefault("false")
-    private boolean removed = false;
+//    @ColumnDefault("false")
+    @Column(name = "removed", nullable = false)
+    private boolean removed = DEFAULT_REMOVED;
+
+    @CreationTimestamp
+    private LocalDateTime time;
+
+    @Builder
+    public Post(User user, String title, String content, int itemPrice) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.itemPrice = itemPrice;
+    }
 
     public void removePost() {
         this.removed = true;
+    }
+
+    public Post update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+        this.itemPrice = postRequestDto.getPrice();
+        return this;
     }
 }

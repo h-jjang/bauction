@@ -1,0 +1,39 @@
+spring:
+  # oauth 설정
+  security:
+    oauth2.client:
+      registration:
+        kakao:
+          clientId:
+          clientSecret:
+          clientAuthenticationMethod:
+          authorizationGrantType:
+          redirectUri:
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName:
+      provider:
+        kakao:
+          authorizationUri:
+          tokenUri:
+          userInfoUri:
+          userNameAttribute:
+
+auth-properties:
+  token-properties:
+    token-secret-key:
+    token-expire-date:
+    refresh-token-expiry:
+  jwt-properties:
+    secret-key:
+  cors-properties:
+    allowed-origins:
+    allowed-methods:
+    allowed-headers:
+    max-age:
+  oAuth2Properties:
+    redirectUris:
+      -
+      -

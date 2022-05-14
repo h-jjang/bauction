@@ -62,3 +62,7 @@ hs_err_pid*
 
 /src/main/resources/application-aws.yml
 /src/main/resources/application-credentials.yml
+/src/main/resources/application-auth.yml
+/src/main/resources/application-db.yml
+/src/main/resources/application-email.yml
+/src/test/resources/application.yml

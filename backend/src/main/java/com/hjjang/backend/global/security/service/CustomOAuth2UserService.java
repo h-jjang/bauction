@@ -62,6 +62,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             .mannerTemperature((long)36.5)
             .imageUrl(userInfo.getImageUrl())
             .role(RoleType.USER)
+            .isEmailVerification(false)
+            .isBlocked(false)
             .build();
         return userRepository.saveAndFlush(user);
     }

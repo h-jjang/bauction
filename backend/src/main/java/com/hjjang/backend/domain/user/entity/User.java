@@ -51,11 +51,15 @@ public class User extends BaseTimeEntity {
     private RoleType role;
 
     @Column(name = "is_email_verification", length = 20)
-    private boolean isEmailVerification;
+    private Boolean isEmailVerification;
+
+    @Column(name = "is_blocked", length = 20)
+    private Boolean isBlocked;
 
     @Builder
     public User(String providerId, String nickName, String email, Long mannerTemperature,
-                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, boolean isEmailVerification) {
+                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, Boolean isEmailVerification,
+                Boolean isBlocked) {
         this.providerId = providerId;
         this.nickName = nickName;
         this.email = email;
@@ -65,5 +69,6 @@ public class User extends BaseTimeEntity {
         this.univId = univId;
         this.role = role;
         this.isEmailVerification = isEmailVerification;
+        this.isBlocked = isBlocked;
     }
 }

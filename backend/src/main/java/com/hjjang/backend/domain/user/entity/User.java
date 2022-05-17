@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "manner_temperature", nullable = false)
     private Long mannerTemperature;
 
-    @Column(name = "image_url", nullable = true, length = 50)
+    @Column(name = "image_url", length = 50)
     private String imageUrl;
 
     @Enumerated(STRING)
@@ -50,10 +50,10 @@ public class User extends BaseTimeEntity {
     @Enumerated(STRING)
     private RoleType role;
 
-    @Column(name = "is_email_verification", length = 20)
+    @Column(name = "is_email_verification")
     private Boolean isEmailVerification;
 
-    @Column(name = "is_blocked", length = 20)
+    @Column(name = "is_blocked")
     private Boolean isBlocked;
 
     @Builder

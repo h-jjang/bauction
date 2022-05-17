@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "manner_temperature", nullable = false)
     private Long mannerTemperature;
 
-    @Column(name = "image_url", nullable = true, length = 50)
+    @Column(name = "image_url", length = 50)
     private String imageUrl;
 
     @Enumerated(STRING)
@@ -50,12 +50,16 @@ public class User extends BaseTimeEntity {
     @Enumerated(STRING)
     private RoleType role;
 
-    @Column(name = "is_email_verification", length = 20)
-    private boolean isEmailVerification;
+    @Column(name = "is_email_verification")
+    private Boolean isEmailVerification;
+
+    @Column(name = "is_blocked")
+    private Boolean isBlocked;
 
     @Builder
     public User(String providerId, String nickName, String email, Long mannerTemperature,
-                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, boolean isEmailVerification) {
+                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, Boolean isEmailVerification,
+                Boolean isBlocked) {
         this.providerId = providerId;
         this.nickName = nickName;
         this.email = email;
@@ -65,5 +69,6 @@ public class User extends BaseTimeEntity {
         this.univId = univId;
         this.role = role;
         this.isEmailVerification = isEmailVerification;
+        this.isBlocked = isBlocked;
     }
 }

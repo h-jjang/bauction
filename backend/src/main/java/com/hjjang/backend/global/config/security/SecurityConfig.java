@@ -1,7 +1,16 @@
 package com.hjjang.backend.global.config.security;
 
-import java.util.Arrays;
-
+import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.exception.RestAuthenticationEntryPoint;
+import com.hjjang.backend.global.security.filter.TokenAuthenticationFilter;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationFailureHandler;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationSuccessHandler;
+import com.hjjang.backend.global.security.handler.TokenAccessDeniedHandler;
+import com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.hjjang.backend.global.security.service.CustomOAuth2UserService;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,18 +26,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.properties.AuthProperties;
-import com.hjjang.backend.global.config.security.exception.RestAuthenticationEntryPoint;
-import com.hjjang.backend.global.config.security.filter.TokenAuthenticationFilter;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationFailureHandler;
-import com.hjjang.backend.global.config.security.handler.OAuth2AuthenticationSuccessHandler;
-import com.hjjang.backend.global.config.security.handler.TokenAccessDeniedHandler;
-import com.hjjang.backend.global.config.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.hjjang.backend.global.config.security.service.CustomOAuth2UserService;
-import com.hjjang.backend.global.config.security.token.AuthTokenProvider;
+import java.util.Arrays;
 
-import lombok.RequiredArgsConstructor;
+import static com.hjjang.backend.domain.user.entity.RoleType.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // swagger
         web.ignoring().antMatchers(
             "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+            "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/h2-console/**");
 
     }
 
@@ -75,10 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .accessDeniedHandler(tokenAccessDeniedHandler) // 로그인 거부 예외
             .and()
             .authorizeRequests()
-            .antMatchers("/login", "/accounts", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/login", "/accounts", "/swagger-resources/**", "/swagger-ui/**", "/h2-console/**").permitAll()
             .antMatchers("/oauth2/authorization/**", "**/oauth2/code/*").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
 //            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+            .antMatchers("/api/v1/users/**").hasAnyAuthority(USER.getCode())
             .anyRequest().permitAll();
 
         http
@@ -128,7 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+        return super.authenticationManagerBean();
     }
 
     /*

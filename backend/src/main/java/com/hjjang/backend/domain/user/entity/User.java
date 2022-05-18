@@ -1,15 +1,12 @@
 package com.hjjang.backend.domain.user.entity;
 
+import com.hjjang.backend.global.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -17,11 +14,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "user")
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,12 +36,8 @@ public class User {
     @Column(name = "manner_temperature", nullable = false)
     private Long mannerTemperature;
 
-    @Column(name = "image_url", nullable = true, length = 50)
+    @Column(name = "image_url", length = 50)
     private String imageUrl;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 
     @Enumerated(STRING)
     @Column(name = "is_push_agree", nullable = false, length = 10)
@@ -54,12 +46,20 @@ public class User {
     @Column(name = "univ_id")
     private Long univId;
 
-    @Column(name = "role",length = 20)
+    @Column(name = "role", length = 20)
     @Enumerated(STRING)
     private RoleType role;
 
+    @Column(name = "is_email_verification")
+    private Boolean isEmailVerification;
+
+    @Column(name = "is_blocked")
+    private Boolean isBlocked;
+
     @Builder
-    public User(String providerId, String nickName, String email, Long mannerTemperature, String imageUrl, Agreement isPushAgree, Long univId, RoleType role) {
+    public User(String providerId, String nickName, String email, Long mannerTemperature,
+                String imageUrl, Agreement isPushAgree, Long univId, RoleType role, Boolean isEmailVerification,
+                Boolean isBlocked) {
         this.providerId = providerId;
         this.nickName = nickName;
         this.email = email;
@@ -68,5 +68,7 @@ public class User {
         this.isPushAgree = isPushAgree;
         this.univId = univId;
         this.role = role;
+        this.isEmailVerification = isEmailVerification;
+        this.isBlocked = isBlocked;
     }
 }

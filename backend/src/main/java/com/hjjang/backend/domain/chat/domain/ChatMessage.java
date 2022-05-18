@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.chat.domain;
 
 import com.hjjang.backend.domain.user.entity.User;
+import com.hjjang.backend.global.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,18 +16,26 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-public class ChatMessage {
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "chat_message")
+public class ChatMessage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "sender_user_id")
     private User senderUser;
 
-    @OneToOne(fetch = LAZY)
-    private User receiverUser;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
 
-    private Long lastRead;
+    // chatting 할 때 이미지 메세지, 이모티콘, 이미지를 구별할 수 있는 dtype
+    // 없어도 되지만 명시적으로 선언
+    @Column(updatable = false)
+    private String dtype;
 
 }

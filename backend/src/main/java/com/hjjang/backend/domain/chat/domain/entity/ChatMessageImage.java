@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.chat.domain;
+package com.hjjang.backend.domain.chat.domain.entity;
 
 import com.hjjang.backend.domain.image.domain.entity.Image;
 import lombok.AccessLevel;

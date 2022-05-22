@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.chat.domain;
+package com.hjjang.backend.domain.chat.domain.entity;
 
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.global.domain.BaseTimeEntity;

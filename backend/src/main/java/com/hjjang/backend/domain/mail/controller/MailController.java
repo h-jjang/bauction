@@ -1,8 +1,8 @@
-package com.hjjang.backend.domain.email.controller;
+package com.hjjang.backend.domain.mail.controller;
 
-import com.hjjang.backend.domain.email.dto.MailRequest;
-import com.hjjang.backend.domain.email.dto.MailResponse;
-import com.hjjang.backend.domain.email.service.MailService;
+import com.hjjang.backend.domain.mail.dto.MailRequest;
+import com.hjjang.backend.domain.mail.dto.MailResponse;
+import com.hjjang.backend.domain.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ public class MailController {
 
 	@PostMapping("/auth")
 	public ResponseEntity<MailResponse> send(@RequestBody MailRequest mailRequest) {
-		String email = mailRequest.getEmail();
+		String email = mailRequest.getMail();
 		MailResponse mailResponse = mailService.sendMail(email);
 		return ResponseEntity.ok().body(mailResponse);
 	}

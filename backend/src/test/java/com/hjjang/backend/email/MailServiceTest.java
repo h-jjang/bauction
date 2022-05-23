@@ -3,10 +3,10 @@ package com.hjjang.backend.email;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.hjjang.backend.domain.email.dto.Email;
-import com.hjjang.backend.domain.email.dto.MailRequest;
-import com.hjjang.backend.domain.email.exception.MailException;
-import com.hjjang.backend.domain.email.service.MailService;
+import com.hjjang.backend.domain.mail.dto.Mail;
+import com.hjjang.backend.domain.mail.dto.MailRequest;
+import com.hjjang.backend.domain.mail.exception.MailException;
+import com.hjjang.backend.domain.mail.service.MailService;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ class MailServiceTest {
 		//given
 		String emailAddress = "32174294@dankook.ac.kr";
 		String code = "123456";
-		Email email = new Email(code, emailAddress, "dankook", false);
+		Mail email = new Mail(code, emailAddress, "dankook", false);
 		//when
 		MailRequest mailRequest = new MailRequest(emailAddress, code);
 		MailException.checkRequest(mailRequest, email);
@@ -88,7 +88,7 @@ class MailServiceTest {
 		trueEmails.add("dr0joon@gs.anyang.ac.kr");
 		//when
 		//then
-		trueEmails.forEach(MailException::checkEmailPossible);
+		trueEmails.forEach(MailException::checkPossibleMail);
 	}
 
 	private JavaMailSenderImpl mailSender() {
@@ -102,6 +102,6 @@ class MailServiceTest {
 	private static void isException(String email) {
 		//then, when
 		assertThrows(RuntimeException.class, () ->
-			MailException.checkEmailPossible(email));
+			MailException.checkPossibleMail(email));
 	}
 }

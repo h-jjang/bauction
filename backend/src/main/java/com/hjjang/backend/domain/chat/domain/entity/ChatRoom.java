@@ -39,4 +39,7 @@ public class ChatRoom extends BaseTimeEntity {
         this.isHidden = false;
     }
 
+    public void hideChatRoom() {
+        this.isHidden = true;
+    }
 }

@@ -5,7 +5,10 @@ import com.hjjang.backend.domain.chat.domain.entity.ChatRoomUser;
 import com.hjjang.backend.domain.chat.domain.repository.ChatRoomRepository;
 import com.hjjang.backend.domain.chat.domain.repository.ChatRoomUserRepository;
 import com.hjjang.backend.domain.chat.dto.CreateTradeChatRoomResponse;
+import com.hjjang.backend.domain.chat.dto.HideTradeChatRoomResponse;
 import com.hjjang.backend.domain.chat.exception.CannotCreateChatRoomBySelfException;
+import com.hjjang.backend.domain.chat.exception.IsAlreadyHiddenChatRoomException;
+import com.hjjang.backend.domain.chat.exception.NotFoundChatRoomEntityException;
 import com.hjjang.backend.domain.chat.exception.NotFoundSellerEntityException;
 import com.hjjang.backend.domain.user.dto.UserProfileDTO;
 import com.hjjang.backend.domain.user.entity.User;
@@ -77,8 +80,15 @@ public class ChatRoomService {
 
 
     // 채팅방 삭제 기능 / 숨기기
-    public void hideChatRoom() {
-
+    @Transactional
+    public HideTradeChatRoomResponse hideChatRoom(Long chatRoomId) {
+        ChatRoom foundChatRoom = chatRoomRepository.findChatRoomById(chatRoomId)
+                .orElseThrow(NotFoundChatRoomEntityException::new);
+        if (foundChatRoom.getIsHidden()) {
+            throw new IsAlreadyHiddenChatRoomException();
+        }
+        foundChatRoom.hideChatRoom();
+        return new HideTradeChatRoomResponse(chatRoomId, true);
     }
 
     // 채팅방 조회 기능

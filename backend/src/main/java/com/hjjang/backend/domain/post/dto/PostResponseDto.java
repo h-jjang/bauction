@@ -1,6 +1,5 @@
 package com.hjjang.backend.domain.post.dto;
 
-import com.hjjang.backend.domain.post.domain.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ public class PostResponseDto {
 
     private Long id;
 
-    private Long user_id;
+    private Long univ_id;
 
     private String title;
 

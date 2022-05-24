@@ -1,14 +1,31 @@
 package com.hjjang.backend.domain.post.domain.entity;
 
-import com.hjjang.backend.domain.post.dto.PostRequestDto;
-import com.hjjang.backend.domain.user.entity.User;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import static com.hjjang.backend.domain.post.domain.entity.PostDefaultValue.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static com.hjjang.backend.domain.post.domain.entity.PostDefaultValue.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.hjjang.backend.domain.post.dto.PostRequestDto;
+import com.hjjang.backend.domain.university.entity.University;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 //@Builder
@@ -22,9 +39,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    // @ManyToOne
+    // @JoinColumn(name = "user_id")
+    // private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "univ_id")
+    private University university;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -59,8 +80,8 @@ public class Post {
     private LocalDateTime time;
 
     @Builder
-    public Post(User user, String title, String content, int itemPrice) {
-        this.user = user;
+    public Post(University university, String title, String content, int itemPrice) {
+        this.university = university;
         this.title = title;
         this.content = content;
         this.itemPrice = itemPrice;

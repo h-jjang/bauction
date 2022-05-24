@@ -1,15 +1,16 @@
 package com.hjjang.backend.domain.post.dto;
 
-import com.hjjang.backend.domain.post.domain.entity.Post;
-import com.hjjang.backend.domain.user.entity.User;
 import org.springframework.stereotype.Service;
+
+import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.university.entity.University;
 
 @Service
 public class PostMapper {
 
-    public Post toEntity(PostRequestDto postRequestDto, User user) {
+    public Post toEntity(PostRequestDto postRequestDto, University university) {
         return Post.builder()
-                .user(user)
+                .university(university)
                 .title(postRequestDto.getTitle())
                 .content(postRequestDto.getContent())
                 .itemPrice(postRequestDto.getPrice())
@@ -19,7 +20,7 @@ public class PostMapper {
     public PostResponseDto fromEntity(Post post) {
         return PostResponseDto.builder()
                 .id(post.getId())
-                .user_id(post.getUser().getId())
+                .univ_id(post.getUniversity().getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .item_price(post.getItemPrice())

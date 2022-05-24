@@ -1,18 +1,22 @@
 package com.hjjang.backend.domain.search.service;
 
-import com.hjjang.backend.domain.post.domain.entity.Post;
-import com.hjjang.backend.domain.search.repository.SearchRepository;
-import com.hjjang.backend.domain.user.entity.User;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.search.repository.SearchRepository;
+import com.hjjang.backend.domain.university.entity.University;
+import com.hjjang.backend.domain.user.entity.User;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +27,7 @@ public class SearchServiceImpl implements SearchService {
 	public Page<Post> findAll(String filter, Pageable pageable, User user) {
 		// TODO::이메일 인증된 유저로 대체
 		if (true) {
-			return searchByFilterInUniversity(filter, pageable, user.getUnivId());
+			return searchByFilterInUniversity(filter, pageable, user.getUniversity());
 		}
 		return searchByFilter(filter, pageable);
 	}
@@ -31,7 +35,7 @@ public class SearchServiceImpl implements SearchService {
 	public Page<Post> findByKeyword(String keyword, String filter, Pageable pageable, User user) {
 		// TODO::이메일 인증된 유저로 대체
 		if (true) {
-			return searchByFilterAndKeywordInUniversity(keyword, filter, user.getUnivId(), pageable);
+			return searchByFilterAndKeywordInUniversity(keyword, filter, user.getUniversity(), pageable);
 		}
 		return searchByFilterAndKeyword(keyword, filter, pageable);
 	}
@@ -51,35 +55,35 @@ public class SearchServiceImpl implements SearchService {
 		posts.addAll(searchRepository.findByTitleContaining(word, pageable));
 	}
 
-	private Page<Post> searchByFilterAndKeywordInUniversity(String keyword, String filter, Long univId, Pageable pageable) {
+	private Page<Post> searchByFilterAndKeywordInUniversity(String keyword, String filter, University university, Pageable pageable) {
 		List<String> keywords = parseKeyword(keyword);
 		List<Post> posts = new ArrayList<>();
 		keywords.forEach(word ->
 			getPostsInUniversity(
-				univId,
+				university,
 				searchRepository.findByTitleContaining(word, pageable),
 				posts)
 		);
 		if (filter == null) {
 			return getPostPage(pageable, sortAndDistinctPosts(posts));
 		}
-		posts.retainAll(searchRepository.findByIsSaleCompletionAndUnivId(filter, univId, pageable));
+		posts.retainAll(searchRepository.findByIsSaleCompletionAndUniversity(filter, university, pageable));
 		return getPostPage(pageable, sortAndDistinctPosts(posts));
 	}
 
-	private void getPostsInUniversity(Long univId, List<Post> searchedPosts, List<Post> searchedPostsInUniv) {
+	private void getPostsInUniversity(University university, List<Post> searchedPosts, List<Post> searchedPostsInUniv) {
 		searchedPosts.forEach(post -> {
-			if (Objects.equals(post.getUnivId(), univId)) {
+			if (Objects.equals(post.getUniversity().getId(), university)) {
 				searchedPostsInUniv.add(post);
 			}
 		});
 	}
 
-	private Page<Post> searchByFilterInUniversity(String filter, Pageable pageable, Long univId) {
+	private Page<Post> searchByFilterInUniversity(String filter, Pageable pageable, University university) {
 		if (filter == null) {
-			return searchRepository.findByUnivId(univId, pageable);
+			return searchRepository.findByUniversity(university, pageable);
 		}
-		return searchRepository.findAllByIsSaleCompletionAndUnivId(filter, univId, pageable);
+		return searchRepository.findAllByIsSaleCompletionAndUniversity(filter, university, pageable);
 	}
 
 	private Page<Post> searchByFilter(String filter, Pageable pageable) {

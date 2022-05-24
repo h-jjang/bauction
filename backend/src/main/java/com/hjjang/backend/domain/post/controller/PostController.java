@@ -1,20 +1,28 @@
 package com.hjjang.backend.domain.post.controller;
 
-import com.hjjang.backend.domain.post.dto.PostMapper;
-import com.hjjang.backend.domain.post.dto.PostRequestDto;
-import com.hjjang.backend.domain.post.dto.PostResponseDto;
-import com.hjjang.backend.domain.post.service.PostServiceImpl;
-import com.hjjang.backend.global.dto.ApiResponse;
-import com.hjjang.backend.global.util.UserUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
 
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.ResponseEntity.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hjjang.backend.domain.post.dto.PostMapper;
+import com.hjjang.backend.domain.post.dto.PostRequestDto;
+import com.hjjang.backend.domain.post.service.PostServiceImpl;
+import com.hjjang.backend.global.dto.ApiResponse;
+import com.hjjang.backend.global.util.UserUtil;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
@@ -33,7 +41,7 @@ public class PostController {
                                 postMapper.fromEntity(
                                         postService.save(
                                                 postMapper.toEntity(
-                                                        postRequestDto, userUtil.getLoginUserByToken()
+                                                        postRequestDto, userUtil.getLoginUserByToken().getUniversity()
                                                 )
                                         )
                                 )

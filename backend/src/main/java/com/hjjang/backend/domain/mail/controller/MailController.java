@@ -1,8 +1,12 @@
 package com.hjjang.backend.domain.mail.controller;
 
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
+
 import com.hjjang.backend.domain.mail.dto.MailRequest;
 import com.hjjang.backend.domain.mail.dto.MailResponse;
 import com.hjjang.backend.domain.mail.service.MailService;
+import com.hjjang.backend.global.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +22,16 @@ public class MailController {
 	private final MailService mailService;
 
 	@PostMapping("/auth")
-	public ResponseEntity<MailResponse> send(@RequestBody MailRequest mailRequest) {
-		String email = mailRequest.getMail();
-		MailResponse mailResponse = mailService.sendMail(email);
-		return ResponseEntity.ok().body(mailResponse);
+	public ResponseEntity<ApiResponse> send(@RequestBody MailRequest mailRequest) {
+		String mail = mailRequest.getMail();
+		MailResponse mailResponse = mailService.sendMail(mail);
+		return status(CREATED)
+			.body(ApiResponse.success("send", mailResponse));
 	}
 
 	@PostMapping("/check")
-	public ResponseEntity<MailResponse> auth(@RequestBody MailRequest mailRequest) {
+	public ResponseEntity<ApiResponse> auth(@RequestBody MailRequest mailRequest) {
 		MailResponse mailResponse = mailService.checkCode(mailRequest);
-		return ResponseEntity.ok().body(mailResponse);
+		return ok(ApiResponse.success("auth", mailResponse));
 	}
 }

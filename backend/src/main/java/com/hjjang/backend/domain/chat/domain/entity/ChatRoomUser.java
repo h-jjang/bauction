@@ -1,10 +1,7 @@
 package com.hjjang.backend.domain.chat.domain.entity;
 
 import com.hjjang.backend.domain.user.entity.User;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -29,4 +26,9 @@ public class ChatRoomUser {
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
+    @Builder
+    public ChatRoomUser(User user, ChatRoom chatRoom) {
+        this.user = user;
+        this.chatRoom = chatRoom;
+    }
 }

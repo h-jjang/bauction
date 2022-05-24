@@ -14,8 +14,12 @@ public enum ErrorCode {
 
     //User
     MEMBER_NOT_FOUND("U001", "존재 하지 않는 사용자"),
-    NO_AUTHORITY("U002", "권한이 없음"),;
+    NO_AUTHORITY("U002", "권한이 없음"),
 
+    // chatRoom
+    SELLER_NOT_FOUND("CR001", "존재 하지 않는 판매자"),
+    BUYER_NOT_FOUND("CR002", "존재 하지 않는 구매자"),
+    CANNOT_CHAT_BY_SELF("CR003", "자기 자신과는 채팅을 할 수 없다."),;
 
     private final String code;
     private final String message;

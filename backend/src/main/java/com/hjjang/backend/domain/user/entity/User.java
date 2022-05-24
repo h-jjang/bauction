@@ -54,7 +54,7 @@ public class User extends BaseTimeEntity {
     private Agreement isPushAgree;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "univ_id", nullable = true)
+    @JoinColumn(name = "university_id", nullable = true)
     private University university;
 
     @Column(name = "role", length = 20)

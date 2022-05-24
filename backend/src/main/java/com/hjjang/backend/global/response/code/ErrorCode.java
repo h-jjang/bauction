@@ -14,7 +14,13 @@ public enum ErrorCode {
 
     //User
     MEMBER_NOT_FOUND("U001", "존재 하지 않는 사용자"),
-    NO_AUTHORITY("U002", "권한이 없음"),;
+    NO_AUTHORITY("U002", "권한이 없음"),
+
+    //Trade
+    TRADE_NOT_CREATED("T001", "거래기록 생성 실패"),
+    TRADE_NOT_FOUND("T002", "존재 하지 않는 거래기록"),
+
+    ;
 
 
     private final String code;

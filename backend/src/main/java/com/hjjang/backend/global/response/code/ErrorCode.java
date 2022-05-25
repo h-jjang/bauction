@@ -7,6 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    //Mail
+    INVALID_MAIL("M001", "대학교 메일 계정 오류"),
+    INVALID_CODE("M002", "코드 입력 오류"),
+    TIME_LIMIT("M003", "시간 초과"),
+
     //Global
     INTERNAL_SERVER_ERROR("G001", "내부 서버 오류"),
     NOT_ALLOWED_METHOD("G002", "허용 되지 않은 HTTP method"),

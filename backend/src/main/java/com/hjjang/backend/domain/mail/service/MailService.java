@@ -5,8 +5,10 @@ import com.hjjang.backend.domain.mail.domain.MailMessage;
 import com.hjjang.backend.domain.mail.domain.MailRegex;
 import com.hjjang.backend.domain.mail.dto.MailRequest;
 import com.hjjang.backend.domain.mail.dto.MailResponse;
-import com.hjjang.backend.domain.mail.exception.MailException;
+import com.hjjang.backend.domain.mail.exception.InvalidMailException;
+import com.hjjang.backend.domain.mail.exception.UnauthorizedException;
 import java.util.List;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,7 +22,7 @@ public class MailService {
 	private final Mail mail = new Mail();
 
 	public MailResponse sendMail(String mailAddress) {
-		MailException.checkPossibleMail(mailAddress);
+		checkPossibleMail(mailAddress);
 		SimpleMailMessage message = new SimpleMailMessage();
 		setMessage(message, mailAddress);
 		javaMailSender.send(message);
@@ -28,7 +30,7 @@ public class MailService {
 	}
 
 	public MailResponse checkCode(MailRequest mailRequest) {
-		MailException.checkRequest(mailRequest, mail);
+		checkRequest(mailRequest, mail);
 		mail.setIsAuth(true);
 		return new MailResponse(mail);
 	}
@@ -57,5 +59,37 @@ public class MailService {
 		String university = parseUniversity(mailAddress);
 		mail.setUniversity(university);
 		mail.setIsAuth(false);
+	}
+
+	private void checkPossibleMail(String mailAddress) {
+		if (!isUniversityMail(mailAddress)) {
+			throw new InvalidMailException();
+		}
+	}
+
+	private void checkRequest(MailRequest mailRequest, Mail mail) {
+		checkValidCode(mailRequest, mail.getCode());
+		checkValidRequestMail(mailRequest, mail.getAddress());
+	}
+
+	private void checkValidCode(MailRequest mailRequest, String code) {
+		if (!mailRequest.getCode().equals(code)) {
+			throw new UnauthorizedException();
+		}
+	}
+
+	private void checkValidRequestMail(MailRequest mailRequest, String mailAddress) {
+		if (!mailRequest.getMail().equals(mailAddress)) {
+			throw new InvalidMailException();
+		}
+	}
+
+	private boolean isUniversityMail(String mailAddress) {
+		MailRegex university = MailRegex.UNIVERSITY;
+		MailRegex gsUniversity = MailRegex.GS_UNIVERSITY;
+		if (Pattern.matches(university.getRegex(), mailAddress)) {
+			return true;
+		}
+		return Pattern.matches(gsUniversity.getRegex(), mailAddress);
 	}
 }

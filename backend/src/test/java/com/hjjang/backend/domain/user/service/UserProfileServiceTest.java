@@ -1,6 +1,6 @@
 package com.hjjang.backend.domain.user.service;
 
-import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.dto.UserProfileInfo;
 import com.hjjang.backend.domain.user.entity.Agreement;
 import com.hjjang.backend.domain.user.entity.RoleType;
 import com.hjjang.backend.domain.user.entity.User;
@@ -46,7 +46,7 @@ class UserProfileServiceTest {
                 .isEmailVerification(true)
                 .build();
 
-        UserProfileDTO exceptUserProfileDTO = UserProfileDTO.builder()
+        UserProfileInfo exceptUserProfileInfo = UserProfileInfo.builder()
                 .userEmail("tester@tukorea.ac.kr")
                 .userImageUrl("이미지 url")
                 .userMannerTemperature(36L)
@@ -56,15 +56,15 @@ class UserProfileServiceTest {
 
         // when
         when(userRepository.findUserByProviderId(any())).thenReturn(Optional.of(givenUser));
-        UserProfileDTO actualUserProfileDTO = userProfileService.getUserProfile(givenUser.getProviderId());
+        UserProfileInfo actualUserProfileInfo = userProfileService.getUserProfile(givenUser.getProviderId());
 
         // then
         assertAll(
-                () -> assertEquals(exceptUserProfileDTO.getUserEmail(), actualUserProfileDTO.getUserEmail()),
-                () -> assertEquals(exceptUserProfileDTO.getUserNickname(), actualUserProfileDTO.getUserNickname()),
-                () -> assertEquals(exceptUserProfileDTO.getUserImageUrl(), actualUserProfileDTO.getUserImageUrl()),
-                () -> assertEquals(exceptUserProfileDTO.getUserMannerTemperature(), actualUserProfileDTO.getUserMannerTemperature()),
-                () -> assertEquals(exceptUserProfileDTO.getUserUnivName(), actualUserProfileDTO.getUserUnivName())
+                () -> assertEquals(exceptUserProfileInfo.getUserEmail(), actualUserProfileInfo.getUserEmail()),
+                () -> assertEquals(exceptUserProfileInfo.getUserNickname(), actualUserProfileInfo.getUserNickname()),
+                () -> assertEquals(exceptUserProfileInfo.getUserImageUrl(), actualUserProfileInfo.getUserImageUrl()),
+                () -> assertEquals(exceptUserProfileInfo.getUserMannerTemperature(), actualUserProfileInfo.getUserMannerTemperature()),
+                () -> assertEquals(exceptUserProfileInfo.getUserUnivName(), actualUserProfileInfo.getUserUnivName())
         );
 
     }

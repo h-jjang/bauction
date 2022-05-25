@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfileDTO {
+public class UserProfileInfo {
 
     private String userNickname;
     private String userImageUrl;
@@ -19,7 +19,7 @@ public class UserProfileDTO {
     private Long userMannerTemperature;
     private String userUnivName;
 
-    public UserProfileDTO(User user) {
+    public UserProfileInfo(User user) {
         this.userNickname = user.getNickName();
         this.userImageUrl = user.getImageUrl();
         this.userEmail = user.getEmail();

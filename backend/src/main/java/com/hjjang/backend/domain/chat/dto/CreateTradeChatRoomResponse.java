@@ -1,6 +1,6 @@
 package com.hjjang.backend.domain.chat.dto;
 
-import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.dto.UserProfileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +15,6 @@ import java.util.List;
 public class CreateTradeChatRoomResponse {
 
     private Long chatRoomId;
-    private UserProfileDTO createdByUser;
-    private List<UserProfileDTO> joinUsers;
+    private UserProfileInfo createdByUser;
+    private List<UserProfileInfo> joinUsers;
 }

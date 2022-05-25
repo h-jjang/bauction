@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.mail.controller;
 
 import static com.hjjang.backend.global.response.code.SuccessCode.*;
+import static org.springframework.http.HttpStatus.*;
 
 import com.hjjang.backend.domain.mail.dto.MailRequest;
 import com.hjjang.backend.domain.mail.dto.MailResponse;
@@ -20,16 +21,17 @@ public class MailController {
 
 	private final MailService mailService;
 
-	@PostMapping("/auth")
+	@PostMapping("/send")
 	public ResponseEntity<SuccessResponse> send(@RequestBody MailRequest mailRequest) {
 		String mail = mailRequest.getMail();
 		MailResponse mailResponse = mailService.sendMail(mail);
-		return ResponseEntity.ok(SuccessResponse.of(MAIL_SEND_SUCCESS, mailResponse));
+		SuccessResponse response = SuccessResponse.of(MAIL_SEND_SUCCESS, mailResponse);
+		return new ResponseEntity<>(response, CREATED);
 	}
 
 	@PostMapping("/check")
 	public ResponseEntity<SuccessResponse> auth(@RequestBody MailRequest mailRequest) {
 		MailResponse mailResponse = mailService.checkCode(mailRequest);
-		return ResponseEntity.ok(SuccessResponse.of(MAIL_CHECK_SUCCESS, mailResponse));
+		return ResponseEntity.ok(SuccessResponse.of(MAIL_CHECK_SUCCESS));
 	}
 }

@@ -13,7 +13,7 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE("G003", "검증 되지 않은 입력"),
 
     //User
-    MEMBER_NOT_FOUND("U001", "존재 하지 않는 사용자"),
+    USER_NOT_FOUND("U001", "존재 하지 않는 사용자입니다."),
     NO_AUTHORITY("U002", "권한이 없음"),
 
     // chatRoom

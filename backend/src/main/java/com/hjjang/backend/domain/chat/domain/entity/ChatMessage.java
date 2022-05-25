@@ -1,7 +1,7 @@
 package com.hjjang.backend.domain.chat.domain.entity;
 
 import com.hjjang.backend.domain.user.entity.User;
-import com.hjjang.backend.global.domain.BaseTimeEntity;
+import com.hjjang.backend.global.domain.BaseCreatedTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @DiscriminatorColumn
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "chat_message")
-public class ChatMessage extends BaseTimeEntity {
+public class ChatMessage extends BaseCreatedTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -37,5 +37,4 @@ public class ChatMessage extends BaseTimeEntity {
     // 없어도 되지만 명시적으로 선언
     @Column(updatable = false)
     private String dtype;
-
 }

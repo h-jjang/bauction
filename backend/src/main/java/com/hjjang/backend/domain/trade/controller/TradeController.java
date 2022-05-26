@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.trade.controller;
 
+import com.hjjang.backend.domain.trade.domain.entity.TradeState;
 import com.hjjang.backend.domain.trade.dto.TradeMapper;
 import com.hjjang.backend.domain.trade.dto.TradeRequestDto;
 import com.hjjang.backend.domain.trade.exception.TradeNotFoundException;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,6 +75,15 @@ public class TradeController {
         Stream.of(id)
                 .forEach(service::remove);
         return of(TRADE_DELETE_SUCCESS);
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(CREATED)
+    public SuccessResponse changeStateById(@PathVariable Long id, @RequestParam String state) {
+        Stream.of(state)
+                .map(TradeState::valueOf)
+                .forEach(tradeState -> service.changeState(id, tradeState));
+        return of(TRADE_UPDATE_SUCCESS, state);
     }
 
 }

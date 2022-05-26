@@ -22,19 +22,20 @@ public class TradeMapper {
     private final PostServiceImpl postService;
     private final UserRepository userRepository;
 
-    LongFunction<User> findUser = userId -> Stream.of(userId)
-            .map(userRepository::findById) //유저 리포지토리를 여기서 사용해도 될지 모르겠습니다.
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findAny()
-            .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND)); //TODO 유저 관련 예외 생성 필요
-
-    LongFunction<Post> findPost = postId -> Stream.of(postId)
-            .map(postService::findOneById)
-            .findAny()
-            .orElseThrow(PostNotFoundException::new);
-
     public Trade toEntity(TradeRequestDto requestDto) {
+
+        LongFunction<User> findUser = userId -> Stream.of(userId)
+                .map(userRepository::findUserById) //유저 리포지토리를 여기서 사용해도 될지 모르겠습니다.
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny()
+                .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND)); //TODO 유저 관련 예외 생성 필요
+
+        LongFunction<Post> findPost = postId -> Stream.of(postId)
+                .map(postService::findOneById)
+                .findAny()
+                .orElseThrow(PostNotFoundException::new);
+
         return Trade.builder()
                 .post(findPost.apply(requestDto.getPostId()))
                 .buyer(findUser.apply(requestDto.getBuyerId()))
@@ -48,6 +49,7 @@ public class TradeMapper {
                 .postId(entity.getPost().getId())
                 .buyerId(entity.getBuyer().getId())
                 .sellerId(entity.getSeller().getId())
+                .state(entity.getTradeState().getState())
                 .build();
     }
 }

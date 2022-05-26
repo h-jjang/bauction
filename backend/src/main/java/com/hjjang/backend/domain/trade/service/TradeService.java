@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.trade.service;
 
 import com.hjjang.backend.domain.trade.domain.entity.Trade;
+import com.hjjang.backend.domain.trade.domain.entity.TradeState;
 import com.hjjang.backend.domain.trade.domain.repositroy.TradeRepository;
 import com.hjjang.backend.domain.trade.exception.TradeNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,11 @@ public class TradeService {
         Stream.of(id)
                 .map(this::findById)
                 .forEach(Trade::remove);
+    }
+
+    public void changeState(long id, TradeState tradeState) {
+        Stream.of(id)
+                .map(this::findById)
+                .forEach(trade -> trade.setTradeState(tradeState));
     }
 }

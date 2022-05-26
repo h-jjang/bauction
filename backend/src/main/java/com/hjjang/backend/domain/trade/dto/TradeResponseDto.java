@@ -18,4 +18,7 @@ public class TradeResponseDto {
     @JsonProperty("seller_id")
     private Long sellerId;
 
+    @JsonProperty("state")
+    private String state;
+
 }

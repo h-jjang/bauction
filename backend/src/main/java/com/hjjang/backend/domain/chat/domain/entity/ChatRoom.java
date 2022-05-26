@@ -21,6 +21,7 @@ public class ChatRoom extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 경매 상황을 대비하여 생성 유저를 알 수 있는 컬럼을 만들었다.
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "created_by_user_id")
     private User createdByUser;

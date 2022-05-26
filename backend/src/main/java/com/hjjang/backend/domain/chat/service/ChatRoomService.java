@@ -1,20 +1,25 @@
 package com.hjjang.backend.domain.chat.service;
 
 import com.hjjang.backend.domain.chat.domain.entity.ChatRoom;
+import com.hjjang.backend.domain.chat.domain.entity.EntranceChatRoom;
 import com.hjjang.backend.domain.chat.domain.entity.ChatRoomUser;
+import com.hjjang.backend.domain.chat.domain.repository.EntranceChatRoomRepository;
 import com.hjjang.backend.domain.chat.domain.repository.ChatRoomRepository;
 import com.hjjang.backend.domain.chat.domain.repository.ChatRoomUserRepository;
 import com.hjjang.backend.domain.chat.dto.CreateTradeChatRoomResponse;
 import com.hjjang.backend.domain.chat.dto.HideTradeChatRoomResponse;
+import com.hjjang.backend.domain.chat.dto.TradeChatRoomEntranceListResponse;
 import com.hjjang.backend.domain.chat.exception.CannotCreateChatRoomBySelfException;
 import com.hjjang.backend.domain.chat.exception.IsAlreadyHiddenChatRoomException;
 import com.hjjang.backend.domain.chat.exception.NotFoundChatRoomEntityException;
 import com.hjjang.backend.domain.chat.exception.NotFoundSellerEntityException;
-import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.dto.UserProfileInfo;
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.domain.user.repository.UserRepository;
 import com.hjjang.backend.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +34,7 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomUserRepository chatRoomUserRepository;
     private final UserRepository userRepository;
+    private final EntranceChatRoomRepository entranceChatRoomRepository;
 
     /**
      * 중고거래를 하기 위한 1대1 채팅방 생성
@@ -49,13 +55,13 @@ public class ChatRoomService {
         ChatRoomUser savedChatRoomUser = createChatRoomUserWithSeller(createdRoom, seller);
 
         // 반환값을 위한 DTO 생성
-        List<UserProfileDTO> userProfileDTOList = new ArrayList<>();
-        userProfileDTOList.add(new UserProfileDTO(seller));
+        List<UserProfileInfo> userProfileInfoList = new ArrayList<>();
+        userProfileInfoList.add(new UserProfileInfo(seller));
 
         return CreateTradeChatRoomResponse.builder()
                 .chatRoomId(savedChatRoomUser.getChatRoom().getId())
-                .createdByUser(new UserProfileDTO(buyer))
-                .joinUsers(userProfileDTOList)
+                .createdByUser(new UserProfileInfo(buyer))
+                .joinUsers(userProfileInfoList)
                 .build();
     }
 
@@ -78,8 +84,12 @@ public class ChatRoomService {
         return chatRoomRepository.save(newChatRoom);
     }
 
-
-    // 채팅방 삭제 기능 / 숨기기
+    /**
+     * 채팅방 삭제 기능 / 숨기기
+     *
+     * @param chatRoomId 삭제할 채팅방 id
+     * @return HideTradeChatRoomResponse
+     */
     @Transactional
     public HideTradeChatRoomResponse hideChatRoom(Long chatRoomId) {
         ChatRoom foundChatRoom = chatRoomRepository.findChatRoomById(chatRoomId)
@@ -91,12 +101,15 @@ public class ChatRoomService {
         return new HideTradeChatRoomResponse(chatRoomId, true);
     }
 
-    // 채팅방 조회 기능
-    public void readChatRoomPaging() {
-
+    // 로그인 되어있는 사용자 id로 채팅방 조회 기능
+    public TradeChatRoomEntranceListResponse readChatRoomPaging(Pageable pageable) {
+        User loginUser = userUtil.getLoginUserByToken();
+        // todo N+1 이슈 해결해야함
+        Page<EntranceChatRoom> chatRoomEntrances = entranceChatRoomRepository.findAllByUserId(loginUser.getId(), pageable);
+        return new TradeChatRoomEntranceListResponse(chatRoomEntrances.toList());
     }
 
-    // 채팅방 신고 기능
+    // todo 채팅방 id로 신고 기능
     public void reportChatRoom() {
 
     }

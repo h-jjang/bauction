@@ -1,6 +1,6 @@
 package com.hjjang.backend.domain.chat.dto;
 
-import com.hjjang.backend.domain.chat.domain.entity.ChatRoomEntrance;
+import com.hjjang.backend.domain.chat.domain.entity.EntranceChatRoom;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +14,8 @@ public class TradeChatRoomEntranceListResponse {
     List<TradeChatRoomEntranceInfo> tradeChatRoomEntranceInfos;
 
 
-    public TradeChatRoomEntranceListResponse(List<ChatRoomEntrance> chatRoomEntranceList) {
-        this.tradeChatRoomEntranceInfos = chatRoomEntranceList.stream()
+    public TradeChatRoomEntranceListResponse(List<EntranceChatRoom> entranceChatRoomList) {
+        this.tradeChatRoomEntranceInfos = entranceChatRoomList.stream()
                 .map(TradeChatRoomEntranceInfo::new)
                 .collect(Collectors.toList());
     }

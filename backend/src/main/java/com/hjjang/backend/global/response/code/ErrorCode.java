@@ -21,7 +21,8 @@ public enum ErrorCode {
     BUYER_NOT_FOUND("CR002", "존재 하지 않는 구매자"),
     CANNOT_CHAT_BY_SELF("CR003", "자기 자신과는 채팅을 할 수 없다."),
     CHATROOM_NOT_FOUND("CR004", "존재하지 않는 채팅방입니다."),
-    CHATROOM_IS_ALREADY_HIDDEN("CR005", "이미 숨김 처리된 채팅방입니다."),;
+    CHATROOM_IS_ALREADY_HIDDEN("CR005", "이미 숨김 처리된 채팅방입니다."),
+    CHATROOM_ENTRANCE_NOT_FOUND("CR006", "참여중인 채팅방이 없습니다."),;
 
     private final String code;
     private final String message;

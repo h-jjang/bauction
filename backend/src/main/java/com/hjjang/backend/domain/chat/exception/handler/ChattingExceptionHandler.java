@@ -1,10 +1,8 @@
 package com.hjjang.backend.domain.chat.exception.handler;
 
-import com.hjjang.backend.domain.chat.exception.CannotCreateChatRoomBySelfException;
-import com.hjjang.backend.domain.chat.exception.IsAlreadyHiddenChatRoomException;
-import com.hjjang.backend.domain.chat.exception.NotFoundChatRoomEntityException;
-import com.hjjang.backend.domain.chat.exception.NotFoundSellerEntityException;
+import com.hjjang.backend.domain.chat.exception.*;
 import com.hjjang.backend.global.response.response.ErrorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -36,9 +34,17 @@ public class ChattingExceptionHandler {
         return new ResponseEntity<>(response, BAD_REQUEST);
     }
 
+    // 이미 숨겨진 채팅방은 숨길 수 없음
     @ExceptionHandler(value = IsAlreadyHiddenChatRoomException.class)
     public ResponseEntity<ErrorResponse> notFoundSellerEntityExceptionHandle(IsAlreadyHiddenChatRoomException e) {
         final ErrorResponse response = ErrorResponse.of(CHATROOM_IS_ALREADY_HIDDEN);
         return new ResponseEntity<>(response, BAD_REQUEST);
+    }
+
+    // 참여중인 채팅방이 없습니다.
+    @ExceptionHandler(value = NotFoundChatRoomEntranceEntityException.class)
+    public ResponseEntity<ErrorResponse> notFoundSellerEntityExceptionHandle(NotFoundChatRoomEntranceEntityException e) {
+        final ErrorResponse response = ErrorResponse.of(CHATROOM_ENTRANCE_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

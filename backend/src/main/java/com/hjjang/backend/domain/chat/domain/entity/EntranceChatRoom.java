@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "chat_room_entrance")
-public class ChatRoomEntrance extends BaseCreatedTimeEntity {
+public class EntranceChatRoom extends BaseCreatedTimeEntity {
     // 채팅 방 목록을 조회할 때 사용하는 조회용 테이블
     // 장점
     // 1. 마지막 보낸 메시지 join 없이 찾기 가능
@@ -37,7 +37,7 @@ public class ChatRoomEntrance extends BaseCreatedTimeEntity {
     private ChatMessage lastChatMessage;
 
     @Builder
-    public ChatRoomEntrance(ChatRoom chatRoom, User user, ChatMessage lastChatMessage) {
+    public EntranceChatRoom(ChatRoom chatRoom, User user, ChatMessage lastChatMessage) {
         this.chatRoom = chatRoom;
         this.user = user;
         this.lastChatMessage = lastChatMessage;

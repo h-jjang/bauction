@@ -73,7 +73,7 @@ public class SearchServiceImpl implements SearchService {
 
 	private void getPostsInUniversity(University university, List<Post> searchedPosts, List<Post> searchedPostsInUniv) {
 		searchedPosts.forEach(post -> {
-			if (Objects.equals(post.getUniversity().getId(), university)) {
+			if (Objects.equals(post.getUniversity().getId(), university.getId())) {
 				searchedPostsInUniv.add(post);
 			}
 		});

@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.email.dto;
+package com.hjjang.backend.domain.mail.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MailRequest {
 
-	private String email;
+	private String mail;
 
 	private String code;
 }

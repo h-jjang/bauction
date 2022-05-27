@@ -1,4 +1,4 @@
-package com.hjjang.backend.domain.email.dto;
+package com.hjjang.backend.domain.mail.dto;
 
 import java.util.Random;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Email {
+public class Mail {
 
 	private String code;
 	private String address;

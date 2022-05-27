@@ -11,7 +11,7 @@ public class PostResponseDto {
 
     private Long id;
 
-    private Long univ_id;
+    private Long university_id;
 
     private String title;
 

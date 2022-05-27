@@ -44,8 +44,8 @@ public class Post {
     // private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "university_id")
-    private University university;
+    @JoinColumn(name = "university_id", nullable = false)
+    private University university = DEFAULT_UNIVERSITY;
 
     @Column(name = "title", nullable = false)
     private String title;

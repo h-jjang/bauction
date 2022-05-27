@@ -16,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hjjang.backend.domain.post.domain.entity.Post;
 import com.hjjang.backend.domain.post.dto.PostMapper;
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
+import com.hjjang.backend.domain.post.dto.PostResponseDto;
 import com.hjjang.backend.domain.post.service.PostServiceImpl;
+import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.global.dto.ApiResponse;
+import com.hjjang.backend.global.response.code.SuccessCode;
+import com.hjjang.backend.global.response.response.SuccessResponse;
 import com.hjjang.backend.global.util.UserUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -34,19 +39,11 @@ public class PostController {
     private final UserUtil userUtil;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
-        return status(CREATED)
-                .body(ApiResponse.success(
-                                "createItem",
-                                postMapper.fromEntity(
-                                        postService.save(
-                                                postMapper.toEntity(
-                                                        postRequestDto, userUtil.getLoginUserByToken().getUniversity()
-                                                )
-                                        )
-                                )
-                        )
-                );
+    public ResponseEntity<SuccessResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
+        User user = userUtil.getLoginUserByToken();
+        Post post = postService.save(postMapper.toEntity(postRequestDto, user.getUniversity()));
+        PostResponseDto postResponseDto = postMapper.fromEntity(post);
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.POST_CREATE_SUCCESS, postResponseDto));
     }
 
     @GetMapping

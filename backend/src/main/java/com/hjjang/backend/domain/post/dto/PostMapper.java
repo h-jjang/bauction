@@ -20,7 +20,7 @@ public class PostMapper {
     public PostResponseDto fromEntity(Post post) {
         return PostResponseDto.builder()
                 .id(post.getId())
-                .univ_id(post.getUniversity().getId())
+                .university_id(post.getUniversity().getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .item_price(post.getItemPrice())

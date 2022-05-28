@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.hjjang.backend.global.response.code.ErrorCode.TRADE_NOT_UPDATED;
+
 @Service
 @RequiredArgsConstructor
 public class TradeService {
@@ -37,21 +39,28 @@ public class TradeService {
         return repository.findAll();
     }
 
-    public void update(long id, Trade entity) {
-        Stream.of(id)
+    public Trade update(long id, Trade entity) {
+        return Stream.of(id)
                 .map(this::findById)
-                .forEach(trade -> trade.update(entity));
+                .map(trade -> trade.update(entity))
+                .map(this::save)
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
     }
 
     public void remove(long id) {
         Stream.of(id)
                 .map(this::findById)
-                .forEach(Trade::remove);
+                .map(Trade::remove)
+                .forEach(this::save);
     }
 
-    public void changeState(long id, TradeState tradeState) {
-        Stream.of(id)
+    public Trade changeState(long id, TradeState tradeState) {
+        return Stream.of(id)
                 .map(this::findById)
-                .forEach(trade -> trade.setTradeState(tradeState));
+                .map(trade -> trade.setTradeState(tradeState))
+                .map(this::save)
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
     }
 }

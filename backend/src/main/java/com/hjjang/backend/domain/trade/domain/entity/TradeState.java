@@ -9,9 +9,8 @@ public enum TradeState {
     PENDING("대기"),
     RESERVE("예약"),
     CANCEL("취소"),
-
     APPROVE("판매완료"),
     ;
 
-    final String state;
+    private final String state;
 }

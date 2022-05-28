@@ -33,7 +33,8 @@ public class Trade extends BaseTimeEntity {
     private User seller;
 
     @Column(nullable = false)
-    private TradeState tradeState = TradeState.PENDING;
+    @Enumerated(EnumType.STRING)
+    private TradeState tradeState;
 
     @Column(nullable = false)
     private boolean removed = false;
@@ -43,19 +44,23 @@ public class Trade extends BaseTimeEntity {
         this.post = post;
         this.buyer = buyer;
         this.seller = seller;
+        this.tradeState = TradeState.PENDING;
     }
 
-    public void update(Trade entity) {
+    public Trade update(Trade entity) {
         this.post = entity.getPost();
         this.buyer = entity.getBuyer();
         this.seller = entity.getSeller();
+        return this;
     }
 
-    public void remove() {
+    public Trade remove() {
         this.removed = true;
+        return this;
     }
 
-    public void setTradeState(TradeState tradeState) {
+    public Trade setTradeState(TradeState tradeState) {
         this.tradeState = tradeState;
+        return this;
     }
 }

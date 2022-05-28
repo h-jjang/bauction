@@ -19,7 +19,7 @@ public enum ErrorCode {
     //Trade
     TRADE_NOT_CREATED("T001", "거래기록 생성 실패"),
     TRADE_NOT_FOUND("T002", "존재 하지 않는 거래기록"),
-
+    TRADE_NOT_UPDATED("T003", "거래기록 갱신 실패")
     ;
 
 

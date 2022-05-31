@@ -20,8 +20,10 @@ public enum SuccessCode {
     TRADE_UPDATE_SUCCESS("T003", "거래기록 갱신 완료"),
     TRADE_DELETE_SUCCESS("T004", "거래기록 삭제 완료"),
 
-    ;
+    //Post
+    POST_CREATE_SUCCESS( "P001", "게시글 등록 완료.")
 
+    ;
     private final String code;
     private final String message;
 }

@@ -45,10 +45,10 @@ public class MailService {
 
 	private void setMessage(SimpleMailMessage message, String mailAddress) {
 		message.setTo(mailAddress);
-		MailMessage title = MailMessage.TITLE;
+		MailMessage title = MailMessage.AUTH_TITLE;
 		message.setSubject(title.getContent());
 		saveMailInfo(mailAddress);
-		MailMessage mailMessage = MailMessage.MESSAGE;
+		MailMessage mailMessage = MailMessage.AUTH_MESSAGE;
 		message.setText(mailMessage.getContent() + mail.getCode());
 	}
 

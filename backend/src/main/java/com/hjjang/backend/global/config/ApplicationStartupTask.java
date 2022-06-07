@@ -18,5 +18,8 @@ public class ApplicationStartupTask implements ApplicationListener<ApplicationRe
 		if (!universityRepository.existsById(1L)){
 			universityRepository.save(new University("empty", "empty"));
 		}
+		if (!universityRepository.existsById(2L)){
+			universityRepository.save(new University("tukorea", "tukorea.ac.kr"));
+		}
 	}
 }

@@ -1,20 +1,33 @@
 package com.hjjang.backend.domain.post.controller;
 
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
+
+import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hjjang.backend.domain.post.domain.entity.Post;
 import com.hjjang.backend.domain.post.dto.PostMapper;
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
 import com.hjjang.backend.domain.post.dto.PostResponseDto;
 import com.hjjang.backend.domain.post.service.PostServiceImpl;
+import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.global.dto.ApiResponse;
+import com.hjjang.backend.global.response.code.SuccessCode;
+import com.hjjang.backend.global.response.response.SuccessResponse;
 import com.hjjang.backend.global.util.UserUtil;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.ResponseEntity.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
@@ -26,19 +39,11 @@ public class PostController {
     private final UserUtil userUtil;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
-        return status(CREATED)
-                .body(ApiResponse.success(
-                                "createItem",
-                                postMapper.fromEntity(
-                                        postService.save(
-                                                postMapper.toEntity(
-                                                        postRequestDto, userUtil.getLoginUserByToken()
-                                                )
-                                        )
-                                )
-                        )
-                );
+    public ResponseEntity<SuccessResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
+        User user = userUtil.getLoginUserByToken();
+        Post post = postService.save(postMapper.toEntity(postRequestDto, user.getUniversity()));
+        PostResponseDto postResponseDto = postMapper.fromEntity(post);
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.POST_CREATE_SUCCESS, postResponseDto));
     }
 
     @GetMapping

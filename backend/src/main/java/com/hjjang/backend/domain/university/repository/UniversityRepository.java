@@ -10,4 +10,6 @@ import com.hjjang.backend.domain.university.entity.University;
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Long> {
 	Optional<University> findByName(String name);
+
+	Boolean existsByName(String name);
 }

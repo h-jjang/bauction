@@ -37,4 +37,10 @@ public class ChatMessage extends BaseCreatedTimeEntity {
     // 없어도 되지만 명시적으로 선언
     @Column(updatable = false)
     private String dtype;
+
+    public ChatMessage(User senderUser, ChatRoom chatRoom) {
+        this.senderUser = senderUser;
+        this.chatRoom = chatRoom;
+
+    }
 }

@@ -48,38 +48,39 @@ public class ChatRoomService {
         // buyer를 Token으로 조회해서 buyer로 채팅방 생성
         // exception 1) 자기 자신과는 채팅할 수 없다.
         User buyer = userUtil.getLoginUserByToken();
-        ChatRoom createdRoom = createChatRoomByBuyer(buyer, sellerId);
+        ChatRoom createdRoom = createChatRoomByUser(buyer, sellerId);
 
-        // seller를 조회해서 chatRoom과 user 간의 연관 관계 저장
+        // buyer, seller를 조회해서 chatRoom과 user 간의 연관 관계 저장
         User seller = userRepository.findUserById(sellerId).orElseThrow(NotFoundSellerEntityException::new);
-        ChatRoomUser savedChatRoomUser = createChatRoomUserWithSeller(createdRoom, seller);
+        createChatRoomUserWithUser(createdRoom, seller);
+        createChatRoomUserWithUser(createdRoom, buyer);
 
         // 반환값을 위한 DTO 생성
         List<UserProfileInfo> userProfileInfoList = new ArrayList<>();
         userProfileInfoList.add(new UserProfileInfo(seller));
 
         return CreateTradeChatRoomResponse.builder()
-                .chatRoomId(savedChatRoomUser.getChatRoom().getId())
+                .chatRoomId(createdRoom.getId())
                 .createdByUser(new UserProfileInfo(buyer))
                 .joinUsers(userProfileInfoList)
                 .build();
     }
 
-    private ChatRoomUser createChatRoomUserWithSeller(ChatRoom createdRoom, User seller) {
+    private ChatRoomUser createChatRoomUserWithUser(ChatRoom createdRoom, User user) {
         ChatRoomUser chatRoomUser = ChatRoomUser.builder()
-                .user(seller)
+                .user(user)
                 .chatRoom(createdRoom)
                 .build();
         return chatRoomUserRepository.save(chatRoomUser);
     }
 
-    private ChatRoom createChatRoomByBuyer(User buyer, Long sellerId) {
+    private ChatRoom createChatRoomByUser(User user, Long sellerId) {
         // 자기 자신과는 채팅할 수 없다.
-        if (sellerId.equals(buyer.getId())) {
+        if (sellerId.equals(user.getId())) {
             throw new CannotCreateChatRoomBySelfException();
         }
         ChatRoom newChatRoom = ChatRoom.builder()
-                .createdByUser(buyer)
+                .createdByUser(user)
                 .build();
         return chatRoomRepository.save(newChatRoom);
     }

@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.chat.domain.entity;
 
+import com.hjjang.backend.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,8 @@ public class ChatMessageText extends ChatMessage {
     @Column(name = "chat_message_text_content")
     private String chatMessageContent;
 
+    public ChatMessageText(User senderUser, ChatRoom chatRoom, String chatMessageContent) {
+        super(senderUser, chatRoom);
+        this.chatMessageContent = chatMessageContent;
+    }
 }

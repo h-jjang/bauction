@@ -1,5 +1,6 @@
 package com.hjjang.backend.domain.trade.controller;
 
+import com.hjjang.backend.domain.trade.domain.entity.TradeState;
 import com.hjjang.backend.domain.trade.dto.TradeMapper;
 import com.hjjang.backend.domain.trade.dto.TradeRequestDto;
 import com.hjjang.backend.domain.trade.exception.TradeNotFoundException;
@@ -18,6 +19,7 @@ import static com.hjjang.backend.global.response.response.SuccessResponse.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
+@RequestMapping("/api/trades")
 @RequiredArgsConstructor
 public class TradeController {
 
@@ -31,7 +33,7 @@ public class TradeController {
                 .map(mapper::toEntity)
                 .map(service::save)
                 .map(mapper::fromEntity)
-                .map(responseDto -> of(TRADE_CREATE_SUCCESS, responseDto))
+                .map(dto -> of(TRADE_CREATE_SUCCESS, dto))
                 .findAny()
                 .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_CREATED));
     }
@@ -53,7 +55,7 @@ public class TradeController {
         return Stream.of(id)
                 .map(service::findById)
                 .map(mapper::fromEntity)
-                .map(responseDto -> of(TRADE_FIND_SUCCESS, responseDto))
+                .map(dto -> of(TRADE_FIND_SUCCESS, dto))
                 .findAny()
                 .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_FOUND));
     }
@@ -61,10 +63,13 @@ public class TradeController {
     @PutMapping("/{id}")
     @ResponseStatus(CREATED)
     public SuccessResponse updateById(@PathVariable Long id, @Validated @RequestBody TradeRequestDto requestDto) {
-        Stream.of(requestDto)
+        return Stream.of(requestDto)
                 .map(mapper::toEntity)
-                .forEach(entity -> service.update(id, entity));
-        return of(TRADE_UPDATE_SUCCESS);
+                .map(entity -> service.update(id, entity))
+                .map(mapper::fromEntity)
+                .map(dto -> of(TRADE_UPDATE_SUCCESS, dto))
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
     }
 
     @DeleteMapping("/{id}")
@@ -75,4 +80,47 @@ public class TradeController {
         return of(TRADE_DELETE_SUCCESS);
     }
 
+    @PatchMapping("/{id}/pending")
+    @ResponseStatus(CREATED)
+    public SuccessResponse changeStateByIdPending(@PathVariable Long id) {
+        return Stream.of(id)
+                .map(i -> service.changeState(i, TradeState.PENDING))
+                .map(mapper::fromEntity)
+                .map(dto -> of(TRADE_UPDATE_SUCCESS, dto))
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
+    }
+
+    @PatchMapping("/{id}/reserve")
+    @ResponseStatus(CREATED)
+    public SuccessResponse changeStateByIdReserve(@PathVariable Long id) {
+        return Stream.of(id)
+                .map(i -> service.changeState(i, TradeState.RESERVE))
+                .map(mapper::fromEntity)
+                .map(dto -> of(TRADE_UPDATE_SUCCESS, dto))
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
+
+    }
+
+    @PatchMapping("/{id}/approve")
+    @ResponseStatus(CREATED)
+    public SuccessResponse changeStateByIdApprove(@PathVariable Long id) {
+        return Stream.of(id)
+                .map(i -> service.changeState(i, TradeState.APPROVE))
+                .map(mapper::fromEntity)
+                .map(dto -> of(TRADE_UPDATE_SUCCESS, dto))
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
+    }
+    @PatchMapping("/{id}/cancel")
+    @ResponseStatus(CREATED)
+    public SuccessResponse changeStateByIdCancel(@PathVariable Long id) {
+        return Stream.of(id)
+                .map(i -> service.changeState(i, TradeState.CANCEL))
+                .map(mapper::fromEntity)
+                .map(dto -> of(TRADE_UPDATE_SUCCESS, dto))
+                .findAny()
+                .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
+    }
 }

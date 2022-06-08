@@ -22,15 +22,19 @@ public class Trade extends BaseTimeEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
-    Post post;
+    private Post post;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "buyer_id")
-    User buyer;
+    private User buyer;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id")
-    User seller;
+    private User seller;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TradeState tradeState;
 
     @Column(nullable = false)
     private boolean removed = false;
@@ -40,15 +44,23 @@ public class Trade extends BaseTimeEntity {
         this.post = post;
         this.buyer = buyer;
         this.seller = seller;
+        this.tradeState = TradeState.PENDING;
     }
 
-    public void update(Trade entity) {
+    public Trade update(Trade entity) {
         this.post = entity.getPost();
         this.buyer = entity.getBuyer();
         this.seller = entity.getSeller();
+        return this;
     }
 
-    public void remove() {
+    public Trade remove() {
         this.removed = true;
+        return this;
+    }
+
+    public Trade setTradeState(TradeState tradeState) {
+        this.tradeState = tradeState;
+        return this;
     }
 }

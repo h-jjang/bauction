@@ -3,6 +3,7 @@ package com.hjjang.backend.domain.post.controller;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.*;
 
+import com.hjjang.backend.domain.mail.service.NoticeMailService;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostServiceImpl postService;
+    private final NoticeMailService mailService;
     private final PostMapper postMapper;
     private final UserUtil userUtil;
 
@@ -43,6 +45,7 @@ public class PostController {
         User user = userUtil.getLoginUserByToken();
         Post post = postService.save(postMapper.toEntity(postRequestDto, user.getUniversity()));
         PostResponseDto postResponseDto = postMapper.fromEntity(post);
+        mailService.sendNotice(user, post);
         return ResponseEntity.ok(SuccessResponse.of(SuccessCode.POST_CREATE_SUCCESS, postResponseDto));
     }
 

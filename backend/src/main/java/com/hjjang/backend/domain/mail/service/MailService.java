@@ -1,5 +1,7 @@
 package com.hjjang.backend.domain.mail.service;
 
+import static com.hjjang.backend.global.response.code.ErrorCode.*;
+
 import com.hjjang.backend.domain.mail.dto.Mail;
 import com.hjjang.backend.domain.mail.domain.MailMessage;
 import com.hjjang.backend.domain.mail.domain.MailRegex;
@@ -74,7 +76,7 @@ public class MailService {
 
 	private void checkValidCode(MailRequest mailRequest, String code) {
 		if (!mailRequest.getCode().equals(code)) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException(INVALID_CODE);
 		}
 	}
 

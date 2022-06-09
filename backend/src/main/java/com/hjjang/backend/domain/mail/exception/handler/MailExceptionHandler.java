@@ -14,14 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class MailExceptionHandler {
 
 	@ExceptionHandler(value = InvalidMailException.class)
-	public ResponseEntity<ErrorResponse> mailExceptionHandle() {
+	public ResponseEntity<ErrorResponse> handleMailException() {
 		ErrorResponse response = ErrorResponse.of(INVALID_MAIL);
 		return new ResponseEntity<>(response, BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = UnauthorizedException.class)
-	public ResponseEntity<ErrorResponse> unauthorizedExceptionHandle() {
+	public ResponseEntity<ErrorResponse> handleUnauthorizedCodeException() {
 		ErrorResponse response = ErrorResponse.of(INVALID_CODE);
+		return new ResponseEntity<>(response, UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(value = UnauthorizedException.class)
+	public ResponseEntity<ErrorResponse> handleUnauthorizedUserException() {
+		ErrorResponse response = ErrorResponse.of(NO_AUTHORITY);
 		return new ResponseEntity<>(response, UNAUTHORIZED);
 	}
 }

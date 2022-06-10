@@ -29,7 +29,7 @@ public class NoticeMailService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(user.getEmail());
 		message.setSubject(TRADE_NOTICE_TITLE.getContent());
-		message.setText(TRADE_NOTICE_MESSAGE.getContent() + post.getIsSaleCompletion().getState());
+		message.setText(post.mailText(TRADE_NOTICE_MESSAGE.getContent()));
 		return message;
 	}
 }

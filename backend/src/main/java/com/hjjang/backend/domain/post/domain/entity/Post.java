@@ -98,4 +98,10 @@ public class Post {
         this.itemPrice = postRequestDto.getPrice();
         return this;
     }
+
+    public String mailText(String content) {
+        return content + "\n"
+            + "거래 제목: " + title + "\n"
+            + "상태: " + isSaleCompletion.getState();
+    }
 }

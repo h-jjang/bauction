@@ -1,6 +1,7 @@
 package com.hjjang.backend.domain.trade.domain.entity;
 
 import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.post.domain.entity.PostState;
 import com.hjjang.backend.domain.user.entity.User;
 import com.hjjang.backend.global.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -62,5 +63,21 @@ public class Trade extends BaseTimeEntity {
     public Trade setTradeState(TradeState tradeState) {
         this.tradeState = tradeState;
         return this;
+    }
+
+    public Post setPostState() {
+        if (tradeState.equals(TradeState.PENDING)) {
+            post.setIsSaleCompletion(PostState.SALE);
+        }
+        if (tradeState.equals(TradeState.APPROVE)) {
+            post.setIsSaleCompletion(PostState.SOLD);
+        }
+        if (tradeState.equals(TradeState.RESERVE)) {
+            post.setIsSaleCompletion(PostState.RESERVED);
+        }
+        if (tradeState.equals(TradeState.CANCEL)) {
+            post.setIsSaleCompletion(PostState.SALE);
+        }
+        return post;
     }
 }

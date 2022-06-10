@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
@@ -68,7 +69,7 @@ public class Post {
     @Column(name = "chat_number", nullable = false)
     private int chatNumber = DEFAULT_CHAT_NUMBER;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @Setter
     @Column(name = "is_sale_completion", nullable = false)
     private PostState isSaleCompletion = DEFAULT_IS_SALE_COMPLETION;
 

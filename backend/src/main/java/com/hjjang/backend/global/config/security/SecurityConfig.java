@@ -1,16 +1,9 @@
 package com.hjjang.backend.global.config.security;
 
-import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
-import com.hjjang.backend.global.config.security.properties.AuthProperties;
-import com.hjjang.backend.global.security.exception.RestAuthenticationEntryPoint;
-import com.hjjang.backend.global.security.filter.TokenAuthenticationFilter;
-import com.hjjang.backend.global.security.handler.OAuth2AuthenticationFailureHandler;
-import com.hjjang.backend.global.security.handler.OAuth2AuthenticationSuccessHandler;
-import com.hjjang.backend.global.security.handler.TokenAccessDeniedHandler;
-import com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.hjjang.backend.global.security.service.CustomOAuth2UserService;
-import com.hjjang.backend.global.security.token.AuthTokenProvider;
-import lombok.RequiredArgsConstructor;
+import static com.hjjang.backend.domain.user.entity.RoleType.*;
+
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,9 +19,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import com.hjjang.backend.domain.user.repository.UserRefreshTokenRepository;
+import com.hjjang.backend.global.config.security.properties.AuthProperties;
+import com.hjjang.backend.global.security.exception.RestAuthenticationEntryPoint;
+import com.hjjang.backend.global.security.filter.TokenAuthenticationFilter;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationFailureHandler;
+import com.hjjang.backend.global.security.handler.OAuth2AuthenticationSuccessHandler;
+import com.hjjang.backend.global.security.handler.TokenAccessDeniedHandler;
+import com.hjjang.backend.global.security.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.hjjang.backend.global.security.service.CustomOAuth2UserService;
+import com.hjjang.backend.global.security.token.AuthTokenProvider;
 
-import static com.hjjang.backend.domain.user.entity.RoleType.USER;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -80,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
 //            .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
             .antMatchers("/api/v1/users/**").hasAnyAuthority(USER.getCode())
+            .antMatchers("/api/mail/**").hasAnyAuthority(USER.getCode())
             .anyRequest().permitAll();
 
         http

@@ -1,27 +1,36 @@
 package com.hjjang.backend.domain.mail.service;
 
-import static com.hjjang.backend.global.response.code.ErrorCode.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
-import com.hjjang.backend.domain.mail.dto.Mail;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
 import com.hjjang.backend.domain.mail.domain.MailMessage;
 import com.hjjang.backend.domain.mail.domain.MailRegex;
+import com.hjjang.backend.domain.mail.dto.Mail;
 import com.hjjang.backend.domain.mail.dto.MailRequest;
 import com.hjjang.backend.domain.mail.dto.MailResponse;
 import com.hjjang.backend.domain.mail.exception.InvalidMailException;
 import com.hjjang.backend.domain.mail.exception.UnauthorizedException;
-import java.util.List;
-import java.util.regex.Pattern;
+import com.hjjang.backend.domain.university.entity.University;
+import com.hjjang.backend.domain.university.service.UniversityService;
+import com.hjjang.backend.domain.user.entity.User;
+import com.hjjang.backend.domain.user.repository.UserRepository;
+import com.hjjang.backend.global.util.UserUtil;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MailService {
 
+	private final UniversityService universityService;
+	private final UserRepository userRepository;
 	private final JavaMailSender javaMailSender;
 	private final Mail mail = new Mail();
+	private final UserUtil userUtil;
 
 	public MailResponse sendMail(String mailAddress) {
 		checkPossibleMail(mailAddress);
@@ -34,6 +43,10 @@ public class MailService {
 	public MailResponse checkCode(MailRequest mailRequest) {
 		checkRequest(mailRequest, mail);
 		mail.setIsAuth(true);
+		University university = universityService.findUniversityByName(mail.getUniversity());
+		User user = userUtil.getLoginUserByToken();
+		user.setEmailAndUniversity(mail.getAddress(), university);
+		userRepository.save(user);
 		return new MailResponse(mail);
 	}
 
@@ -47,10 +60,10 @@ public class MailService {
 
 	private void setMessage(SimpleMailMessage message, String mailAddress) {
 		message.setTo(mailAddress);
-		MailMessage title = MailMessage.AUTH_TITLE;
+		MailMessage title = MailMessage.TITLE;
 		message.setSubject(title.getContent());
 		saveMailInfo(mailAddress);
-		MailMessage mailMessage = MailMessage.AUTH_MESSAGE;
+		MailMessage mailMessage = MailMessage.MESSAGE;
 		message.setText(mailMessage.getContent() + mail.getCode());
 	}
 
@@ -76,7 +89,7 @@ public class MailService {
 
 	private void checkValidCode(MailRequest mailRequest, String code) {
 		if (!mailRequest.getCode().equals(code)) {
-			throw new UnauthorizedException(INVALID_CODE);
+			throw new UnauthorizedException();
 		}
 	}
 

@@ -43,7 +43,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<SuccessResponse> createItem(@Validated @RequestBody PostRequestDto postRequestDto) {
         User user = userUtil.getLoginUserByToken();
-        Post post = postService.save(postMapper.toEntity(postRequestDto, user.getUniversity()));
+        Post post = postService.save(postMapper.toEntity(postRequestDto, user));
         PostResponseDto postResponseDto = postMapper.fromEntity(post);
         mailService.sendNotice(user, post);
         return ResponseEntity.ok(SuccessResponse.of(SuccessCode.POST_CREATE_SUCCESS, postResponseDto));

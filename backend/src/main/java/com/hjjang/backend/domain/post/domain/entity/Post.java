@@ -82,8 +82,9 @@ public class Post {
     private LocalDateTime time;
 
     @Builder
-    public Post(University university, String title, String content, int itemPrice) {
-        this.university = university;
+    public Post(User user, String title, String content, int itemPrice) {
+        this.user = user;
+        this.university = user.getUniversity();
         this.title = title;
         this.content = content;
         this.itemPrice = itemPrice;
@@ -104,5 +105,23 @@ public class Post {
         return content + "\n"
             + "거래 제목: " + title + "\n"
             + "상태: " + isSaleCompletion.getState();
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+            "id=" + id +
+            ", user=" + user +
+            ", university=" + university +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", itemPrice=" + itemPrice +
+            ", views=" + views +
+            ", interestNumber=" + interestNumber +
+            ", chatNumber=" + chatNumber +
+            ", isSaleCompletion=" + isSaleCompletion +
+            ", removed=" + removed +
+            ", time=" + time +
+            '}';
     }
 }

@@ -15,8 +15,11 @@ public class ApplicationStartupTask implements ApplicationListener<ApplicationRe
 	private final UniversityRepository universityRepository;
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
-		if (!universityRepository.existsById(1L)){
+		if (!universityRepository.existsByName("empty")){
 			universityRepository.save(new University("empty", "empty"));
+		}
+		if (!universityRepository.existsByName("tukorea")){
+			universityRepository.save(new University("tukorea", "tukorea.ac.kr"));
 		}
 	}
 }

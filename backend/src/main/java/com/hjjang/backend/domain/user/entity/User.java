@@ -82,4 +82,10 @@ public class User extends BaseTimeEntity {
         this.isEmailVerification = isEmailVerification;
         this.isBlocked = isBlocked;
     }
+
+    @Builder
+    public void setEmailAndUniversity(String email, University university) {
+        this.email = email;
+        this.university = university;
+    }
 }

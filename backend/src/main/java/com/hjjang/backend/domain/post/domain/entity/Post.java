@@ -20,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
 import com.hjjang.backend.domain.university.entity.University;
+import com.hjjang.backend.domain.user.entity.User;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,9 +40,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @ManyToOne
-    // @JoinColumn(name = "user_id")
-    // private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", nullable = false)

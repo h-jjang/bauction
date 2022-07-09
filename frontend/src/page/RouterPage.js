@@ -19,17 +19,19 @@ export const RouterPage = () => {
     return (
         <div>
             <BrowserRouter>
-                <NavBar/>
+
                 <Switch>
-                    <Route path="/post-list" component={ItemListPage}/>
-                    <Route path="/post-detail" component={ItemDetailPage}/>
-                    <Route path="/mypage" component={MyPage}/>
                     <Route path="/login" component={LoginPage}/>
+                    <Route path="/post-list" component={ItemListPage}/>
+                    <Route path="/location" component={ItemDetailPage}/>
+                    <Route path="/chat" component={SignUpPage}/>
+                    <Route path="/profile" component={MyPage}/>
                     <Route path="/oauth2/redirect" component={OAuth2RedirectHandler} />
-                    <Route path="/signup" component={SignUpPage}/>
-                    <Route path="/mypage" component={MyPage}/>
-                    <Redirect path="*" to="/post-list"/>
+                    {/*<Route path="/mypage" component={MyPage}/>*/}
+                    <Redirect path="*" to="/login"/>
                 </Switch>
+                <br/>
+                <NavBar/>
             </BrowserRouter>
         </div>
     )

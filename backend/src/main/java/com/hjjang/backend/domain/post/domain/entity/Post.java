@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.hjjang.backend.domain.post.dto.PostRequestDto;
@@ -69,7 +70,7 @@ public class Post {
     @Column(name = "chat_number", nullable = false)
     private int chatNumber = DEFAULT_CHAT_NUMBER;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @Setter
     @Column(name = "is_sale_completion", nullable = false)
     private PostState isSaleCompletion = DEFAULT_IS_SALE_COMPLETION;
 
@@ -81,8 +82,9 @@ public class Post {
     private LocalDateTime time;
 
     @Builder
-    public Post(University university, String title, String content, int itemPrice) {
-        this.university = university;
+    public Post(User user, String title, String content, int itemPrice) {
+        this.user = user;
+        this.university = user.getUniversity();
         this.title = title;
         this.content = content;
         this.itemPrice = itemPrice;
@@ -97,5 +99,29 @@ public class Post {
         this.content = postRequestDto.getContent();
         this.itemPrice = postRequestDto.getPrice();
         return this;
+    }
+
+    public String mailText(String content) {
+        return content + "\n"
+            + "거래 제목: " + title + "\n"
+            + "상태: " + isSaleCompletion.getState();
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+            "id=" + id +
+            ", user=" + user +
+            ", university=" + university +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", itemPrice=" + itemPrice +
+            ", views=" + views +
+            ", interestNumber=" + interestNumber +
+            ", chatNumber=" + chatNumber +
+            ", isSaleCompletion=" + isSaleCompletion +
+            ", removed=" + removed +
+            ", time=" + time +
+            '}';
     }
 }

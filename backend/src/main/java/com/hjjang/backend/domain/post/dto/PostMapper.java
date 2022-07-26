@@ -1,16 +1,16 @@
 package com.hjjang.backend.domain.post.dto;
 
+import com.hjjang.backend.domain.user.entity.User;
 import org.springframework.stereotype.Service;
 
 import com.hjjang.backend.domain.post.domain.entity.Post;
-import com.hjjang.backend.domain.university.entity.University;
 
 @Service
 public class PostMapper {
 
-    public Post toEntity(PostRequestDto postRequestDto, University university) {
+    public Post toEntity(PostRequestDto postRequestDto, User user) {
         return Post.builder()
-                .university(university)
+                .user(user)
                 .title(postRequestDto.getTitle())
                 .content(postRequestDto.getContent())
                 .itemPrice(postRequestDto.getPrice())

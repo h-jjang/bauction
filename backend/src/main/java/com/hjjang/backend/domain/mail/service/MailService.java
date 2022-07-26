@@ -1,5 +1,7 @@
 package com.hjjang.backend.domain.mail.service;
 
+import static com.hjjang.backend.global.response.code.ErrorCode.*;
+
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -60,10 +62,10 @@ public class MailService {
 
 	private void setMessage(SimpleMailMessage message, String mailAddress) {
 		message.setTo(mailAddress);
-		MailMessage title = MailMessage.TITLE;
+		MailMessage title = MailMessage.AUTH_TITLE;
 		message.setSubject(title.getContent());
 		saveMailInfo(mailAddress);
-		MailMessage mailMessage = MailMessage.MESSAGE;
+		MailMessage mailMessage = MailMessage.AUTH_MESSAGE;
 		message.setText(mailMessage.getContent() + mail.getCode());
 	}
 
@@ -89,7 +91,7 @@ public class MailService {
 
 	private void checkValidCode(MailRequest mailRequest, String code) {
 		if (!mailRequest.getCode().equals(code)) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException(INVALID_CODE);
 		}
 	}
 

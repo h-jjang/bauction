@@ -5,7 +5,7 @@ import com.hjjang.backend.global.response.code.ErrorCode;
 
 public class UnauthorizedException extends BusinessException {
 
-	public UnauthorizedException() {
-		super(ErrorCode.INVALID_CODE);
+	public UnauthorizedException(ErrorCode errorCode) {
+		super(errorCode);
 	}
 }

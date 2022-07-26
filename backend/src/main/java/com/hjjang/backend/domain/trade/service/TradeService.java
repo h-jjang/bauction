@@ -1,9 +1,13 @@
 package com.hjjang.backend.domain.trade.service;
 
+import com.hjjang.backend.domain.mail.service.NoticeMailService;
+import com.hjjang.backend.domain.post.domain.entity.Post;
+import com.hjjang.backend.domain.post.domain.repository.PostRepository;
 import com.hjjang.backend.domain.trade.domain.entity.Trade;
 import com.hjjang.backend.domain.trade.domain.entity.TradeState;
 import com.hjjang.backend.domain.trade.domain.repositroy.TradeRepository;
 import com.hjjang.backend.domain.trade.exception.TradeNotFoundException;
+import com.hjjang.backend.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,9 @@ import static com.hjjang.backend.global.response.code.ErrorCode.TRADE_NOT_UPDATE
 public class TradeService {
 
     private final TradeRepository repository;
+    private final PostRepository postRepository;
+    private final NoticeMailService mailService;
+    private final UserUtil userUtil;
 
     public Trade save(Trade entity) {
         return Stream.of(entity)
@@ -60,6 +67,11 @@ public class TradeService {
                 .map(this::findById)
                 .map(trade -> trade.setTradeState(tradeState))
                 .map(this::save)
+                .peek(trade -> {
+                    Post post = trade.setPostState();
+                    postRepository.save(post);
+                    mailService.sendNotice(userUtil.getLoginUserByToken(), post);
+                })
                 .findAny()
                 .orElseThrow(() -> new TradeNotFoundException(TRADE_NOT_UPDATED));
     }

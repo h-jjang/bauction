@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {Link, Route} from "react-router-dom";
 import axios from "axios";
 import {KAKAO_AUTH_URL} from "../auth/OAuth";
-import KAKAO_LOGO from "../images/kakao_login_large_wide.png"
+import DANGN_LOGO from "../images/dangn_logo.png"
+import KAKAO_BUTTON from "../images/kakao_login_medium_wide.png"
 import styles from '../App.css';
 
 export const LoginPage = () => {
@@ -32,15 +33,30 @@ export const LoginPage = () => {
 
     return (
         <div>
-            <h1>Login Page</h1>
-            <input type={"text"} placeholder={"ID"} onChange={changeId}/><br/>
-            <input type={"password"} placeholder={"PW"} onChange={changePw}/><br/>
-            <input type={"button"} onClick={loginSubmit} value={"submit"}/>
-            <Route>
-                    <Link to={"/signup"}><button>Sign Up</button></Link>
-            </Route>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <img
+                style={{ width: "10rem" }}
+                src={DANGN_LOGO}/>
+            <h2>당신 근처의 중고책 마켓</h2>
+            <div>중고 서적 거래</div>
+            <div>지금 내 대학교를 인증하고 시작해보세요!</div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
             <a href={KAKAO_AUTH_URL}>
-                <img src={KAKAO_LOGO}></img>
+                <img src={KAKAO_BUTTON}/>
             </a>
         </div>
     )

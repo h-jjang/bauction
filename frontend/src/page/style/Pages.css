@@ -1,0 +1,15 @@
+.main-page {
+    background: #ffffff;
+    font-family: "BauctionMainFont";
+    color: #141a24;
+    font-size: 1.2rem;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.login-page-link {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0rem 0rem 0rem 21rem !important;
+}
+

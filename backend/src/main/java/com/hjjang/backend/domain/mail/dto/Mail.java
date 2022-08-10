@@ -19,12 +19,12 @@ public class Mail {
 
 	private static final int CODE_SIZE = 6;
 
-	public String createRandomCode() {
+	public void createRandomCode() {
 		Random random = new Random();
 		StringBuilder buffer = new StringBuilder();
 		while (buffer.length() < CODE_SIZE) {
 			buffer.append(random.nextInt(10));
 		}
-		return buffer.toString();
+		code = buffer.toString();
 	}
 }

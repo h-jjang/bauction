@@ -24,8 +24,8 @@ public class MailController {
 	@PostMapping("/send")
 	public ResponseEntity<SuccessResponse> send(@RequestBody MailRequest mailRequest) {
 		String mail = mailRequest.getMail();
-		MailResponse mailResponse = mailService.sendMail(mail);
-		SuccessResponse response = SuccessResponse.of(MAIL_SEND_SUCCESS, mailResponse);
+		mailService.sendMail(mail);
+		SuccessResponse response = SuccessResponse.of(MAIL_SEND_SUCCESS, mail);
 		return new ResponseEntity<>(response, CREATED);
 	}
 

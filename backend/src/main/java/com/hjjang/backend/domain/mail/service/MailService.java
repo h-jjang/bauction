@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.hjjang.backend.domain.mail.domain.MailMessage;
@@ -34,17 +35,16 @@ public class MailService {
 	private final Mail mail = new Mail();
 	private final UserUtil userUtil;
 
-	public MailResponse sendMail(String mailAddress) {
+	@Async("mailExecutor")
+	public void sendMail(String mailAddress) {
 		checkPossibleMail(mailAddress);
 		SimpleMailMessage message = new SimpleMailMessage();
 		setMessage(message, mailAddress);
 		javaMailSender.send(message);
-		return new MailResponse(mail);
 	}
 
 	public MailResponse checkCode(MailRequest mailRequest) {
-		checkRequest(mailRequest, mail);
-		mail.setIsAuth(true);
+		checkRequest(mailRequest);
 		University university = universityService.findUniversityByName(mail.getUniversity());
 		User user = userUtil.getLoginUserByToken();
 		user.setEmailAndUniversity(mail.getAddress(), university);
@@ -70,8 +70,7 @@ public class MailService {
 	}
 
 	private void saveMailInfo(String mailAddress) {
-		String code = mail.createRandomCode();
-		mail.setCode(code);
+		mail.createRandomCode();
 		mail.setAddress(mailAddress);
 		String university = parseUniversity(mailAddress);
 		mail.setUniversity(university);
@@ -84,9 +83,10 @@ public class MailService {
 		}
 	}
 
-	private void checkRequest(MailRequest mailRequest, Mail mail) {
+	private void checkRequest(MailRequest mailRequest) {
 		checkValidCode(mailRequest, mail.getCode());
 		checkValidRequestMail(mailRequest, mail.getAddress());
+		mail.setIsAuth(true);
 	}
 
 	private void checkValidCode(MailRequest mailRequest, String code) {

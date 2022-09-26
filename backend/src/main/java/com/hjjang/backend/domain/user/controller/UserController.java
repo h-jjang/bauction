@@ -1,6 +1,6 @@
 package com.hjjang.backend.domain.user.controller;
 
-import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.dto.UserProfileInfo;
 import com.hjjang.backend.domain.user.service.UserProfileService;
 import com.hjjang.backend.global.response.code.SuccessCode;
 import com.hjjang.backend.global.response.response.SuccessResponse;
@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<SuccessResponse> getProfile() {
         String userId = UserUtil.getLoginUserIdByToken();
-        UserProfileDTO userProfile = userProfileService.getUserProfile(userId);
+        UserProfileInfo userProfile = userProfileService.getUserProfile(userId);
         return ResponseEntity.ok(SuccessResponse.of(SuccessCode.USER_PROFILE_SUCCESS, userProfile));
     }
 

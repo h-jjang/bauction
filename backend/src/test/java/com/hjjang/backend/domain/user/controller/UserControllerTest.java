@@ -2,7 +2,7 @@ package com.hjjang.backend.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hjjang.backend.domain.user.controller.docs.UserRestDocument;
-import com.hjjang.backend.domain.user.dto.UserProfileDTO;
+import com.hjjang.backend.domain.user.dto.UserProfileInfo;
 import com.hjjang.backend.domain.user.service.UserProfileService;
 import com.hjjang.backend.global.security.CustomSecurityExtension;
 import com.hjjang.backend.global.security.WithMockCustomUser;
@@ -59,14 +59,14 @@ class UserControllerTest extends CustomSecurityExtension {
     @WithMockCustomUser
     @DisplayName("유저 프로필 정보 조회 성공")
     void getUserProfileSuccess() throws Exception {
-        UserProfileDTO userProfileDTO = UserProfileDTO.builder()
+        UserProfileInfo userProfileInfo = UserProfileInfo.builder()
                 .userEmail("tester@tukorea.ac.kr")
                 .userImageUrl("이미지 url입니다")
                 .userNickname("내 닉네임은 테스타")
                 .userMannerTemperature(36L)
                 .userUnivName("한국공학대")
                 .build();
-        when(userProfileService.getUserProfile(any())).thenReturn(userProfileDTO);
+        when(userProfileService.getUserProfile(any())).thenReturn(userProfileInfo);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/profile")
                         .header("Authorization", "Bearer USER_TOKEN")
@@ -94,14 +94,14 @@ class UserControllerTest extends CustomSecurityExtension {
     @Test
     @DisplayName("유저 프로필 정보 조회 유효하지 않은 권한 403 에러")
     void getUserProfileNoAuthorization() throws Exception {
-        UserProfileDTO userProfileDTO = UserProfileDTO.builder()
+        UserProfileInfo userProfileInfo = UserProfileInfo.builder()
                 .userEmail("tester@tukorea.ac.kr")
                 .userImageUrl("이미지 url입니다")
                 .userNickname("내 닉네임은 테스타")
                 .userMannerTemperature(36L)
                 .userUnivName("한국공학대")
                 .build();
-        when(userProfileService.getUserProfile(any())).thenReturn(userProfileDTO);
+        when(userProfileService.getUserProfile(any())).thenReturn(userProfileInfo);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/profile")
                         .header("Authorization", "Bearer USER_TOKEN")
